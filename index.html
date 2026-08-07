@@ -351,14 +351,159 @@
         </div>
     </div>
 
-    <!-- ===== بخش‌های جدید ===== -->
-    <div class="new-section" id="smart-select">
-        <div class="section-title"><i class="fas fa-robot"></i> هوشمند گزینی و هوشمند خوانی</div>
-        <div class="empty-content">
-            <i class="fas fa-microchip"></i>
-            <p>این بخش به زودی با محتوای هوشمند پر می‌شود.</p>
+    <!-- ===== هوشمند گزینی و هوشمند خوانی (بازطراحی شده) ===== -->
+<div class="new-section" id="smart-select">
+    <div class="section-title"><i class="fas fa-robot"></i> هوشمند گزینی و هوشمند خوانی</div>
+    
+    <!-- متن معرفی -->
+    <div style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:16px;padding:20px;margin-bottom:20px;border:2px solid #d4a373">
+        <p style="font-size:1.1rem;line-height:2;color:#2d1b4e;text-align:center">
+            <strong>🎉 مژده * مژده</strong><br>
+            از این پس متن‌های خود را هوشمندانه گزینش و مطالعه نموده و برای خود ذخیره و برای دیگران به نمایش بگذارید.
+            انتخاب برگزیده بر اساس این شاخص‌ها خواهد بود:
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:15px 0">
+            <div style="background:#fff;padding:10px;border-radius:12px;border-right:3px solid #6C5CE7;text-align:center">🔹 ارتباط با موضوع اصلی</div>
+            <div style="background:#fff;padding:10px;border-radius:12px;border-right:3px solid #00b894;text-align:center">🔹 زیبایی ادبی و فصاحت</div>
+            <div style="background:#fff;padding:10px;border-radius:12px;border-right:3px solid #fdcb6e;text-align:center">🔹 تخصصی بودن محتوا</div>
+            <div style="background:#fff;padding:10px;border-radius:12px;border-right:3px solid #e17055;text-align:center">🔹 خلاقیت و ایده‌پردازی</div>
+            <div style="background:#fff;padding:10px;border-radius:12px;border-right:3px solid #00cec9;text-align:center">🔹 مخاطب‌محوری و تأثیرگذاری</div>
+            <div style="background:#fff;padding:10px;border-radius:12px;border-right:3px solid #6C5CE7;text-align:center">🔹 پویایی و انعطاف‌پذیری</div>
+        </div>
+        <div style="background:#fef9f0;padding:15px;border-radius:12px;border:1px dashed #6C5CE7;text-align:center">
+            <p style="font-size:.95rem;color:#2d1b4e">
+                📌 هر روز فقط یک فایل ورد یا پی‌دی‌اف با حجم حداکثر ۲۵,۰۰۰ کاراکتر بارگذاری کنید.<br>
+                📌 خروجی بر روی ایمیل شما ارسال و یک نسخه در بخش «آثار برگزیده» نمایش داده می‌شود.
+            </p>
         </div>
     </div>
+
+    <!-- دکمه ارسال -->
+    <div style="text-align:center;margin:20px 0">
+        <button id="showUploadFormBtn" style="padding:15px 40px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);border:none;border-radius:50px;color:#fff;font-weight:700;font-size:1.2rem;cursor:pointer;transition:.3s;box-shadow:0 4px 20px rgba(108,92,231,0.3)">
+            <i class="fas fa-upload"></i> ارسال
+        </button>
+    </div>
+
+    <!-- فرم ارسال (مخفی در ابتدا) -->
+    <div id="uploadFormContainer" style="display:none;background:#fef9f0;border-radius:16px;padding:25px;border:2px solid #6C5CE7;margin:15px 0">
+        <h4 style="color:#2d1b4e;margin-bottom:15px;text-align:center"><i class="fas fa-file-upload"></i> فرم ارسال فایل</h4>
+        <form id="uploadForm">
+            <div style="margin-bottom:15px">
+                <label style="display:block;font-weight:700;color:#2d1b4e;margin-bottom:5px">📧 آدرس ایمیل خود را وارد کنید:</label>
+                <input type="email" id="userEmail" placeholder="example@email.com" required style="width:100%;padding:12px;border:2px solid #d4a373;border-radius:12px;font-family:inherit;font-size:1rem">
+            </div>
+            <div style="margin-bottom:15px">
+                <label style="display:block;font-weight:700;color:#2d1b4e;margin-bottom:5px">📄 فایل خود را انتخاب کنید (Word یا PDF):</label>
+                <input type="file" id="userFile" accept=".doc,.docx,.pdf" required style="width:100%;padding:12px;border:2px solid #d4a373;border-radius:12px;font-family:inherit">
+                <p style="font-size:.8rem;color:#7f8c8d;margin-top:5px">حداکثر حجم: ۲۵,۰۰۰ کاراکتر</p>
+            </div>
+            <div style="display:flex;gap:15px;justify-content:center">
+                <button type="submit" style="padding:12px 35px;background:#00b894;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s"><i class="fas fa-paper-plane"></i> ارسال فایل</button>
+                <button type="button" id="cancelUploadBtn" style="padding:12px 35px;background:#e17055;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s"><i class="fas fa-times"></i> لغو</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- پیام موفقیت -->
+    <div id="successMessage" style="display:none;background:#d4edda;border-radius:16px;padding:20px;text-align:center;border:2px solid #28a745;margin:15px 0">
+        <i class="fas fa-check-circle" style="color:#28a745;font-size:2rem;display:block;margin-bottom:10px"></i>
+        <p style="color:#155724;font-size:1.1rem">✅ فایل شما با موفقیت ارسال شد. خلاصه هوشمند به ایمیل شما ارسال خواهد شد.</p>
+    </div>
+
+    <!-- ===== گنجینه آثار برگزیده ===== -->
+    <div style="margin-top:30px;padding-top:20px;border-top:3px solid #fdcb6e">
+        <h3 style="color:#2d1b4e;text-align:center;font-size:1.5rem;margin-bottom:15px">📚 گنجینه آثار برگزیده مخاطبین</h3>
+        
+        <!-- فهرست آثار -->
+        <div id="worksList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px">
+            <!-- نمونه آیتم -->
+            <div class="work-item" onclick="showWorkDetail(this)" style="background:#fef9f0;border-radius:16px;padding:15px;border:2px solid #d4a373;cursor:pointer;transition:.3s">
+                <h4 style="color:#2d1b4e;font-size:1.1rem;margin-bottom:5px">عنوان نمونه</h4>
+                <p style="color:#7f8c8d;font-size:.85rem">خلاصه هوشمند: این یک نمونه از خلاصه‌ای است که هوش مصنوعی تولید کرده است...</p>
+                <p style="color:#6C5CE7;font-size:.75rem;margin-top:8px">📅 تاریخ ارسال: ۱۴۰۵/۰۵/۰۷</p>
+            </div>
+            <div class="work-item" onclick="showWorkDetail(this)" style="background:#fef9f0;border-radius:16px;padding:15px;border:2px solid #d4a373;cursor:pointer;transition:.3s">
+                <h4 style="color:#2d1b4e;font-size:1.1rem;margin-bottom:5px">عنوان نمونه ۲</h4>
+                <p style="color:#7f8c8d;font-size:.85rem">خلاصه هوشمند: نمونه دیگری از خلاصه‌سازی با هوش مصنوعی...</p>
+                <p style="color:#6C5CE7;font-size:.75rem;margin-top:8px">📅 تاریخ ارسال: ۱۴۰۵/۰۵/۰۶</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== صفحه نمایش جزئیات اثر (مخفی در ابتدا) ===== -->
+<div id="workDetailModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;padding:20px;overflow-y:auto">
+    <div style="max-width:800px;margin:50px auto;background:#fff;border-radius:24px;padding:30px;position:relative">
+        <button onclick="closeWorkDetail()" style="position:absolute;top:15px;left:15px;background:#e17055;border:none;border-radius:50%;width:40px;height:40px;color:#fff;font-size:1.5rem;cursor:pointer">✕</button>
+        <h2 id="detailTitle" style="color:#2d1b4e;margin-bottom:15px">عنوان اثر</h2>
+        <p id="detailSummary" style="color:#34495e;line-height:2;font-size:1.05rem">متن کامل خلاصه در اینجا نمایش داده می‌شود...</p>
+        <p id="detailDate" style="color:#7f8c8d;font-size:.85rem;margin-top:15px">📅 تاریخ ارسال: </p>
+        <button onclick="closeWorkDetail()" style="margin-top:20px;padding:12px 30px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">بازگشت به صفحه اصلی</button>
+    </div>
+</div>
+
+<script>
+    // ===== نمایش/مخفی کردن فرم =====
+    document.getElementById('showUploadFormBtn').addEventListener('click', function() {
+        document.getElementById('uploadFormContainer').style.display = 'block';
+        this.style.display = 'none';
+    });
+
+    document.getElementById('cancelUploadBtn').addEventListener('click', function() {
+        document.getElementById('uploadFormContainer').style.display = 'none';
+        document.getElementById('showUploadFormBtn').style.display = 'inline-block';
+        document.getElementById('uploadForm').reset();
+    });
+
+    // ===== ارسال فرم =====
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('userEmail').value;
+        const file = document.getElementById('userFile').files[0];
+        
+        if (!email || !file) {
+            alert('لطفاً ایمیل و فایل را وارد کنید.');
+            return;
+        }
+
+        // شبیه‌سازی ارسال
+        document.getElementById('uploadFormContainer').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('showUploadFormBtn').style.display = 'inline-block';
+        this.reset();
+
+        // مخفی کردن پیام موفقیت بعد از ۵ ثانیه
+        setTimeout(() => {
+            document.getElementById('successMessage').style.display = 'none';
+        }, 5000);
+    });
+
+    // ===== نمایش جزئیات اثر =====
+    function showWorkDetail(element) {
+        const title = element.querySelector('h4').textContent;
+        const summary = element.querySelector('p').textContent;
+        const date = element.querySelector('.work-item p:last-child').textContent;
+        
+        document.getElementById('detailTitle').textContent = title;
+        document.getElementById('detailSummary').textContent = summary;
+        document.getElementById('detailDate').textContent = date;
+        document.getElementById('workDetailModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeWorkDetail() {
+        document.getElementById('workDetailModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // بستن با کلیک روی پس‌زمینه
+    document.getElementById('workDetailModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeWorkDetail();
+        }
+    });
+</script>
 
     <div class="new-section" id="reading-growth">
         <div class="section-title"><i class="fas fa-chart-line"></i> رشد سرانه مطالعه کتاب</div>
