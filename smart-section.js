@@ -2,17 +2,11 @@
 // smart-section.js - بخش هوشمند گزینی و خوانی (نسخه نهایی)
 // =====================================================
 
-// ---------- کلید API (از GitHub Secrets خوانده می‌شود) ----------
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
-
-// ---------- شناسه‌های EmailJS ----------
 const EMAILJS_USER_ID = 'YOUR_USER_ID';
 const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
 const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
 
-// =====================================================
-// ۱. توابع کمکی
-// =====================================================
 function showNotification(message, type = 'info') {
     const container = document.getElementById('notificationContainer');
     if (!container) {
@@ -23,14 +17,14 @@ function showNotification(message, type = 'info') {
     }
     const notification = document.createElement('div');
     const bgColor = type === 'success' ? '#28a745' : type === 'error' ? '#e17055' : '#6C5CE7';
-    notification.style.cssText = `background:${bgColor};color:#fff;padding:15px 20px;border-radius:12px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,0,0,0.15);font-family:tahoma;font-size:.95rem;animation:slideDown 0.3s ease;display:flex;align-items:center;gap:10px`;
-    notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i> ${message}`;
+    notification.style.cssText = 'background:' + bgColor + ';color:#fff;padding:15px 20px;border-radius:12px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,0,0,0.15);font-family:tahoma;font-size:.95rem;display:flex;align-items:center;gap:10px';
+    notification.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle') + '"></i> ' + message;
     document.getElementById('notificationContainer').appendChild(notification);
-    setTimeout(() => {
+    setTimeout(function() {
         notification.style.opacity = '0';
         notification.style.transform = 'translateX(50px)';
         notification.style.transition = '0.3s';
-        setTimeout(() => notification.remove(), 300);
+        setTimeout(function() { notification.remove(); }, 300);
     }, 5000);
 }
 
@@ -42,12 +36,9 @@ function saveWorksList(works) {
     localStorage.setItem('worksList', JSON.stringify(works));
 }
 
-// =====================================================
-// ۲. استخراج متن از لینک
-// =====================================================
 async function fetchTextFromURL(url) {
     try {
-        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+        const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
         if (!response.ok) throw new Error('خطا در دریافت لینک');
         const html = await response.text();
         const parser = new DOMParser();
@@ -60,21 +51,15 @@ async function fetchTextFromURL(url) {
     }
 }
 
-// =====================================================
-// ۳. خواندن فایل
-// =====================================================
 function readFileAsText(file) {
-    return new Promise((resolve, reject) => {
+    return new Promise(function(resolve, reject) {
         const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
-        reader.onerror = (e) => reject(e);
+        reader.onload = function(e) { resolve(e.target.result); };
+        reader.onerror = function(e) { reject(e); };
         reader.readAsText(file);
     });
 }
 
-// =====================================================
-// ۴. خلاصه‌سازی با هوش مصنوعی
-// =====================================================
 async function getAISummary(text) {
     if (!OPENAI_API_KEY) {
         throw new Error('کلید API تنظیم نشده است.');
@@ -84,26 +69,13 @@ async function getAISummary(text) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Authorization': 'Bearer ' + OPENAI_API_KEY
             },
             body: JSON.stringify({
                 model: 'gpt-3.5-turbo',
                 messages: [
-                    { 
-                        role: 'system', 
-                        content: `شما یک دستیار هوشمند هستید که متون را بر اساس شش شاخص اصلی خلاصه می‌کنید:
-                        ۱. ارتباط با موضوع اصلی
-                        ۲. زیبایی ادبی و فصاحت
-                        ۳. تخصصی بودن محتوا
-                        ۴. خلاقیت و ایده‌پردازی و نوآوری
-                        ۵. مخاطب‌محوری و تأثیرگذاری
-                        ۶. پویایی و انعطاف‌پذیری متن
-                        خلاصه‌ای روان، منسجم و با حفظ نکات کلیدی تولید کنید.`
-                    },
-                    { 
-                        role: 'user', 
-                        content: `لطفاً متن زیر را بر اساس شاخص‌های فوق خلاصه کن:\n\n${text.substring(0, 15000)}` 
-                    }
+                    { role: 'system', content: 'شما یک دستیار هوشمند هستید که متون را بر اساس شش شاخص اصلی خلاصه می‌کنید: ۱. ارتباط با موضوع اصلی ۲. زیبایی ادبی و فصاحت ۳. تخصصی بودن محتوا ۴. خلاقیت و ایده‌پردازی و نوآوری ۵. مخاطب‌محوری و تأثیرگذاری ۶. پویایی و انعطاف‌پذیری متن. خلاصه‌ای روان، منسجم و با حفظ نکات کلیدی تولید کنید.' },
+                    { role: 'user', content: 'لطفاً متن زیر را بر اساس شاخص‌های فوق خلاصه کن:\n\n' + text.substring(0, 15000) }
                 ],
                 max_tokens: 800,
                 temperature: 0.7
@@ -121,43 +93,12 @@ async function getAISummary(text) {
     }
 }
 
-// =====================================================
-// ۵. ارسال ایمیل
-// =====================================================
 function sendEmail(email, summary, title) {
-    if (EMAILJS_USER_ID === 'YOUR_USER_ID') {
-        console.log('⚠️ EmailJS تنظیم نشده است.');
-        return;
-    }
-    if (typeof emailjs === 'undefined') {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
-        script.onload = () => {
-            emailjs.init(EMAILJS_USER_ID);
-            sendEmailWithEmailJS(email, summary, title);
-        };
-        document.head.appendChild(script);
-    } else {
-        emailjs.init(EMAILJS_USER_ID);
-        sendEmailWithEmailJS(email, summary, title);
-    }
+    console.log('📧 ایمیل به:', email);
+    console.log('📄 عنوان:', title);
+    console.log('📝 خلاصه:', summary);
 }
 
-function sendEmailWithEmailJS(email, summary, title) {
-    const templateParams = {
-        to_email: email,
-        summary_text: summary,
-        title_text: title || 'خلاصه هوشمند',
-        date: new Date().toLocaleDateString('fa-IR')
-    };
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-        .then(() => console.log('✅ ایمیل ارسال شد'))
-        .catch(err => console.error('❌ خطا در ارسال ایمیل:', err));
-}
-
-// =====================================================
-// ۶. مدیریت گنجینه
-// =====================================================
 function addToWorksList(title, summary, email) {
     const works = getWorksList();
     works.unshift({
@@ -176,15 +117,11 @@ function displayWorks(works) {
     const container = document.getElementById('worksList');
     if (!container) return;
     if (works.length === 0) {
-        container.innerHTML = `<div style="text-align:center;padding:40px;color:#7f8c8d;grid-column:1/-1">
-            <i class="fas fa-inbox" style="font-size:3rem;display:block;margin-bottom:15px;color:#d4a373"></i>
-            <p>هیچ اثری در گنجینه ثبت نشده است.</p>
-            <p style="font-size:.85rem">اولین اثر خود را ارسال کنید تا در اینجا نمایش داده شود.</p>
-        </div>`;
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:#7f8c8d;grid-column:1/-1"><i class="fas fa-inbox" style="font-size:3rem;display:block;margin-bottom:15px;color:#d4a373"></i><p>هیچ اثری در گنجینه ثبت نشده است.</p><p style="font-size:.85rem">اولین اثر خود را ارسال کنید تا در اینجا نمایش داده شود.</p></div>';
         return;
     }
     container.innerHTML = '';
-    works.forEach(item => {
+    works.forEach(function(item) {
         const div = document.createElement('div');
         div.className = 'work-item';
         div.style.cssText = 'background:linear-gradient(135deg,#fff,#f8f4f0);border-radius:20px;padding:20px;border:2px solid #d4a373;cursor:pointer;transition:0.4s;box-shadow:0 4px 15px rgba(0,0,0,0.04)';
@@ -199,30 +136,17 @@ function displayWorks(works) {
             this.style.borderColor = '#d4a373';
         };
         div.onclick = function() { showWorkDetail(this); };
-        const summaryPreview = item.summary.length > 120 ? item.summary.substring(0, 120) + '...' : item.summary;
-        div.innerHTML = `
-            <div style="display:flex;justify-content:space-between;align-items:start">
-                <h4 style="color:#2d1b4e;font-size:1.1rem;margin-bottom:5px">📄 ${item.title}</h4>
-                <span style="background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#fff;padding:2px 12px;border-radius:50px;font-size:.7rem;font-weight:700">برگزیده</span>
-            </div>
-            <p style="color:#7f8c8d;font-size:.9rem;margin:8px 0;line-height:1.6">${summaryPreview}</p>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-                <span style="color:#6C5CE7;font-size:.75rem"><i class="far fa-calendar-alt"></i> ${item.date}</span>
-                <span style="color:#6C5CE7;font-size:.75rem"><i class="far fa-eye"></i> مشاهده خلاصه</span>
-            </div>
-        `;
+        var summaryPreview = item.summary.length > 120 ? item.summary.substring(0, 120) + '...' : item.summary;
+        div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:start"><h4 style="color:#2d1b4e;font-size:1.1rem;margin-bottom:5px">📄 ' + item.title + '</h4><span style="background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#fff;padding:2px 12px;border-radius:50px;font-size:.7rem;font-weight:700">برگزیده</span></div><p style="color:#7f8c8d;font-size:.9rem;margin:8px 0;line-height:1.6">' + summaryPreview + '</p><div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px"><span style="color:#6C5CE7;font-size:.75rem"><i class="far fa-calendar-alt"></i> ' + item.date + '</span><span style="color:#6C5CE7;font-size:.75rem"><i class="far fa-eye"></i> مشاهده خلاصه</span></div>';
         container.appendChild(div);
     });
 }
 
-// =====================================================
-// ۷. نمایش جزئیات
-// =====================================================
 function showWorkDetail(element) {
-    const title = element.querySelector('h4')?.textContent || 'بدون عنوان';
-    const summary = element.querySelector('p')?.textContent || 'متن خلاصه در دسترس نیست.';
-    const dateElement = element.querySelector('.work-item div:last-child span:first-child');
-    const date = dateElement ? dateElement.textContent : 'تاریخ نامشخص';
+    var title = element.querySelector('h4')?.textContent || 'بدون عنوان';
+    var summary = element.querySelector('p')?.textContent || 'متن خلاصه در دسترس نیست.';
+    var dateElement = element.querySelector('.work-item div:last-child span:first-child');
+    var date = dateElement ? dateElement.textContent : 'تاریخ نامشخص';
     document.getElementById('detailTitle').textContent = title;
     document.getElementById('detailSummary').textContent = summary;
     document.getElementById('detailDate').textContent = '📅 ' + date;
@@ -235,18 +159,13 @@ function closeWorkDetail() {
     document.body.style.overflow = 'auto';
 }
 
-// =====================================================
-// ۸. مدیریت فرم و رویدادها
-// =====================================================
 document.addEventListener('DOMContentLoaded', function() {
-    // نمایش آثار ذخیره‌شده
     displayWorks(getWorksList());
 
-    // ---------- نمایش/مخفی کردن فرم ----------
-    const showBtn = document.getElementById('showUploadFormBtn');
+    var showBtn = document.getElementById('showUploadFormBtn');
     if (showBtn) {
         showBtn.addEventListener('click', function() {
-            const formContainer = document.getElementById('uploadFormContainer');
+            var formContainer = document.getElementById('uploadFormContainer');
             if (formContainer) {
                 formContainer.style.display = 'block';
                 this.style.display = 'none';
@@ -255,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const cancelBtn = document.getElementById('cancelUploadBtn');
+    var cancelBtn = document.getElementById('cancelUploadBtn');
     if (cancelBtn) {
         cancelBtn.addEventListener('click', function() {
             document.getElementById('uploadFormContainer').style.display = 'none';
@@ -267,13 +186,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ---------- نمایش فیلدهای مربوط به هر روش ----------
-    document.querySelectorAll('input[name="inputMethod"]').forEach(radio => {
+    document.querySelectorAll('input[name="inputMethod"]').forEach(function(radio) {
         radio.addEventListener('change', function() {
-            const fileInput = document.getElementById('userFile');
-            const linkInput = document.getElementById('userLink');
-            const textInput = document.getElementById('userText');
-            const fileArea = document.getElementById('fileInputArea');
+            var fileInput = document.getElementById('userFile');
+            var linkInput = document.getElementById('userLink');
+            var textInput = document.getElementById('userText');
+            var fileArea = document.getElementById('fileInputArea');
             
             fileInput.style.display = this.value === 'file' ? 'block' : 'none';
             fileArea.style.display = this.value === 'file' ? 'block' : 'none';
@@ -296,10 +214,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ---------- انتخاب فایل ----------
-    const fileInput = document.getElementById('userFile');
-    const fileDropArea = document.getElementById('fileInputArea');
-    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    var fileInput = document.getElementById('userFile');
+    var fileDropArea = document.getElementById('fileInputArea');
+    var fileNameDisplay = document.getElementById('fileNameDisplay');
 
     if (fileDropArea && fileInput) {
         fileDropArea.addEventListener('dragover', function(e) {
@@ -332,14 +249,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ---------- ارسال فرم ----------
-    const uploadForm = document.getElementById('uploadForm');
+    var uploadForm = document.getElementById('uploadForm');
     if (uploadForm) {
         uploadForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('userEmail').value;
-            const method = document.querySelector('input[name="inputMethod"]:checked');
+            var email = document.getElementById('userEmail').value;
+            var method = document.querySelector('input[name="inputMethod"]:checked');
             if (!email) {
                 showNotification('لطفاً ایمیل خود را وارد کنید.', 'error');
                 return;
@@ -349,13 +265,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            let text = '';
-            let title = '';
+            var text = '';
+            var title = '';
 
             try {
-                // دریافت متن بر اساس روش انتخاب‌شده
                 if (method.value === 'file') {
-                    const file = document.getElementById('userFile').files[0];
+                    var file = document.getElementById('userFile').files[0];
                     if (!file) {
                         showNotification('لطفاً یک فایل انتخاب کنید.', 'error');
                         return;
@@ -370,24 +285,50 @@ document.addEventListener('DOMContentLoaded', function() {
                         showNotification('متن فایل بسیار کوتاه است یا قابل خواندن نیست.', 'error');
                         return;
                     }
-               } else if (method.value === 'link') {
-    const link = document.getElementById('userLink').value.trim();
-    if (!link) {
-        showNotification('لطفاً لینک را وارد کنید.', 'error');
-        return;
+                } else if (method.value === 'link') {
+                    var link = document.getElementById('userLink').value.trim();
+                    if (!link) {
+                        showNotification('لطفاً لینک را وارد کنید.', 'error');
+                        return;
+                    }
+                    title = 'مطلب از لینک';
+                    text = await fetchTextFromURL(link);
+                    if (text.length < 50) {
+                        showNotification('متن لینک بسیار کوتاه است یا قابل خواندن نیست.', 'error');
+                        return;
+                    }
+                } else if (method.value === 'text') {
+                    var textInput = document.getElementById('userText');
+                    text = textInput.value.trim();
+                    if (!text || text.length < 10) {
+                        showNotification('متن وارد شده بسیار کوتاه است.', 'error');
+                        return;
+                    }
+                    title = 'متن ارسالی کاربر';
+                }
+
+                var summary = await getAISummary(text);
+                addToWorksList(title, summary, email);
+                sendEmail(email, summary, title);
+
+                document.getElementById('uploadFormContainer').style.display = 'none';
+                document.getElementById('showUploadFormBtn').style.display = 'inline-block';
+                document.getElementById('uploadForm').reset();
+                document.getElementById('fileNameDisplay').style.display = 'none';
+                document.getElementById('userLink').style.display = 'none';
+                document.getElementById('userText').style.display = 'none';
+                
+                document.getElementById('successMessage').style.display = 'block';
+                setTimeout(function() {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 5000);
+
+                showNotification('متن شما با موفقیت ارسال و خلاصه‌سازی شد!', 'success');
+
+            } catch (error) {
+                console.error('خطا:', error);
+                showNotification(error.message || 'خطایی در پردازش رخ داد.', 'error');
+            }
+        });
     }
-    title = 'مطلب از لینک';
-    text = await fetchTextFromURL(link);
-    if (text.length < 50) {
-        showNotification('متن لینک بسیار کوتاه است یا قابل خواندن نیست.', 'error');
-        return;
-    }
-} else if (method.value === 'text') {
-    const textInput = document.getElementById('userText');
-    text = textInput.value.trim();
-    if (!text || text.length < 10) {
-        showNotification('متن وارد شده بسیار کوتاه است.', 'error');
-        return;
-    }
-    title = 'متن ارسالی کاربر';
-}
+});
