@@ -1,15 +1,10 @@
 // js/core.js
 const Core = {
     currentSection: 'radio',
-    modules: {},
     init() {
-        this.loadModules();
         this.setupNavigation();
         this.setupTheme();
-    },
-    loadModules() {
-        // ماژول‌ها بعداً اضافه می‌شوند
-        console.log('هسته بارگذاری شد');
+        console.log('Core initialized');
     },
     setupNavigation() {
         document.querySelectorAll('.menu a').forEach(link => {
@@ -22,13 +17,28 @@ const Core = {
     },
     navigateTo(sectionId) {
         this.currentSection = sectionId;
-        document.querySelectorAll('.section').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.section, .new-section, .radio-nava-section').forEach(el => {
+            el.style.display = 'none';
+        });
         const target = document.getElementById(sectionId);
-        if (target) target.style.display = 'block';
+        if (target) {
+            target.style.display = 'block';
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
     },
     setupTheme() {
         const theme = localStorage.getItem('theme') || 'light';
-        document.body.className = theme === 'dark' ? 'dark-mode' : '';
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    },
+    toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        const btn = document.getElementById('themeToggle');
+        if (btn) {
+            btn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
     }
 };
-document.addEventListener('DOMContentLoaded', () => Core.init());
