@@ -1,10 +1,9 @@
 // js/app.js
 document.addEventListener('DOMContentLoaded', () => {
-    const root = document.getElementById('root');
-    
-    // رندر هدر
-    root.innerHTML = Header.render();
-    
-    // بقیه بخش‌ها بعداً اضافه می‌شوند
-    console.log('اپلیکیشن راه‌اندازی شد');
+    const container = document.querySelector('.container');
+    if (container) {
+        // هدر و منو را در ابتدای container قرار بده
+        container.insertAdjacentHTML('afterbegin', Header.render());
+        container.insertAdjacentHTML('afterbegin', Menu.render());
+    }
 });
