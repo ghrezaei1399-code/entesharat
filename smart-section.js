@@ -1,9 +1,6 @@
 // =====================================================
 // smart-section.js - بخش هوشمند گزینی و خوانی (نسخه نهایی)
 // =====================================================
-if (typeof process === 'undefined') {
-    window.process = { env: { OPENAI_API_KEY: '' } };
-}
 
 const OPENAI_API_KEY = CONFIG.OPENAI_API_KEY || '';
 const EMAILJS_USER_ID = 'YOUR_USER_ID';
@@ -67,34 +64,6 @@ async function getAISummary(text) {
     // حالت تست - بدون نیاز به کلید API
     console.log('📝 متن دریافتی:', text.substring(0, 100) + '...');
     return 'این یک خلاصه‌ی آزمایشی است که توسط سیستم تولید شده است. متن ارسالی شما با موفقیت دریافت و پردازش شد. این خلاصه برای نمایش عملکرد بخش هوشمند گزینی بدون نیاز به کلید API تولید شده است.';
-}
-    try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + OPENAI_API_KEY
-            },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [
-                    { role: 'system', content: 'شما یک دستیار هوشمند هستید که متون را بر اساس شش شاخص اصلی خلاصه می‌کنید: ۱. ارتباط با موضوع اصلی ۲. زیبایی ادبی و فصاحت ۳. تخصصی بودن محتوا ۴. خلاقیت و ایده‌پردازی و نوآوری ۵. مخاطب‌محوری و تأثیرگذاری ۶. پویایی و انعطاف‌پذیری متن. خلاصه‌ای روان، منسجم و با حفظ نکات کلیدی تولید کنید.' },
-                    { role: 'user', content: 'لطفاً متن زیر را بر اساس شاخص‌های فوق خلاصه کن:\n\n' + text.substring(0, 15000) }
-                ],
-                max_tokens: 800,
-                temperature: 0.7
-            })
-        });
-
-        const data = await response.json();
-        if (data.error) {
-            throw new Error(data.error.message);
-        }
-        return data.choices[0].message.content;
-    } catch (error) {
-        console.error('خطا در خلاصه‌سازی:', error);
-        throw new Error('خطا در پردازش متن توسط هوش مصنوعی.');
-    }
 }
 
 function sendEmail(email, summary, title) {
