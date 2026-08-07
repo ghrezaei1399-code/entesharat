@@ -371,6 +371,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         return;
                     }
                 } else if (method.value === 'link') {
-                    const link = document.getElementById('userLink').value.trim();
-                    if (!link) {
+    const link = document.getElementById('userLink').value.trim();
+    if (!link) {
+        showNotification('لطفاً لینک را وارد کنید.', 'error');
+        return;
+    }
+    title = 'مطلب از لینک';
+    text = await fetchTextFromURL(link);
+    if (text.length < 50) {
+        showNotification('متن لینک بسیار کوتاه است یا قابل خواندن نیست.', 'error');
+        return;
+    }
                         showNotification
