@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         showNotification('متن فایل بسیار کوتاه است یا قابل خواندن نیست.', 'error');
                         return;
                     }
-                } else if (method.value === 'link') {
+               } else if (method.value === 'link') {
     const link = document.getElementById('userLink').value.trim();
     if (!link) {
         showNotification('لطفاً لینک را وارد کنید.', 'error');
@@ -382,4 +382,12 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification('متن لینک بسیار کوتاه است یا قابل خواندن نیست.', 'error');
         return;
     }
-                        showNotification
+} else if (method.value === 'text') {
+    const textInput = document.getElementById('userText');
+    text = textInput.value.trim();
+    if (!text || text.length < 10) {
+        showNotification('متن وارد شده بسیار کوتاه است.', 'error');
+        return;
+    }
+    title = 'متن ارسالی کاربر';
+}
