@@ -64,9 +64,10 @@ function readFileAsText(file) {
 }
 
 async function getAISummary(text) {
-    if (!OPENAI_API_KEY) {
-        throw new Error('کلید API تنظیم نشده است.');
-    }
+    // حالت تست - بدون نیاز به کلید API
+    console.log('📝 متن دریافتی:', text.substring(0, 100) + '...');
+    return 'این یک خلاصه‌ی آزمایشی است که توسط سیستم تولید شده است. متن ارسالی شما با موفقیت دریافت و پردازش شد. این خلاصه برای نمایش عملکرد بخش هوشمند گزینی بدون نیاز به کلید API تولید شده است.';
+}
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
