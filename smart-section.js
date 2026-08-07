@@ -1,6 +1,9 @@
 // =====================================================
 // smart-section.js - بخش هوشمند گزینی و خوانی (نسخه نهایی)
 // =====================================================
+if (typeof process === 'undefined') {
+    window.process = { env: { OPENAI_API_KEY: '' } };
+}
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
 const EMAILJS_USER_ID = 'YOUR_USER_ID';
