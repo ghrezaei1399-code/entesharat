@@ -2,9 +2,6 @@
 // smart-section.js - بخش هوشمند گزینی و خوانی
 // =====================================================
 
-// استفاده از CONFIG تعریف شده در config.js
-const CONFIG = window.CONFIG || {};
-
 function showNotification(message, type = 'info') {
     const container = document.getElementById('notificationContainer');
     if (!container) {
