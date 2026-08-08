@@ -1,0 +1,5 @@
+# فایل‌های محرمانه
+js/env.js
+.env
+*.env
+config.local.js
