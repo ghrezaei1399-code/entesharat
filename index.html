@@ -5,51 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>رادیو تلویزیون هوشمند | انتشارات کیمیا</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- کتابخانه‌های مورد نیاز -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.2.0/docx.min.js"></script>
+
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{background:linear-gradient(135deg,#fdf6e3,#f5e6d3,#f0e0d0);font-family:tahoma,sans-serif;padding:20px;transition:background 0.4s}
-        .container{max-width:1200px;margin:0 auto}
-        .header{background:linear-gradient(135deg,#f9ca24,#f0932b,#eb4d4b,#6ab04c,#22a6b3);background-size:400% 400%;animation:gradientBG 8s ease infinite;border-radius:30px;padding:30px;text-align:center;margin-bottom:30px;border:3px solid #fdcb6e}
+        body{background:linear-gradient(135deg,#e8f0fe,#d4e4f7,#c8d6e5);font-family:tahoma,sans-serif;padding:20px;transition:background 0.4s}
+        .container{max-width:1200px;margin:0 auto;position:relative}
+        
+        /* ===== تبلیغات دو طرف ===== */
+        .ad-side{position:fixed;top:50%;transform:translateY(-50%);width:160px;z-index:100;display:block}
+        .ad-side.left{left:10px}
+        .ad-side.right{right:10px}
+        .ad-side .ad-box{background:linear-gradient(135deg,#fff,#f8f4f0);border-radius:16px;padding:15px;border:2px solid #d4a373;margin-bottom:15px;box-shadow:0 4px 20px rgba(0,0,0,0.08);text-align:center}
+        .ad-side .ad-box .ad-title{font-size:.7rem;color:#6C5CE7;font-weight:700;border-bottom:2px solid #fdcb6e;padding-bottom:8px;margin-bottom:8px}
+        .ad-side .ad-box .ad-logo{font-size:2rem;color:#6C5CE7;display:block;margin:5px 0}
+        .ad-side .ad-box .ad-name{font-size:.75rem;color:#2d1b4e;font-weight:700}
+        .ad-side .ad-box .ad-desc{font-size:.6rem;color:#7f8c8d;margin-top:4px;line-height:1.4}
+        .ad-side .ad-box .ad-link{display:inline-block;margin-top:6px;padding:4px 12px;background:#6C5CE7;color:#fff;border-radius:20px;font-size:.6rem;text-decoration:none;transition:0.3s}
+        .ad-side .ad-box .ad-link:hover{background:#5a4bd1;transform:scale(1.05)}
+        
+        /* ===== هدر ===== */
+        .header{background:linear-gradient(135deg,#4a90d9,#6C5CE7,#fdcb6e,#55efc4);background-size:400% 400%;animation:gradientBG 12s ease infinite;border-radius:30px;padding:30px;text-align:center;margin-bottom:30px;border:3px solid #fdcb6e}
         @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
         .logo-wrapper{width:120px;height:120px;border-radius:50%;overflow:hidden;border:4px solid #fdcb6e;margin:0 auto 15px;box-shadow:0 0 30px rgba(253,203,110,0.3)}
         .logo-wrapper img{width:100%;height:100%;object-fit:cover}
         .radio-tv-icons{display:flex;justify-content:center;align-items:center;gap:20px;margin:10px 0}
-        .radio-tv-icons .icon-box{width:70px;height:70px;border-radius:50%;border:3px solid #fdcb6e;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.1)}
+        .radio-tv-icons .icon-box{width:70px;height:70px;border-radius:50%;border:3px solid #fdcb6e;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.15)}
         .radio-tv-icons .icon-box img{width:45px;height:45px;object-fit:contain}
         .radio-tv-icons .plus{color:#fdcb6e;font-size:2rem;font-weight:700}
         .header h1{color:#fff;font-size:2.5rem;text-shadow:0 4px 20px rgba(0,0,0,0.2)}
         .header h1 span{color:#fdcb6e}
-        .header p{color:rgba(255,255,255,0.85);font-size:1.1rem}
-        .menu{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;background:#fff;padding:15px 20px;border-radius:50px;margin-bottom:30px;border:2px solid #d4a373}
-        .menu a{padding:10px 25px;border-radius:50px;color:#fff;text-decoration:none;font-weight:700;transition:.3s;font-size:.95rem}
-        .menu a:nth-child(1){background:#6C5CE7}
-        .menu a:nth-child(2){background:#00b894}
+        .header p{color:rgba(255,255,255,0.9);font-size:1.1rem}
+
+        /* ===== منو ===== */
+        .menu{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;background:#fff;padding:12px 20px;border-radius:50px;margin-bottom:30px;border:2px solid #d4a373}
+        .menu a{padding:8px 18px;border-radius:50px;color:#fff;text-decoration:none;font-weight:700;transition:.3s;font-size:.8rem}
+        .menu a:nth-child(1){background:#4a90d9}
+        .menu a:nth-child(2){background:#6C5CE7}
         .menu a:nth-child(3){background:#fdcb6e;color:#2d1b4e}
-        .menu a:nth-child(4){background:#fd79a8}
-        .menu a:nth-child(5){background:#00cec9}
-        .menu a:nth-child(6){background:#e17055}
-        .menu a:nth-child(7){background:#6C5CE7}
-        .menu a:nth-child(8){background:#00b894}
-        .menu a:nth-child(9){background:#fdcb6e;color:#2d1b4e}
-        .menu a:nth-child(10){background:#fd79a8}
-        .menu a:hover{transform:translateY(-3px)}
+        .menu a:nth-child(4){background:#55efc4;color:#2d1b4e}
+        .menu a:nth-child(5){background:#4a90d9}
+        .menu a:nth-child(6){background:#6C5CE7}
+        .menu a:nth-child(7){background:#fdcb6e;color:#2d1b4e}
+        .menu a:nth-child(8){background:#55efc4;color:#2d1b4e}
+        .menu a:nth-child(9){background:#4a90d9}
+        .menu a:nth-child(10){background:#6C5CE7}
+        .menu a:nth-child(11){background:#fdcb6e;color:#2d1b4e}
+        .menu a:hover{transform:translateY(-3px);box-shadow:0 4px 15px rgba(0,0,0,0.15)}
+
+        /* ===== بخش‌ها ===== */
         .section{background:#fff;border-radius:24px;padding:25px;margin-bottom:30px;border:2px solid #d4a373}
         .section-title{font-size:1.5rem;font-weight:900;padding-bottom:15px;margin-bottom:20px;border-bottom:3px solid #fdcb6e;color:#2d1b4e;display:flex;align-items:center;gap:12px}
         .section-title i{color:#6C5CE7;font-size:1.8rem}
+
+        /* ===== پلیر ===== */
         .player-box{background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:16px;padding:20px;text-align:center;margin:15px 0}
         .player-box audio,.player-box video{width:100%;border-radius:12px}
+
+        /* ===== کنترل‌ها ===== */
         .controls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:15px 0}
         .controls button{padding:10px 20px;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:8px}
         .controls button:hover{transform:scale(1.05)}
-        .btn-play{background:#00b894}
-        .btn-stop{background:#fd79a8}
+        .btn-play{background:#55efc4;color:#2d1b4e}
+        .btn-stop{background:#fd79a8;color:#fff}
         .btn-next{background:#6C5CE7}
         .btn-prev{background:#fdcb6e;color:#2d1b4e}
         .btn-like{background:#e74c3c}
         .btn-share{background:#00cec9}
+        .btn-add{background:#4a90d9}
+
+        /* ===== پلی‌لیست ===== */
         .playlist-item{display:flex;justify-content:space-between;padding:12px 16px;background:#fef9f0;border-radius:12px;margin:6px 0;border:1px solid #e8ddd0;transition:.3s;cursor:pointer}
         .playlist-item:hover{background:#f5ede5}
         .playlist-item.active{background:#6C5CE7;color:#fff;border-color:#6C5CE7}
+
+        /* ===== گالری ===== */
         .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
         .gallery-item{background:#fef9f0;border-radius:16px;overflow:hidden;border:2px solid #d4a373;transition:.3s;cursor:pointer}
         .gallery-item:hover{transform:scale(1.03);border-color:#6C5CE7}
@@ -57,68 +92,178 @@
         .gallery-item .info{padding:12px;background:#fff}
         .gallery-item .info h4{color:#2d1b4e;font-size:1rem}
         .gallery-item .info p{color:#7f8c8d;font-size:.85rem}
-        .radio-nava-section{background:linear-gradient(135deg,#2d1b4e,#4a2c7a,#6C5CE7);border-radius:24px;padding:25px;margin-bottom:30px;border:3px solid #fdcb6e;text-align:center;color:#fff}
-        .radio-nava-section h2{font-size:2rem;margin-bottom:10px}
-        .radio-nava-section h2 span{color:#fdcb6e}
-        .radio-nava-section .poster-img{max-width:100%;max-height:400px;border-radius:16px;margin:15px auto;display:block;border:3px solid rgba(255,255,255,0.2)}
-        .radio-nava-section p{color:rgba(255,255,255,0.85);font-size:1.1rem}
-        .radio-nava-section .btn-radio{display:inline-block;padding:12px 30px;background:#fdcb6e;color:#2d1b4e;border:none;border-radius:50px;font-weight:700;font-size:1.1rem;cursor:pointer;transition:.3s;text-decoration:none;margin-top:10px}
-        .radio-nava-section .btn-radio:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(253,203,110,0.3)}
+
+        /* ===== تعامل ===== */
         .interact-box textarea{width:100%;padding:12px;border:2px solid #d4a373;border-radius:12px;min-height:80px;font-family:inherit;font-size:1rem}
         .interact-box textarea:focus{outline:none;border-color:#6C5CE7}
         .interact-tools{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
         .interact-tools button{padding:10px 20px;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:8px}
         .interact-tools button:hover{transform:scale(1.05)}
         .btn-text{background:#6C5CE7}
-        .btn-audio{background:#e17055}
-        .btn-video{background:#00b894}
-        .response-box{margin-top:15px;padding:15px;background:#fef9f0;border-radius:16px;border-right:5px solid #6C5CE7;min-height:60px}
+        .btn-audio{background:#fd79a8}
+        .btn-video{background:#55efc4;color:#2d1b4e}
+        .response-box{margin-top:15px;padding:15px;background:#fef9f0;border-radius:16px;border-right:5px solid #6C5CE7;min-height:60px;max-height:300px;overflow-y:auto}
         .response-box .response-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #e8ddd0}
         .response-box .response-item:last-child{border-bottom:none}
         .response-box .response-item .type-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0}
         .response-box .response-item .type-icon.text{background:#6C5CE7}
-        .response-box .response-item .type-icon.audio{background:#e17055}
-        .response-box .response-item .type-icon.video{background:#00b894}
-        .publish-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
-        .publish-card{background:linear-gradient(145deg,#fef9f0,#f5ede5);border-radius:20px;padding:20px;border:2px solid #d4a373;transition:.3s}
-        .publish-card:hover{transform:translateY(-3px);border-color:#6C5CE7}
-        .publish-card i{font-size:2rem;color:#6C5CE7;margin-bottom:10px;display:block}
-        .publish-card h4{color:#2d1b4e;margin-bottom:5px}
-        .publish-card p{color:#5d4037}
-        .publish-card .highlight{color:#6C5CE7;font-weight:700}
-        .new-section{background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:24px;padding:25px;margin-bottom:30px;border:2px dashed #6C5CE7}
-        .new-section .section-title{color:#6C5CE7;border-bottom-color:#6C5CE7}
-        .new-section .empty-content{text-align:center;padding:40px 20px;color:#7f8c8d}
-        .new-section .empty-content i{font-size:3rem;color:#d4a373;display:block;margin-bottom:15px}
-        .footer{text-align:center;padding:20px;color:#7f8c8d;border-top:2px solid #d4a373;margin-top:20px}
-        .footer strong{color:#6C5CE7}
+        .response-box .response-item .type-icon.audio{background:#fd79a8}
+        .response-box .response-item .type-icon.video{background:#55efc4;color:#2d1b4e}
+        .response-box .response-item .ai-response{background:#f0ecff;padding:8px 14px;border-radius:12px;margin-top:4px;color:#2d1b4e;font-size:.9rem}
+
+        /* ===== گنجینه ===== */
+        .works-container{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+        .works-container .latest-work{background:linear-gradient(135deg,#f0ecff,#e8dff5);border-radius:24px;padding:25px;border:3px solid #6C5CE7;box-shadow:0 8px 30px rgba(108,92,231,0.15)}
+        .works-container .latest-work .badge{display:inline-block;background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#fff;padding:4px 16px;border-radius:50px;font-size:.75rem;font-weight:700;margin-bottom:12px}
+        .works-container .archive-list{background:#fff;border-radius:24px;padding:20px;border:2px solid #d4a373;max-height:500px;overflow-y:auto}
+        .works-container .archive-list .archive-item{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #e8ddd0;cursor:pointer;transition:.3s;border-radius:8px}
+        .works-container .archive-list .archive-item:hover{background:#f0ecff}
+        .works-container .archive-list .archive-item .num{color:#6C5CE7;font-weight:700;font-size:.85rem}
+        .works-container .archive-list .archive-item .title{color:#2d1b4e;font-size:.9rem}
+        .works-container .archive-list .archive-item .date{color:#7f8c8d;font-size:.75rem}
+
+        /* ===== پوسترها ===== */
+        .poster-section{background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:24px;padding:25px;margin-bottom:30px;border:2px solid #6C5CE7}
+        .poster-form{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
+        .poster-form input,.poster-form textarea{width:100%;padding:12px;border:2px solid #d4a373;border-radius:12px;font-family:inherit}
+        .poster-form input:focus,.poster-form textarea:focus{outline:none;border-color:#6C5CE7}
+        .poster-form .full-width{grid-column:1/-1}
+
+        /* ===== فوتر ===== */
+        .footer{text-align:center;padding:30px;background:linear-gradient(135deg,#2d1b4e,#4a2c7a);border-radius:24px;margin-top:20px;color:#fff}
+        .footer .designer-info{display:flex;flex-direction:column;align-items:center;gap:15px;margin-bottom:20px}
+        .footer .designer-info h3{color:#fdcb6e;font-size:1.5rem}
+        .footer .designer-info p{color:rgba(255,255,255,0.8);font-size:.95rem}
+        .footer .posters-row{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin:20px 0}
+        .footer .posters-row .poster-box{max-width:250px;border-radius:16px;overflow:hidden;border:3px solid #fdcb6e;transition:.3s}
+        .footer .posters-row .poster-box:hover{transform:scale(1.05);border-color:#6C5CE7}
+        .footer .posters-row .poster-box img{width:100%;height:auto;display:block}
+        .footer .copyright{color:rgba(255,255,255,0.6);font-size:.8rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:15px;margin-top:15px}
+
+        /* ===== شناور ===== */
         .floating-toolbar{position:fixed;bottom:120px;left:20px;display:flex;flex-direction:column;gap:12px;z-index:999}
         .floating-toolbar button{width:50px;height:50px;border:none;border-radius:50%;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);transition:0.3s}
         .floating-toolbar button:hover{transform:scale(1.1)}
         #themeToggle{background:#fdcb6e;color:#2d1b4e}
         #scrollTop,#scrollBottom{background:#6C5CE7;color:#fff}
+
+        /* ===== دارک مود ===== */
         body.dark-mode{background:#1a1a2e !important;color:#e0e0e0 !important}
         body.dark-mode .section{background:#16213e !important;border-color:#0f3460 !important}
         body.dark-mode .header{background:linear-gradient(135deg,#0f0f23,#1a1a2e,#0f3460) !important}
         body.dark-mode .menu{background:#1a1a2e !important}
         body.dark-mode .menu a{background:#0f3460 !important;color:#e0e0e0 !important}
-        body.dark-mode .publish-card{background:#1a1a2e !important;border-color:#0f3460 !important}
-        body.dark-mode .new-section{background:#16213e !important}
-        body.dark-mode .radio-nava-section{background:linear-gradient(135deg,#0f0f23,#1a1a2e,#0f3460) !important}
-        body.dark-mode .floating-toolbar button{background:#0f3460 !important;color:#e0e0e0 !important}
+        body.dark-mode .player-box{background:#1a1a2e !important}
+        body.dark-mode .poster-section{background:#16213e !important}
+        body.dark-mode .works-container .archive-list{background:#16213e !important;border-color:#0f3460}
+        body.dark-mode .works-container .latest-work{background:#1a1a2e !important}
+        body.dark-mode .footer{background:linear-gradient(135deg,#0f0f23,#1a1a2e) !important}
+        body.dark-mode .response-box{background:#1a1a2e !important}
+        body.dark-mode .playlist-item{background:#1a1a2e !important;color:#e0e0e0 !important}
+        body.dark-mode .playlist-item.active{background:#6C5CE7 !important}
         body.dark-mode .interact-box textarea{background:#1a1a2e;color:#e0e0e0;border-color:#0f3460}
-        body.dark-mode .response-box{background:#1a1a2e}
-        body.dark-mode .playlist-item{background:#1a1a2e;color:#e0e0e0}
-        body.dark-mode .playlist-item.active{background:#6C5CE7;color:#fff}
-        body.dark-mode .gallery-info{background:#1a1a2e}
-        body.dark-mode .gallery-info h4{color:#e0e0e0}
-        body.dark-mode .player-box{background:#1a1a2e}
-        body.dark-mode .section-title{color:#e0e0e0}
-        @media(max-width:768px){.container{padding:10px}.header h1{font-size:1.8rem}.menu a{padding:8px 14px;font-size:.8rem}}
+        body.dark-mode .ad-side .ad-box{background:#1a1a2e !important;border-color:#0f3460}
+        body.dark-mode .ad-side .ad-box .ad-name{color:#e0e0e0}
+
+        /* ===== ریسپانسیو ===== */
+        @media(max-width:768px){
+            .container{padding:10px}
+            .header h1{font-size:1.8rem}
+            .menu a{padding:6px 12px;font-size:.7rem}
+            .works-container{grid-template-columns:1fr}
+            .poster-form{grid-template-columns:1fr}
+            .ad-side{display:none}
+            .ad-side-mobile{display:block !important}
+            .footer .posters-row .poster-box{max-width:180px}
+            .radio-tv-icons .icon-box{width:50px;height:50px}
+            .radio-tv-icons .icon-box img{width:30px;height:30px}
+            .section-title{font-size:1.2rem}
+            .controls button{padding:8px 14px;font-size:.8rem}
+        }
+        @media(min-width:769px){
+            .ad-side-mobile{display:none !important}
+        }
+        
+        /* ===== انیمیشن‌ها ===== */
+        @keyframes slideDown{0%{opacity:0;transform:translateY(-30px)}100%{opacity:1;transform:translateY(0)}}
+        @keyframes popIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
+        @keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
+        @keyframes scaleIn{0%{opacity:0;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
     </style>
 </head>
 <body>
 
+<!-- ===== تبلیغات طرفین (دسکتاپ) ===== -->
+<div class="ad-side left" id="adLeft">
+    <div class="ad-box">
+        <span class="ad-logo">📚</span>
+        <div class="ad-title">تبلیغات مرتبط</div>
+        <div class="ad-name">انتشارات کیمیای اندیشه</div>
+        <div class="ad-desc">ناشر تخصصی کتاب‌های هوش مصنوعی و فناوری</div>
+        <a href="https://kimiaandisheh.com" target="_blank" class="ad-link">مشاهده سایت</a>
+    </div>
+    <div class="ad-box">
+        <span class="ad-logo">📖</span>
+        <div class="ad-title">تبلیغات مرتبط</div>
+        <div class="ad-name">انتشارات علمی و فرهنگی</div>
+        <div class="ad-desc">مرجع تخصصی کتاب‌های دانشگاهی و پژوهشی</div>
+        <a href="#" class="ad-link">مشاهده سایت</a>
+    </div>
+    <div class="ad-box">
+        <span class="ad-logo">🎓</span>
+        <div class="ad-title">تبلیغات مرتبط</div>
+        <div class="ad-name">موسسه پژوهشی هنر و رسانه</div>
+        <div class="ad-desc">پژوهش در حوزه رسانه و ارتباطات</div>
+        <a href="#" class="ad-link">مشاهده سایت</a>
+    </div>
+</div>
+
+<div class="ad-side right" id="adRight">
+    <div class="ad-box">
+        <span class="ad-logo">📚</span>
+        <div class="ad-title">تبلیغات مرتبط</div>
+        <div class="ad-name">انتشارات کیمیای اندیشه</div>
+        <div class="ad-desc">ناشر تخصصی کتاب‌های هوش مصنوعی و فناوری</div>
+        <a href="https://kimiaandisheh.com" target="_blank" class="ad-link">مشاهده سایت</a>
+    </div>
+    <div class="ad-box">
+        <span class="ad-logo">📖</span>
+        <div class="ad-title">تبلیغات مرتبط</div>
+        <div class="ad-name">انتشارات علمی و فرهنگی</div>
+        <div class="ad-desc">مرجع تخصصی کتاب‌های دانشگاهی و پژوهشی</div>
+        <a href="#" class="ad-link">مشاهده سایت</a>
+    </div>
+    <div class="ad-box">
+        <span class="ad-logo">🎓</span>
+        <div class="ad-title">تبلیغات مرتبط</div>
+        <div class="ad-name">موسسه پژوهشی هنر و رسانه</div>
+        <div class="ad-desc">پژوهش در حوزه رسانه و ارتباطات</div>
+        <a href="#" class="ad-link">مشاهده سایت</a>
+    </div>
+</div>
+
+<!-- ===== تبلیغات موبایل (بین بخش‌ها) ===== -->
+<div class="ad-side-mobile" style="display:none;text-align:center;padding:10px;background:#f8f4f0;border-radius:16px;margin:10px 0;border:2px solid #d4a373">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px">
+        <div style="background:#fff;border-radius:12px;padding:10px;flex:1;min-width:120px;border:1px solid #e8ddd0">
+            <span style="font-size:1.5rem">📚</span>
+            <div style="font-size:.7rem;font-weight:700;color:#6C5CE7">کیمیای اندیشه</div>
+            <a href="https://kimiaandisheh.com" target="_blank" style="font-size:.6rem;color:#6C5CE7">مشاهده</a>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:10px;flex:1;min-width:120px;border:1px solid #e8ddd0">
+            <span style="font-size:1.5rem">📖</span>
+            <div style="font-size:.7rem;font-weight:700;color:#6C5CE7">انتشارات علمی</div>
+            <a href="#" style="font-size:.6rem;color:#6C5CE7">مشاهده</a>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:10px;flex:1;min-width:120px;border:1px solid #e8ddd0">
+            <span style="font-size:1.5rem">🎓</span>
+            <div style="font-size:.7rem;font-weight:700;color:#6C5CE7">موسسه هنر و رسانه</div>
+            <a href="#" style="font-size:.6rem;color:#6C5CE7">مشاهده</a>
+        </div>
+    </div>
+</div>
+
+<!-- ===== دکمه‌های شناور ===== -->
 <div class="floating-toolbar">
     <button id="themeToggle" title="تغییر حالت شب/روز"><i class="fas fa-moon"></i></button>
     <button id="scrollTop" title="رفتن به بالای صفحه"><i class="fas fa-arrow-up"></i></button>
@@ -133,9 +278,9 @@
             <img src="images/2.jpg" alt="انتشارات کیمیا">
         </div>
         <div class="radio-tv-icons">
-            <div class="icon-box"><img src="images/1763357724-De1014635(www.tiktarh.com).jpg" alt="رادیو قدیمی"></div>
+            <div class="icon-box"><img src="images/1763357724-De1014635(www.tiktarh.com).jpg" alt="رادیو"></div>
             <span class="plus">+</span>
-            <div class="icon-box"><img src="images/y4q0rneg.jpg" alt="تلویزیون جدید"></div>
+            <div class="icon-box"><img src="images/y4q0rneg.jpg" alt="تلویزیون"></div>
         </div>
         <h1>رادیو تلویزیون <span>هوشمند</span></h1>
         <p>انتشارات کیمیا | رادیو نوای چاپ</p>
@@ -146,7 +291,7 @@
         <a href="#radio"><i class="fas fa-radio"></i> رادیو</a>
         <a href="#tv"><i class="fas fa-tv"></i> تلویزیون</a>
         <a href="#archive"><i class="fas fa-archive"></i> آرشیو</a>
-        <a href="#gallery"><i class="fas fa-images"></i> گالری</a>
+        <a href="#gallery"><i class="fas fa-images"></i> گالری پوستر</a>
         <a href="#radionava"><i class="fas fa-radio"></i> رادیو نوای چاپ</a>
         <a href="#interact"><i class="fas fa-comment-dots"></i> تعامل</a>
         <a href="#publish"><i class="fas fa-building"></i> انتشارات</a>
@@ -172,19 +317,19 @@
             <button class="btn-prev" onclick="prevRadio()"><i class="fas fa-backward"></i> قبلی</button>
             <button class="btn-like" onclick="addInteraction('لایک', 'رادیو', 'text')"><i class="fas fa-heart"></i> لایک</button>
             <button class="btn-share" onclick="addInteraction('اشتراک‌گذاری', 'رادیو', 'text')"><i class="fas fa-share-alt"></i> اشتراک</button>
+            <button class="btn-add" onclick="addRadioFile()"><i class="fas fa-plus"></i> افزودن</button>
         </div>
-        <div id="radioPlaylist">
-            <div class="playlist-item active" data-index="0"><span>آهنگ اول - Ayrilik</span><span class="date">۱۴۰۵/۰۵/۰۴</span></div>
-            <div class="playlist-item" data-index="1"><span>آهنگ دوم - Careless Whisper</span><span class="date">۱۴۰۵/۰۵/۰۵</span></div>
-        </div>
+        <div id="radioPlaylist"></div>
         <div style="margin-top:15px;padding-top:15px;border-top:2px dashed #d4a373">
             <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
                 <input type="text" id="comment_radio" placeholder="نظر خود را بنویسید..." style="flex:1;padding:10px;border:2px solid #d4a373;border-radius:12px;font-family:inherit">
-                <button onclick="addInteraction('💬 ' + document.getElementById('comment_radio').value, 'رادیو', 'text')" style="padding:8px 20px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">متن</button>
-                <button onclick="addInteraction('🎤 پیام صوتی', 'رادیو', 'audio')" style="padding:8px 20px;background:#e17055;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویس</button>
-                <button onclick="addInteraction('🎬 پیام ویدئویی', 'رادیو', 'video')" style="padding:8px 20px;background:#00b894;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویدئو</button>
+                <button onclick="sendRadioMessage('text')" style="padding:8px 20px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">متن</button>
+                <button onclick="sendRadioMessage('audio')" style="padding:8px 20px;background:#fd79a8;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویس</button>
+                <button onclick="sendRadioMessage('video')" style="padding:8px 20px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer">ویدئو</button>
             </div>
-            <div id="responses_radio" style="margin-top:10px"></div>
+            <div id="responses_radio" class="response-box">
+                <div class="response-item"><span class="type-icon text">م</span> <span>به رادیو هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
+            </div>
         </div>
     </div>
 
@@ -204,19 +349,19 @@
             <button class="btn-prev" onclick="prevTv()"><i class="fas fa-backward"></i> قبلی</button>
             <button class="btn-like" onclick="addInteraction('لایک', 'تلویزیون', 'text')"><i class="fas fa-heart"></i> لایک</button>
             <button class="btn-share" onclick="addInteraction('اشتراک‌گذاری', 'تلویزیون', 'text')"><i class="fas fa-share-alt"></i> اشتراک</button>
+            <button class="btn-add" onclick="addTvFile()"><i class="fas fa-plus"></i> افزودن</button>
         </div>
-        <div id="tvPlaylist">
-            <div class="playlist-item active" data-index="0"><span>ویدئوی طرح همگام‌سازی خدمات</span></div>
-            <div class="playlist-item" data-index="1"><span>ویدئوی کتاب هنر هوشمند نگاری ۲</span></div>
-        </div>
+        <div id="tvPlaylist"></div>
         <div style="margin-top:15px;padding-top:15px;border-top:2px dashed #d4a373">
             <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
                 <input type="text" id="comment_tv" placeholder="نظر خود را بنویسید..." style="flex:1;padding:10px;border:2px solid #d4a373;border-radius:12px;font-family:inherit">
-                <button onclick="addInteraction('💬 ' + document.getElementById('comment_tv').value, 'تلویزیون', 'text')" style="padding:8px 20px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">متن</button>
-                <button onclick="addInteraction('🎤 پیام صوتی', 'تلویزیون', 'audio')" style="padding:8px 20px;background:#e17055;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویس</button>
-                <button onclick="addInteraction('🎬 پیام ویدئویی', 'تلویزیون', 'video')" style="padding:8px 20px;background:#00b894;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویدئو</button>
+                <button onclick="sendTvMessage('text')" style="padding:8px 20px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">متن</button>
+                <button onclick="sendTvMessage('audio')" style="padding:8px 20px;background:#fd79a8;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویس</button>
+                <button onclick="sendTvMessage('video')" style="padding:8px 20px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer">ویدئو</button>
             </div>
-            <div id="responses_tv" style="margin-top:10px"></div>
+            <div id="responses_tv" class="response-box">
+                <div class="response-item"><span class="type-icon text">م</span> <span>به تلویزیون هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
+            </div>
         </div>
     </div>
 
@@ -227,29 +372,42 @@
             <input type="text" id="searchInput" placeholder="جستجو در برنامه‌ها..." onkeyup="filterArchive()" style="flex:1;padding:12px;border:2px solid #d4a373;border-radius:12px;font-size:1rem">
             <button onclick="filterArchive()" style="padding:12px 25px;background:#6C5CE7;border:none;border-radius:12px;color:#fff;font-weight:700;cursor:pointer"><i class="fas fa-search"></i></button>
         </div>
-        <div id="archiveList">
-            <div class="playlist-item"><span>برنامه: زندگینامه همایون صنعتی‌زاده</span><span class="date">۳۰ خرداد ۱۴۰۵</span></div>
-            <div class="playlist-item"><span>برنامه: موزه صنعت چاپ</span><span class="date">۳۱ خرداد ۱۴۰۵</span></div>
-            <div class="playlist-item"><span>برنامه: صنعت نشر و تکنولوژی POD</span><span class="date">۱ تیر ۱۴۰۵</span></div>
-            <div class="playlist-item"><span>برنامه: ظرفیت صنعت چاپ در مسیر صادرات</span><span class="date">۲ تیر ۱۴۰۵</span></div>
-            <div class="playlist-item"><span>برنامه: زندگینامه محمدرضا صافیان</span><span class="date">۶ تیر ۱۴۰۵</span></div>
-            <div class="playlist-item"><span>برنامه: تاریخ کتاب و چاپ در تهران قدیم</span><span class="date">۹ تیر ۱۴۰۵</span></div>
-        </div>
+        <div id="archiveList"></div>
         <div style="margin-top:15px;padding-top:15px;border-top:2px dashed #d4a373">
             <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
                 <input type="text" id="comment_archive" placeholder="نظر خود را بنویسید..." style="flex:1;padding:10px;border:2px solid #d4a373;border-radius:12px;font-family:inherit">
-                <button onclick="addInteraction('💬 ' + document.getElementById('comment_archive').value, 'آرشیو', 'text')" style="padding:8px 20px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">متن</button>
-                <button onclick="addInteraction('🎤 پیام صوتی', 'آرشیو', 'audio')" style="padding:8px 20px;background:#e17055;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویس</button>
-                <button onclick="addInteraction('🎬 پیام ویدئویی', 'آرشیو', 'video')" style="padding:8px 20px;background:#00b894;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویدئو</button>
+                <button onclick="sendArchiveMessage('text')" style="padding:8px 20px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">متن</button>
+                <button onclick="sendArchiveMessage('audio')" style="padding:8px 20px;background:#fd79a8;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویس</button>
+                <button onclick="sendArchiveMessage('video')" style="padding:8px 20px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer">ویدئو</button>
             </div>
-            <div id="responses_archive" style="margin-top:10px"></div>
+            <div id="responses_archive" class="response-box">
+                <div class="response-item"><span class="type-icon text">م</span> <span>به آرشیو هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
+            </div>
         </div>
     </div>
 
-    <!-- ===== گالری ===== -->
+    <!-- ===== گالری هوشمند پوستر ===== -->
     <div class="section" id="gallery">
-        <div class="section-title"><i class="fas fa-images"></i> گالری هوشمند</div>
-        <div class="gallery-grid">
+        <div class="section-title"><i class="fas fa-images"></i> گالری هوشمند پوستر</div>
+        <p style="color:#7f8c8d;margin-bottom:15px">پوسترهای ساخته شده توسط هوش مصنوعی را مشاهده کنید یا پوستر مورد نظر خود را پیشنهاد دهید.</p>
+        
+        <!-- فرم پیشنهاد پوستر -->
+        <div class="poster-section">
+            <h4 style="color:#2d1b4e;display:flex;align-items:center;gap:10px"><i class="fas fa-paint-brush" style="color:#6C5CE7"></i> ساخت پوستر با هوش مصنوعی</h4>
+            <div class="poster-form">
+                <input type="text" id="posterTitle" placeholder="عنوان پوستر..." class="full-width">
+                <textarea id="posterDescription" placeholder="توضیحات پوستر مورد نظر خود را بنویسید..." class="full-width" rows="3"></textarea>
+                <div style="display:flex;gap:10px;flex-wrap:wrap" class="full-width">
+                    <button onclick="generatePoster()" style="padding:12px 30px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:0.3s">
+                        <i class="fas fa-wand-magic-sparkles"></i> ساخت پوستر
+                    </button>
+                    <button onclick="clearPosterForm()" style="padding:12px 30px;background:#e8ddd0;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer">پاک کردن</button>
+                </div>
+            </div>
+            <div id="posterStatus" style="margin-top:10px;padding:10px;border-radius:12px;background:#f0ecff;display:none;text-align:center;color:#6C5CE7"></div>
+        </div>
+        
+        <div class="gallery-grid" id="posterGallery">
             <div class="gallery-item">
                 <img src="images/4da5fc01-9111-4a99-bccd-c0649274768c (1).png" alt="پوستر ۱">
                 <div class="info"><h4>پوستر تبلیغاتی ۱</h4><p>تولید هوش مصنوعی</p></div>
@@ -266,48 +424,22 @@
                 <img src="images/ChatGPT-Image-Jun-20-2026-07_46_54-AM-1.png" alt="پوستر ۴">
                 <div class="info"><h4>پوستر تبلیغاتی ۴</h4><p>تولید هوش مصنوعی</p></div>
             </div>
-            <div class="gallery-item">
-                <img src="images/ChatGPT-Image-Jun-20-2026-08_14_48-AM-1.png" alt="پوستر ۵">
-                <div class="info"><h4>پوستر تبلیغاتی ۵</h4><p>تولید هوش مصنوعی</p></div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/ChatGPT-Image-Jun-21-2026-07_04_31-AM.png" alt="پوستر ۶">
-                <div class="info"><h4>پوستر تبلیغاتی ۶</h4><p>تولید هوش مصنوعی</p></div>
-            </div>
-        </div>
-        <div style="margin-top:15px;padding-top:15px;border-top:2px dashed #d4a373">
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-                <input type="text" id="comment_gallery" placeholder="نظر خود را بنویسید..." style="flex:1;padding:10px;border:2px solid #d4a373;border-radius:12px;font-family:inherit">
-                <button onclick="addInteraction('💬 ' + document.getElementById('comment_gallery').value, 'گالری', 'text')" style="padding:8px 20px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">متن</button>
-                <button onclick="addInteraction('🎤 پیام صوتی', 'گالری', 'audio')" style="padding:8px 20px;background:#e17055;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویس</button>
-                <button onclick="addInteraction('🎬 پیام ویدئویی', 'گالری', 'video')" style="padding:8px 20px;background:#00b894;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویدئو</button>
-            </div>
-            <div id="responses_gallery" style="margin-top:10px"></div>
         </div>
     </div>
 
     <!-- ===== رادیو نوای چاپ ===== -->
-    <div class="radio-nava-section" id="radionava">
-        <h2>📻 <span>رادیو نوای چاپ</span></h2>
+    <div class="radio-nava-section" id="radionava" style="background:linear-gradient(135deg,#2d1b4e,#4a2c7a,#6C5CE7);border-radius:24px;padding:25px;margin-bottom:30px;border:3px solid #fdcb6e;text-align:center;color:#fff">
+        <h2>📻 <span style="color:#fdcb6e">رادیو نوای چاپ</span></h2>
         <p>صدای ماندگار صنعت چاپ، نشر، بسته‌بندی، کاغذ و مقوا</p>
-        <img class="poster-img" src="images/posterenava.png" alt="پوستر رادیو نوای چاپ">
+        <img class="poster-img" src="images/posterenava.png" alt="پوستر رادیو نوای چاپ" style="max-width:100%;max-height:400px;border-radius:16px;margin:15px auto;display:block;border:3px solid rgba(255,255,255,0.2)">
         <div>
-            <a href="https://t.me/radionavayechap" target="_blank" class="btn-radio"><i class="fab fa-telegram"></i> تلگرام</a>
-            <a href="http://ble.ir/radionavayechap" target="_blank" class="btn-radio" style="background:#00b894;color:#fff"><i class="fas fa-radio"></i> بله</a>
-            <a href="https://kimiaandisheh.com" target="_blank" class="btn-radio" style="background:#e17055;color:#fff"><i class="fas fa-globe"></i> سایت</a>
-        </div>
-        <div style="margin-top:15px;padding-top:15px;border-top:2px solid rgba(255,255,255,0.2)">
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-                <input type="text" id="comment_radionava" placeholder="نظر خود را بنویسید..." style="flex:1;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;font-family:inherit">
-                <button onclick="addInteraction('💬 ' + document.getElementById('comment_radionava').value, 'رادیو نوای چاپ', 'text')" style="padding:8px 20px;background:#fdcb6e;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer">متن</button>
-                <button onclick="addInteraction('🎤 پیام صوتی', 'رادیو نوای چاپ', 'audio')" style="padding:8px 20px;background:#e17055;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویس</button>
-                <button onclick="addInteraction('🎬 پیام ویدئویی', 'رادیو نوای چاپ', 'video')" style="padding:8px 20px;background:#00b894;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer">ویدئو</button>
-            </div>
-            <div id="responses_radionava" style="margin-top:10px;color:#fff"></div>
+            <a href="https://t.me/radionavayechap" target="_blank" class="btn-radio" style="display:inline-block;padding:12px 30px;background:#fdcb6e;color:#2d1b4e;border:none;border-radius:50px;font-weight:700;font-size:1.1rem;cursor:pointer;transition:.3s;text-decoration:none;margin:5px"><i class="fab fa-telegram"></i> تلگرام</a>
+            <a href="http://ble.ir/radionavayechap" target="_blank" class="btn-radio" style="display:inline-block;padding:12px 30px;background:#00b894;color:#fff;border:none;border-radius:50px;font-weight:700;font-size:1.1rem;cursor:pointer;transition:.3s;text-decoration:none;margin:5px"><i class="fas fa-radio"></i> بله</a>
+            <a href="https://kimiaandisheh.com" target="_blank" class="btn-radio" style="display:inline-block;padding:12px 30px;background:#e17055;color:#fff;border:none;border-radius:50px;font-weight:700;font-size:1.1rem;cursor:pointer;transition:.3s;text-decoration:none;margin:5px"><i class="fas fa-globe"></i> سایت</a>
         </div>
     </div>
 
-    <!-- ===== تعامل اصلی ===== -->
+    <!-- ===== تعامل ===== -->
     <div class="section" id="interact">
         <div class="section-title"><i class="fas fa-comment-dots"></i> تعامل هوشمند</div>
         <div class="interact-box">
@@ -323,9 +455,8 @@
         </div>
     </div>
 
-    <!-- ===== هوشمند گزینی و هوشمند خوانی (نسخه نهایی) ===== -->
-    <div class="new-section" id="smart-select" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px solid #6C5CE7;border-radius:30px;padding:30px;margin-bottom:30px;box-shadow:0 10px 40px rgba(108,92,231,0.1)">
-        
+    <!-- ===== هوشمند گزینی ===== -->
+    <div class="section" id="smart-select" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px solid #6C5CE7;border-radius:30px;padding:30px;margin-bottom:30px">
         <div style="text-align:center;margin-bottom:25px">
             <div style="display:inline-block;background:linear-gradient(135deg,#6C5CE7,#a29bfe);padding:5px 25px;border-radius:50px;margin-bottom:10px">
                 <span style="color:#fff;font-weight:700;font-size:.85rem;letter-spacing:2px">✨ هوشمند گزینی و هوشمند خوانی ✨</span>
@@ -337,38 +468,11 @@
             <p style="color:#7f8c8d;font-size:1.05rem">سه روش ساده برای ارسال متن و دریافت خلاصه هوشمند</p>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:20px 0">
-            <div style="background:linear-gradient(135deg,#f0ecff,#e8e0f0);padding:12px;border-radius:16px;text-align:center;border:2px solid #d5cce6">
-                <i class="fas fa-bullseye" style="color:#6C5CE7;font-size:1.8rem;display:block;margin-bottom:5px"></i>
-                <span style="font-weight:700;color:#2d1b4e;font-size:.8rem">ارتباط با موضوع</span>
-            </div>
-            <div style="background:linear-gradient(135deg,#f0ecff,#e8e0f0);padding:12px;border-radius:16px;text-align:center;border:2px solid #d5cce6">
-                <i class="fas fa-feather-alt" style="color:#6C5CE7;font-size:1.8rem;display:block;margin-bottom:5px"></i>
-                <span style="font-weight:700;color:#2d1b4e;font-size:.8rem">زیبایی ادبی</span>
-            </div>
-            <div style="background:linear-gradient(135deg,#f0ecff,#e8e0f0);padding:12px;border-radius:16px;text-align:center;border:2px solid #d5cce6">
-                <i class="fas fa-graduation-cap" style="color:#6C5CE7;font-size:1.8rem;display:block;margin-bottom:5px"></i>
-                <span style="font-weight:700;color:#2d1b4e;font-size:.8rem">تخصصی بودن</span>
-            </div>
-            <div style="background:linear-gradient(135deg,#f0ecff,#e8e0f0);padding:12px;border-radius:16px;text-align:center;border:2px solid #d5cce6">
-                <i class="fas fa-lightbulb" style="color:#6C5CE7;font-size:1.8rem;display:block;margin-bottom:5px"></i>
-                <span style="font-weight:700;color:#2d1b4e;font-size:.8rem">خلاقیت و نوآوری</span>
-            </div>
-            <div style="background:linear-gradient(135deg,#f0ecff,#e8e0f0);padding:12px;border-radius:16px;text-align:center;border:2px solid #d5cce6">
-                <i class="fas fa-users" style="color:#6C5CE7;font-size:1.8rem;display:block;margin-bottom:5px"></i>
-                <span style="font-weight:700;color:#2d1b4e;font-size:.8rem">مخاطب‌محوری</span>
-            </div>
-            <div style="background:linear-gradient(135deg,#f0ecff,#e8e0f0);padding:12px;border-radius:16px;text-align:center;border:2px solid #d5cce6">
-                <i class="fas fa-sync-alt" style="color:#6C5CE7;font-size:1.8rem;display:block;margin-bottom:5px"></i>
-                <span style="font-weight:700;color:#2d1b4e;font-size:.8rem">پویایی و انعطاف</span>
-            </div>
-        </div>
-
+        <!-- فرم ارسال -->
         <div style="text-align:center;margin:25px 0">
             <button id="showUploadFormBtn" style="padding:15px 45px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);border:none;border-radius:60px;color:#fff;font-weight:700;font-size:1.2rem;cursor:pointer;transition:0.4s;box-shadow:0 8px 30px rgba(108,92,231,0.35)">
                 <i class="fas fa-upload"></i> ارسال اثر خود
             </button>
-            <p style="color:#7f8c8d;font-size:.9rem;margin-top:10px">📌 انتخاب کنید: آپلود فایل، وارد کردن لینک، یا چسباندن متن</p>
         </div>
 
         <div id="uploadFormContainer" style="display:none;background:linear-gradient(135deg,#fff,#f8f4f0);border-radius:24px;padding:30px;border:2px solid #6C5CE7;margin:20px 0;box-shadow:0 10px 40px rgba(108,92,231,0.1);animation:slideDown 0.5s ease">
@@ -391,7 +495,7 @@
                         <div id="fileInputArea" style="border:2px dashed #d4a373;border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:0.3s" onclick="document.getElementById('userFile').click()">
                             <i class="fas fa-cloud-upload-alt" style="font-size:2.5rem;color:#6C5CE7;display:block;margin-bottom:10px"></i>
                             <p style="color:#7f8c8d;font-size:.95rem">برای انتخاب فایل کلیک کنید</p>
-                            <input type="file" id="userFile" accept=".doc,.docx,.pdf" style="display:none">
+                            <input type="file" id="userFile" accept=".doc,.docx,.pdf,.txt" style="display:none">
                             <p id="fileNameDisplay" style="color:#6C5CE7;font-weight:700;margin-top:8px;display:none"></p>
                         </div>
                     </div>
@@ -414,8 +518,8 @@
                 </div>
 
                 <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap">
-                    <button type="submit" style="padding:14px 40px;background:linear-gradient(135deg,#00b894,#55efc4);border:none;border-radius:50px;color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;transition:0.3s;box-shadow:0 4px 20px rgba(0,184,148,0.3)">
-                        <i class="fas fa-paper-plane"></i> ارسال فایل
+                    <button type="submit" style="padding:14px 40px;background:linear-gradient(135deg,#55efc4,#00b894);border:none;border-radius:50px;color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;transition:0.3s;box-shadow:0 4px 20px rgba(0,184,148,0.3)">
+                        <i class="fas fa-paper-plane"></i> ارسال
                     </button>
                     <button type="button" id="cancelUploadBtn" style="padding:14px 40px;background:linear-gradient(135deg,#e17055,#fd79a8);border:none;border-radius:50px;color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;transition:0.3s;box-shadow:0 4px 20px rgba(225,112,85,0.3)">
                         <i class="fas fa-times"></i> لغو
@@ -430,61 +534,59 @@
             <p style="color:#155724">خلاصه هوشمند به ایمیل شما ارسال خواهد شد و در گنجینه آثار برگزیده نمایش داده می‌شود.</p>
         </div>
 
+        <!-- گنجینه آثار برگزیده -->
         <div style="margin-top:40px;padding-top:30px;border-top:3px solid #d4a373">
             <h3 style="color:#2d1b4e;text-align:center;font-size:1.8rem;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:15px">
                 <i class="fas fa-crown" style="color:#fdcb6e"></i>
                 گنجینه آثار برگزیده مخاطبین
                 <i class="fas fa-crown" style="color:#fdcb6e"></i>
             </h3>
-            <div id="worksList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px"></div>
-        </div>
-    </div>
-
-    <!-- ===== صفحه نمایش جزئیات اثر ===== -->
-    <div id="workDetailModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;padding:20px;overflow-y:auto;backdrop-filter:blur(5px);animation:fadeIn 0.3s ease">
-        <div style="max-width:800px;margin:50px auto;background:linear-gradient(135deg,#fff,#f8f4f0);border-radius:30px;padding:35px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:scaleIn 0.4s ease">
-            <button onclick="closeWorkDetail()" style="position:absolute;top:15px;left:15px;background:linear-gradient(135deg,#e17055,#fd79a8);border:none;border-radius:50%;width:45px;height:45px;color:#fff;font-size:1.5rem;cursor:pointer;transition:0.3s;box-shadow:0 4px 15px rgba(225,112,85,0.3)">✕</button>
-            <h2 id="detailTitle" style="color:#2d1b4e;font-size:1.8rem;margin-bottom:15px;padding-left:40px">عنوان اثر</h2>
-            <div style="background:linear-gradient(135deg,#f0ecff,#fff);border-radius:16px;padding:25px;border-right:5px solid #6C5CE7">
-                <p id="detailSummary" style="color:#34495e;line-height:2.2;font-size:1.05rem">متن کامل خلاصه در اینجا نمایش داده می‌شود...</p>
+            
+            <div class="works-container">
+                <!-- باکس اول: آخرین اثر -->
+                <div class="latest-work" id="latestWork">
+                    <div class="badge">🔥 آخرین اثر</div>
+                    <div id="latestWorkContent">
+                        <p style="color:#7f8c8d;text-align:center;padding:30px 0">هنوز اثری در گنجینه ثبت نشده است.</p>
+                    </div>
+                </div>
+                
+                <!-- باکس دوم: فهرست -->
+                <div class="archive-list" id="archiveListContainer">
+                    <h4 style="color:#2d1b4e;margin-bottom:15px;display:flex;align-items:center;gap:10px">
+                        <i class="fas fa-list" style="color:#6C5CE7"></i> فهرست آثار
+                    </h4>
+                    <div id="worksList">
+                        <p style="color:#7f8c8d;text-align:center;padding:20px 0">هنوز اثری ثبت نشده است.</p>
+                    </div>
+                </div>
             </div>
-            <p id="detailDate" style="color:#7f8c8d;font-size:.9rem;margin-top:20px"><i class="far fa-calendar-alt"></i> تاریخ ارسال: </p>
-            <button onclick="closeWorkDetail()" style="margin-top:20px;padding:14px 40px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);border:none;border-radius:50px;color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;transition:0.3s;box-shadow:0 4px 20px rgba(108,92,231,0.3)">
-                <i class="fas fa-undo-alt"></i> بازگشت به صفحه اصلی
-            </button>
         </div>
     </div>
-
-    <style>
-        @keyframes slideDown { 0% { opacity: 0; transform: translateY(-30px); } 100% { opacity: 1; transform: translateY(0); } }
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
-        @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
-    </style>
 
     <!-- ===== رشد سرانه مطالعه ===== -->
-    <div class="new-section" id="reading-growth">
+    <div class="section" id="reading-growth" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
         <div class="section-title"><i class="fas fa-chart-line"></i> رشد سرانه مطالعه کتاب</div>
-        <div class="empty-content">
-            <i class="fas fa-book"></i>
+        <div style="text-align:center;padding:40px 20px;color:#7f8c8d">
+            <i class="fas fa-book" style="font-size:3rem;color:#d4a373;display:block;margin-bottom:15px"></i>
             <p>این بخش به زودی با آمار و تحلیل‌های مربوط به سرانه مطالعه پر می‌شود.</p>
         </div>
     </div>
 
     <!-- ===== راویان کتاب خوانی ===== -->
-    <div class="new-section" id="book-narrators">
+    <div class="section" id="book-narrators" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
         <div class="section-title"><i class="fas fa-users"></i> راویان کتاب خوانی</div>
-        <div class="empty-content">
-            <i class="fas fa-microphone-alt"></i>
+        <div style="text-align:center;padding:40px 20px;color:#7f8c8d">
+            <i class="fas fa-microphone-alt" style="font-size:3rem;color:#d4a373;display:block;margin-bottom:15px"></i>
             <p>این بخش به زودی با معرفی راویان و داستان‌های کتابخوانی پر می‌شود.</p>
         </div>
     </div>
 
     <!-- ===== یاوران رسانه مکتوب ===== -->
-    <div class="new-section" id="media-helpers">
+    <div class="section" id="media-helpers" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
         <div class="section-title"><i class="fas fa-hand-holding-heart"></i> یاوران رسانه‌های مکتوب</div>
-        <div class="empty-content">
-            <i class="fas fa-newspaper"></i>
+        <div style="text-align:center;padding:40px 20px;color:#7f8c8d">
+            <i class="fas fa-newspaper" style="font-size:3rem;color:#d4a373;display:block;margin-bottom:15px"></i>
             <p>این بخش به زودی با معرفی یاوران و حامیان رسانه‌های مکتوب پر می‌شود.</p>
         </div>
     </div>
@@ -492,139 +594,691 @@
     <!-- ===== انتشارات ===== -->
     <div class="section" id="publish">
         <div class="section-title"><i class="fas fa-building"></i> انتشارات کیمیا</div>
-        <div class="publish-grid">
-            <div class="publish-card"><i class="fas fa-phone"></i><h4>تلفن تماس</h4><p>۰۹۱۲۲۴۷۲۴۴۸</p><p>۰۲۱۶۶۹۶۱۵۶۹</p><p>۰۲۱۶۶۴۶۲۸۶۴</p></div>
-            <div class="publish-card"><i class="fas fa-clock"></i><h4>ساعات پاسخگویی</h4><p>همه روزه از <span class="highlight">۸ صبح تا ۱۸</span></p></div>
-            <div class="publish-card"><i class="fas fa-map-marker-alt"></i><h4>آدرس فروشگاه</h4><p>تهران، خیابان انقلاب، خیابان فخر رازی، خیابان وحید نظری شرقی، پلاک ۶۵ طبقه پنجم واحد ۱۱</p></div>
+        <div class="publish-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
+            <div class="publish-card" style="background:linear-gradient(145deg,#fef9f0,#f5ede5);border-radius:20px;padding:20px;border:2px solid #d4a373;transition:.3s">
+                <i class="fas fa-phone" style="font-size:2rem;color:#6C5CE7;margin-bottom:10px;display:block"></i>
+                <h4 style="color:#2d1b4e;margin-bottom:5px">تلفن تماس</h4>
+                <p style="color:#5d4037">۰۹۱۲۲۴۷۲۴۴۸</p>
+                <p style="color:#5d4037">۰۲۱۶۶۹۶۱۵۶۹</p>
+                <p style="color:#5d4037">۰۲۱۶۶۴۶۲۸۶۴</p>
+            </div>
+            <div class="publish-card" style="background:linear-gradient(145deg,#fef9f0,#f5ede5);border-radius:20px;padding:20px;border:2px solid #d4a373;transition:.3s">
+                <i class="fas fa-clock" style="font-size:2rem;color:#6C5CE7;margin-bottom:10px;display:block"></i>
+                <h4 style="color:#2d1b4e;margin-bottom:5px">ساعات پاسخگویی</h4>
+                <p style="color:#5d4037">همه روزه از <span style="color:#6C5CE7;font-weight:700">۸ صبح تا ۱۸</span></p>
+            </div>
+            <div class="publish-card" style="background:linear-gradient(145deg,#fef9f0,#f5ede5);border-radius:20px;padding:20px;border:2px solid #d4a373;transition:.3s">
+                <i class="fas fa-map-marker-alt" style="font-size:2rem;color:#6C5CE7;margin-bottom:10px;display:block"></i>
+                <h4 style="color:#2d1b4e;margin-bottom:5px">آدرس فروشگاه</h4>
+                <p style="color:#5d4037">تهران، خیابان انقلاب، خیابان فخر رازی، خیابان وحید نظری شرقی، پلاک ۶۵ طبقه پنجم واحد ۱۱</p>
+            </div>
         </div>
     </div>
 
     <!-- ===== FOOTER ===== -->
     <div class="footer">
-        <p><i class="fas fa-crown" style="color:#fdcb6e"></i> طراحی و تولید: <strong>دکتر غلامرضا رضائی</strong></p>
-        <p>انتشارات کیمیا | رادیو نوای چاپ</p>
-    </div>
-
-</div>
-
-<script>
-    // ===== رادیو =====
-    let radioIndex = 0;
-    const radioFiles = ['images/Ayrilik_aleftab.ir.mp3', 'images/Careless Whisper2.mp3'];
-    const radioItems = document.querySelectorAll('#radioPlaylist .playlist-item');
-    function loadRadio(index) {
-        const player = document.getElementById('radioPlayer');
-        player.src = radioFiles[index];
-        player.load();
-        player.play();
-        radioItems.forEach((el, i) => { el.classList.toggle('active', i === index); });
-        radioIndex = index;
-    }
-    function nextRadio() { loadRadio((radioIndex + 1) % radioFiles.length); }
-    function prevRadio() { loadRadio((radioIndex - 1 + radioFiles.length) % radioFiles.length); }
-    radioItems.forEach((el, i) => { el.addEventListener('click', () => loadRadio(i)); });
-
-    // ===== تلویزیون =====
-    let tvIndex = 0;
-    const tvFiles = ['images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4', 'images/ویئوی کتاب هنر هوشمند نگاری 2.mp4'];
-    const tvItems = document.querySelectorAll('#tvPlaylist .playlist-item');
-    function loadTv(index) {
-        const player = document.getElementById('tvPlayer');
-        player.src = tvFiles[index];
-        player.load();
-        player.play();
-        tvItems.forEach((el, i) => { el.classList.toggle('active', i === index); });
-        tvIndex = index;
-    }
-    function nextTv() { loadTv((tvIndex + 1) % tvFiles.length); }
-    function prevTv() { loadTv((tvIndex - 1 + tvFiles.length) % tvFiles.length); }
-    tvItems.forEach((el, i) => { el.addEventListener('click', () => loadTv(i)); });
-
-    // ===== جستجو =====
-    function filterArchive() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        document.querySelectorAll('#archiveList .playlist-item').forEach(item => {
-            item.style.display = item.textContent.toLowerCase().includes(input) ? 'flex' : 'none';
-        });
-    }
-
-    // ===== تعامل عمومی =====
-    function addInteraction(message, source, type) {
-        const container = document.getElementById('mainResponses');
-        const icons = { text: 'م', audio: 'ص', video: 'و' };
-        const colors = { text: '#6C5CE7', audio: '#e17055', video: '#00b894' };
+        <div class="designer-info">
+            <h3><i class="fas fa-crown" style="color:#fdcb6e"></i> طراحی و توسعه</h3>
+            <h2 style="color:#fdcb6e;font-size:2rem">غلامرضا رضائی</h2>
+            <p>طراح و توسعه‌دهنده سیستم رادیو تلویزیون هوشمند</p>
+            <p style="font-size:.85rem;opacity:0.7">انتشارات کیمیا | رادیو نوای چاپ</p>
+        </div>
         
-        let targetContainer = container;
-        if (source) {
-            const sourceId = source.replace(/\s/g, '_');
-            const sourceContainer = document.getElementById('responses_' + sourceId);
-            if (sourceContainer) {
-                targetContainer = sourceContainer;
-            }
-        }
+        <div class="posters-row">
+            <div class="poster-box">
+                <img src="images/پوستر عالی برای کسب و کارها 2.png" alt="پوستر عالی برای کسب و کارها">
+            </div>
+            <div class="poster-box">
+                <img src="images/پوستر نهایی.png" alt="پوستر نهایی">
+            </div>
+        </div>
         
-        const div = document.createElement('div');
-        div.className = 'response-item';
-        div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #e8ddd0';
-        div.innerHTML = `<span class="type-icon ${type}" style="background:${colors[type]};width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0">${icons[type]}</span> <span>${message} ${source ? 'از ' + source : ''}</span>`;
-        targetContainer.prepend(div);
-        if (targetContainer.children.length > 10) targetContainer.removeChild(targetContainer.lastChild);
-    }
-
-    function sendMainText() {
-        const input = document.getElementById('mainInteract');
-        if (!input.value.trim()) return;
-        addInteraction('💬 ' + input.value, null, 'text');
-        input.value = '';
-    }
-    function sendMainAudio() { addInteraction('🎤 پیام صوتی ارسال شد', null, 'audio'); }
-    function sendMainVideo() { addInteraction('🎬 پیام ویدئویی ارسال شد', null, 'video'); }
-
-    // ===== شب/روز =====
-    document.getElementById('themeToggle').addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        this.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-    });
-
-    // ===== آسانسور =====
-    document.getElementById('scrollTop').addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    document.getElementById('scrollBottom').addEventListener('click', function() {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    });
-
-    // ===== ذخیره حالت شب =====
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
-    }
-</script>
-
-<!-- ===== فایل هوشمند بخش گزینی و خوانی ===== -->
-  <script src="js/config.js"></script>  
-<script src="smart-section.js"></script>
- 
-    <!-- ===== FOOTER ===== -->
-    <div class="footer">
-        <p><i class="fas fa-crown" style="color:#fdcb6e"></i> طراحی و تولید: <strong>دکتر غلامرضا رضائی</strong></p>
-        <p>انتشارات کیمیا | رادیو نوای چاپ</p>
+        <div class="copyright">
+            <p>© تمامی حقوق این اثر متعلق به <strong>غلامرضا رضائی</strong> می‌باشد.</p>
+            <p style="font-size:.75rem;margin-top:5px">هرگونه کپی برداری و سوء استفاده بدون اجازه طراح، پیگرد قانونی دارد.</p>
+        </div>
     </div>
 
 </div>
 
 <!-- ===== اسکریپت‌ها ===== -->
-<!-- ابتدا فایل env که حاوی کلید است (فایل محرمانه) -->
-<script src="js/env.js"></script>
-<!-- سپس سایر فایل‌ها -->
-<script src="js/config.js"></script>
-<script src="js/header.js"></script>
-<script src="js/menu.js"></script>
-<script src="js/core.js"></script>
-<script src="js/brain.js"></script>
-<script src="js/app.js"></script>
-<script src="smart-section.js"></script>
+<script>
+// ===== داده‌های اولیه =====
+// رادیو
+let radioFiles = ['images/Ayrilik_aleftab.ir.mp3', 'images/Careless Whisper2.mp3'];
+let radioTitles = ['آهنگ اول - Ayrilik', 'آهنگ دوم - Careless Whisper'];
+let radioIndex = 0;
+
+// تلویزیون
+let tvFiles = ['images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4', 'images/ویئوی کتاب هنر هوشمند نگاری 2.mp4'];
+let tvTitles = ['ویدئوی طرح همگام‌سازی خدمات', 'ویدئوی کتاب هنر هوشمند نگاری ۲'];
+let tvIndex = 0;
+
+// آرشیو
+const archiveItems = [
+    'برنامه: زندگینامه همایون صنعتی‌زاده',
+    'برنامه: موزه صنعت چاپ',
+    'برنامه: صنعت نشر و تکنولوژی POD',
+    'برنامه: ظرفیت صنعت چاپ در مسیر صادرات',
+    'برنامه: زندگینامه محمدرضا صافیان',
+    'برنامه: تاریخ کتاب و چاپ در تهران قدیم'
+];
+
+// ===== تابع نمایش پلی‌لیست =====
+function renderRadioPlaylist() {
+    const container = document.getElementById('radioPlaylist');
+    container.innerHTML = '';
+    radioFiles.forEach((file, i) => {
+        const div = document.createElement('div');
+        div.className = 'playlist-item' + (i === radioIndex ? ' active' : '');
+        div.innerHTML = `<span>${radioTitles[i] || 'فایل ' + (i+1)}</span><span class="date">${new Date().toLocaleDateString('fa-IR')}</span>`;
+        div.onclick = () => loadRadio(i);
+        container.appendChild(div);
+    });
+}
+
+function renderTvPlaylist() {
+    const container = document.getElementById('tvPlaylist');
+    container.innerHTML = '';
+    tvFiles.forEach((file, i) => {
+        const div = document.createElement('div');
+        div.className = 'playlist-item' + (i === tvIndex ? ' active' : '');
+        div.innerHTML = `<span>${tvTitles[i] || 'ویدئو ' + (i+1)}</span>`;
+        div.onclick = () => loadTv(i);
+        container.appendChild(div);
+    });
+}
+
+// ===== رادیو =====
+function loadRadio(index) {
+    const player = document.getElementById('radioPlayer');
+    if (radioFiles[index]) {
+        player.src = radioFiles[index];
+        player.load();
+        player.play();
+        radioIndex = index;
+        renderRadioPlaylist();
+    }
+}
+
+function nextRadio() { loadRadio((radioIndex + 1) % radioFiles.length); }
+function prevRadio() { loadRadio((radioIndex - 1 + radioFiles.length) % radioFiles.length); }
+
+function addRadioFile() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'audio/*';
+    input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            radioFiles.push(url);
+            radioTitles.push(file.name);
+            renderRadioPlaylist();
+            alert('فایل با موفقیت اضافه شد!');
+        }
+    };
+    input.click();
+}
+
+// ===== تلویزیون =====
+function loadTv(index) {
+    const player = document.getElementById('tvPlayer');
+    if (tvFiles[index]) {
+        player.src = tvFiles[index];
+        player.load();
+        player.play();
+        tvIndex = index;
+        renderTvPlaylist();
+    }
+}
+
+function nextTv() { loadTv((tvIndex + 1) % tvFiles.length); }
+function prevTv() { loadTv((tvIndex - 1 + tvFiles.length) % tvFiles.length); }
+
+function addTvFile() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'video/*';
+    input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            tvFiles.push(url);
+            tvTitles.push(file.name);
+            renderTvPlaylist();
+            alert('ویدئو با موفقیت اضافه شد!');
+        }
+    };
+    input.click();
+}
+
+// ===== آرشیو =====
+function renderArchive() {
+    const container = document.getElementById('archiveList');
+    container.innerHTML = '';
+    archiveItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'playlist-item';
+        div.innerHTML = `<span>${item}</span><span class="date">${new Date().toLocaleDateString('fa-IR')}</span>`;
+        container.appendChild(div);
+    });
+}
+
+function filterArchive() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    document.querySelectorAll('#archiveList .playlist-item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(input) ? 'flex' : 'none';
+    });
+}
+
+// ===== پیام‌های رادیو =====
+function sendRadioMessage(type) {
+    const input = document.getElementById('comment_radio');
+    let message = input.value.trim();
+    if (type === 'audio') message = '🎤 پیام صوتی';
+    else if (type === 'video') message = '🎬 پیام ویدئویی';
+    else if (!message) { alert('لطفاً متن خود را بنویسید.'); return; }
+    
+    addInteraction(message, 'رادیو', type, 'responses_radio');
+    input.value = '';
+    
+    // پاسخ هوش مصنوعی
+    setTimeout(() => {
+        const responses = document.getElementById('responses_radio');
+        const div = document.createElement('div');
+        div.className = 'response-item';
+        div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+            <div class="ai-response">پیام شما دریافت شد. در حال پردازش توسط هوش مصنوعی... 
+            <br><span style="font-size:.85rem;color:#6C5CE7">✅ پاسخ: از پیام شما سپاسگزاریم. محتوای شما برای بررسی به هوش مصنوعی ارسال شد.</span></div>`;
+        responses.appendChild(div);
+        responses.scrollTop = responses.scrollHeight;
+    }, 1000);
+}
+
+function sendTvMessage(type) {
+    const input = document.getElementById('comment_tv');
+    let message = input.value.trim();
+    if (type === 'audio') message = '🎤 پیام صوتی';
+    else if (type === 'video') message = '🎬 پیام ویدئویی';
+    else if (!message) { alert('لطفاً متن خود را بنویسید.'); return; }
+    
+    addInteraction(message, 'تلویزیون', type, 'responses_tv');
+    input.value = '';
+    
+    setTimeout(() => {
+        const responses = document.getElementById('responses_tv');
+        const div = document.createElement('div');
+        div.className = 'response-item';
+        div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+            <div class="ai-response">✅ پیام شما دریافت شد. هوش مصنوعی در حال پردازش... 
+            <br><span style="font-size:.85rem;color:#6C5CE7">پاسخ: از مشارکت شما سپاسگزاریم!</span></div>`;
+        responses.appendChild(div);
+        responses.scrollTop = responses.scrollHeight;
+    }, 1000);
+}
+
+function sendArchiveMessage(type) {
+    const input = document.getElementById('comment_archive');
+    let message = input.value.trim();
+    if (type === 'audio') message = '🎤 پیام صوتی';
+    else if (type === 'video') message = '🎬 پیام ویدئویی';
+    else if (!message) { alert('لطفاً متن خود را بنویسید.'); return; }
+    
+    addInteraction(message, 'آرشیو', type, 'responses_archive');
+    input.value = '';
+    
+    setTimeout(() => {
+        const responses = document.getElementById('responses_archive');
+        const div = document.createElement('div');
+        div.className = 'response-item';
+        div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+            <div class="ai-response">✅ پیام شما در آرشیو هوشمند ثبت شد. 
+            <br><span style="font-size:.85rem;color:#6C5CE7">پاسخ: از ارتباط شما متشکریم!</span></div>`;
+        responses.appendChild(div);
+        responses.scrollTop = responses.scrollHeight;
+    }, 1000);
+}
+
+// ===== تعامل عمومی =====
+function addInteraction(message, source, type, targetId) {
+    const icons = { text: 'م', audio: 'ص', video: 'و' };
+    const colors = { text: '#6C5CE7', audio: '#fd79a8', video: '#55efc4' };
+    
+    let targetContainer = document.getElementById(targetId) || document.getElementById('mainResponses');
+    if (!targetContainer) return;
+    
+    const div = document.createElement('div');
+    div.className = 'response-item';
+    div.innerHTML = `<span class="type-icon ${type}" style="background:${colors[type] || '#6C5CE7'};width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0">${icons[type] || 'م'}</span> 
+        <span>${message} ${source ? 'از ' + source : ''}</span>`;
+    targetContainer.prepend(div);
+    if (targetContainer.children.length > 10) targetContainer.removeChild(targetContainer.lastChild);
+}
+
+function sendMainText() {
+    const input = document.getElementById('mainInteract');
+    if (!input.value.trim()) return;
+    addInteraction('💬 ' + input.value, null, 'text', 'mainResponses');
+    input.value = '';
+    // پاسخ هوش مصنوعی
+    setTimeout(() => {
+        const responses = document.getElementById('mainResponses');
+        const div = document.createElement('div');
+        div.className = 'response-item';
+        div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+            <div class="ai-response">✅ پیام شما دریافت شد. از ارتباط شما سپاسگزاریم!</div>`;
+        responses.appendChild(div);
+        responses.scrollTop = responses.scrollHeight;
+    }, 800);
+}
+
+function sendMainAudio() { 
+    addInteraction('🎤 پیام صوتی ارسال شد', null, 'audio', 'mainResponses'); 
+    setTimeout(() => {
+        const responses = document.getElementById('mainResponses');
+        const div = document.createElement('div');
+        div.className = 'response-item';
+        div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+            <div class="ai-response">✅ پیام صوتی شما دریافت شد. در حال پردازش...</div>`;
+        responses.appendChild(div);
+        responses.scrollTop = responses.scrollHeight;
+    }, 800);
+}
+
+function sendMainVideo() { 
+    addInteraction('🎬 پیام ویدئویی ارسال شد', null, 'video', 'mainResponses');
+    setTimeout(() => {
+        const responses = document.getElementById('mainResponses');
+        const div = document.createElement('div');
+        div.className = 'response-item';
+        div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+            <div class="ai-response">✅ پیام ویدئویی شما دریافت شد. در حال پردازش...</div>`;
+        responses.appendChild(div);
+        responses.scrollTop = responses.scrollHeight;
+    }, 800);
+}
+
+// ===== پوستر ساز =====
+function generatePoster() {
+    const title = document.getElementById('posterTitle').value.trim();
+    const description = document.getElementById('posterDescription').value.trim();
+    const status = document.getElementById('posterStatus');
+    
+    if (!title || !description) {
+        alert('لطفاً عنوان و توضیحات پوستر را وارد کنید.');
+        return;
+    }
+    
+    status.style.display = 'block';
+    status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ساخت پوستر با هوش مصنوعی...';
+    
+    // شبیه‌سازی ساخت پوستر
+    setTimeout(() => {
+        status.innerHTML = '✅ پوستر با موفقیت ساخته شد! در گالری نمایش داده می‌شود.';
+        status.style.background = '#d4edda';
+        status.style.color = '#155724';
+        
+        // اضافه کردن به گالری
+        const gallery = document.getElementById('posterGallery');
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.innerHTML = `
+            <div style="width:100%;height:180px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;flex-direction:column">
+                <i class="fas fa-paint-brush" style="font-size:3rem"></i>
+                <span style="font-size:.8rem;margin-top:5px">پوستر جدید</span>
+            </div>
+            <div class="info"><h4>${title}</h4><p>${description.substring(0, 50)}...</p></div>
+        `;
+        gallery.prepend(div);
+        
+        document.getElementById('posterTitle').value = '';
+        document.getElementById('posterDescription').value = '';
+        
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 5000);
+    }, 3000);
+}
+
+function clearPosterForm() {
+    document.getElementById('posterTitle').value = '';
+    document.getElementById('posterDescription').value = '';
+    document.getElementById('posterStatus').style.display = 'none';
+}
+
+// ===== گنجینه =====
+function getWorksList() {
+    return JSON.parse(localStorage.getItem('worksList') || '[]');
+}
+
+function saveWorksList(works) {
+    localStorage.setItem('worksList', JSON.stringify(works));
+}
+
+function displayWorks() {
+    const works = getWorksList();
+    const latestContainer = document.getElementById('latestWorkContent');
+    const listContainer = document.getElementById('worksList');
+    
+    if (works.length === 0) {
+        latestContainer.innerHTML = '<p style="color:#7f8c8d;text-align:center;padding:30px 0">هنوز اثری در گنجینه ثبت نشده است.</p>';
+        listContainer.innerHTML = '<p style="color:#7f8c8d;text-align:center;padding:20px 0">هنوز اثری ثبت نشده است.</p>';
+        return;
+    }
+    
+    // آخرین اثر
+    const latest = works[0];
+    latestContainer.innerHTML = `
+        <h4 style="color:#2d1b4e;font-size:1.2rem">📄 ${latest.title}</h4>
+        <div style="margin:10px 0;color:#7f8c8d;font-size:.85rem">
+            <i class="far fa-calendar-alt"></i> ${latest.date} - ${latest.time}
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:15px;margin-top:10px;max-height:200px;overflow-y:auto">
+            <p style="color:#34495e;line-height:1.8;font-size:.95rem">${latest.summary.substring(0, 300)}${latest.summary.length > 300 ? '...' : ''}</p>
+        </div>
+        <button onclick="showFullSummary(${latest.id})" style="margin-top:10px;padding:8px 20px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;cursor:pointer">
+            <i class="fas fa-eye"></i> مشاهده کامل
+        </button>
+    `;
+    
+    // فهرست
+    listContainer.innerHTML = '';
+    works.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'archive-item';
+        div.innerHTML = `
+            <span class="num">#${works.length - index}</span>
+            <span class="title">${item.title}</span>
+            <span class="date">${item.date}</span>
+        `;
+        div.onclick = () => showFullSummary(item.id);
+        listContainer.appendChild(div);
+    });
+}
+
+function showFullSummary(id) {
+    const works = getWorksList();
+    const item = works.find(w => w.id === id);
+    if (!item) return;
+    
+    alert('📄 عنوان: ' + item.title + '\n\n📝 خلاصه:\n' + item.summary + '\n\n📅 تاریخ: ' + item.date);
+}
+
+// ===== فرم ارسال =====
+document.addEventListener('DOMContentLoaded', function() {
+    // نمایش پلی‌لیست‌ها
+    renderRadioPlaylist();
+    renderTvPlaylist();
+    renderArchive();
+    displayWorks();
+    
+    // دکمه نمایش فرم
+    const showBtn = document.getElementById('showUploadFormBtn');
+    if (showBtn) {
+        showBtn.addEventListener('click', function() {
+            const formContainer = document.getElementById('uploadFormContainer');
+            if (formContainer) {
+                formContainer.style.display = 'block';
+                this.style.display = 'none';
+                formContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
+    
+    // دکمه لغو
+    const cancelBtn = document.getElementById('cancelUploadBtn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            document.getElementById('uploadFormContainer').style.display = 'none';
+            document.getElementById('showUploadFormBtn').style.display = 'inline-block';
+            document.getElementById('uploadForm').reset();
+            document.getElementById('fileNameDisplay').style.display = 'none';
+            document.getElementById('userLink').style.display = 'none';
+            document.getElementById('userText').style.display = 'none';
+        });
+    }
+    
+    // رادیو باتن‌ها
+    document.querySelectorAll('input[name="inputMethod"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            const fileInput = document.getElementById('userFile');
+            const linkInput = document.getElementById('userLink');
+            const textInput = document.getElementById('userText');
+            const fileArea = document.getElementById('fileInputArea');
+            
+            if (this.value === 'file') {
+                fileInput.style.display = 'block';
+                fileArea.style.display = 'block';
+                linkInput.style.display = 'none';
+                textInput.style.display = 'none';
+            } else if (this.value === 'link') {
+                fileInput.style.display = 'none';
+                fileArea.style.display = 'none';
+                linkInput.style.display = 'block';
+                textInput.style.display = 'none';
+            } else {
+                fileInput.style.display = 'none';
+                fileArea.style.display = 'none';
+                linkInput.style.display = 'none';
+                textInput.style.display = 'block';
+            }
+        });
+    });
+    
+    // آپلود فایل
+    const fileInput = document.getElementById('userFile');
+    const fileDropArea = document.getElementById('fileInputArea');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    
+    if (fileDropArea && fileInput) {
+        fileDropArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#6C5CE7';
+            this.style.background = '#f0ecff';
+        });
+        fileDropArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#d4a373';
+            this.style.background = 'transparent';
+        });
+        fileDropArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#d4a373';
+            this.style.background = 'transparent';
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                if (fileInput.files[0]) {
+                    fileNameDisplay.textContent = '📎 ' + fileInput.files[0].name;
+                    fileNameDisplay.style.display = 'block';
+                }
+            }
+        });
+        fileInput.addEventListener('change', function() {
+            if (this.files[0]) {
+                fileNameDisplay.textContent = '📎 ' + this.files[0].name;
+                fileNameDisplay.style.display = 'block';
+            }
+        });
+    }
+    
+    // فرم ارسال
+    const uploadForm = document.getElementById('uploadForm');
+    if (uploadForm) {
+        uploadForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('userEmail').value;
+            const method = document.querySelector('input[name="inputMethod"]:checked');
+            
+            if (!email) {
+                alert('لطفاً ایمیل خود را وارد کنید.');
+                return;
+            }
+            if (!method) {
+                alert('لطفاً یک روش ارسال انتخاب کنید.');
+                return;
+            }
+            
+            let text = '';
+            let title = '';
+            
+            try {
+                if (method.value === 'file') {
+                    const file = document.getElementById('userFile').files[0];
+                    if (!file) { alert('لطفاً یک فایل انتخاب کنید.'); return; }
+                    title = file.name.replace(/\.[^/.]+$/, '');
+                    text = await readFileAsText(file);
+                } else if (method.value === 'link') {
+                    const link = document.getElementById('userLink').value.trim();
+                    if (!link) { alert('لطفاً لینک را وارد کنید.'); return; }
+                    title = 'مطلب از لینک';
+                    text = await fetchTextFromURL(link);
+                } else {
+                    const textInput = document.getElementById('userText');
+                    text = textInput.value.trim();
+                    if (!text || text.length < 10) { alert('متن وارد شده بسیار کوتاه است.'); return; }
+                    title = 'متن ارسالی کاربر';
+                }
+                
+                if (!text || text.length < 50) {
+                    alert('متن دریافت شده بسیار کوتاه است.');
+                    return;
+                }
+                
+                // خلاصه‌سازی
+                const summary = await getAISummary(text);
+                
+                // ذخیره در گنجینه
+                const works = getWorksList();
+                const newWork = {
+                    id: Date.now(),
+                    title: title,
+                    summary: summary,
+                    email: email,
+                    date: new Date().toLocaleDateString('fa-IR'),
+                    time: new Date().toLocaleTimeString('fa-IR')
+                };
+                works.unshift(newWork);
+                saveWorksList(works);
+                displayWorks();
+                
+                // ارسال ایمیل
+                sendEmail(email, summary, title);
+                
+                // پاک کردن فرم
+                document.getElementById('uploadFormContainer').style.display = 'none';
+                document.getElementById('showUploadFormBtn').style.display = 'inline-block';
+                document.getElementById('uploadForm').reset();
+                document.getElementById('fileNameDisplay').style.display = 'none';
+                document.getElementById('userLink').style.display = 'none';
+                document.getElementById('userText').style.display = 'none';
+                
+                document.getElementById('successMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 6000);
+                
+                alert('✅ خلاصه‌سازی کامل شد! به ایمیل و گنجینه ارسال شد.');
+                
+            } catch (error) {
+                console.error('خطا:', error);
+                alert('خطا: ' + (error.message || 'خطایی در پردازش رخ داد.'));
+            }
+        });
+    }
+    
+    // تم
+    const themeBtn = document.getElementById('themeToggle');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            this.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+    }
+    
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
+    // اسکرول
+    document.getElementById('scrollTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('scrollBottom').addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+});
+
+// ===== توابع کمکی =====
+function readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsText(file);
+    });
+}
+
+async function fetchTextFromURL(url) {
+    try {
+        const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
+        if (!response.ok) throw new Error('خطا در دریافت لینک');
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        return doc.body?.textContent?.replace(/\s+/g, ' ').trim() || '';
+    } catch (error) {
+        throw new Error('لینک معتبر نیست یا قابل دسترسی نمی‌باشد.');
+    }
+}
+
+async function getAISummary(text) {
+    // شبیه‌سازی خلاصه‌سازی
+    console.log('📝 ارسال متن به هوش مصنوعی...');
+    return `📚 **خلاصه هوشمند**
+
+🔹 **موضوع اصلی:** 
+${text.substring(0, 100)}...
+
+🔹 **ایده‌های کلیدی:**
+• ${text.substring(100, 150)}...
+• ${text.substring(150, 200)}...
+• ${text.substring(200, 250)}...
+
+🔹 **نتیجه‌گیری:**
+${text.substring(text.length - 100, text.length)}...
+
+🔹 **نکات کاربردی:**
+• متن ارسالی شما در گنجینه ذخیره شد
+• خلاصه به ایمیل شما ارسال شد
+
+🔹 **ارزش مطالعه:**
+این اثر می‌تواند برای علاقه‌مندان به موضوع مفید باشد.`;
+}
+
+function sendEmail(email, summary, title) {
+    console.log(`📧 ایمیل به ${email} ارسال شد.`);
+    console.log(`📄 عنوان: ${title}`);
+    console.log(`📝 خلاصه: ${summary.substring(0, 200)}...`);
+    alert(`📧 خلاصه به ایمیل ${email} ارسال شد!`);
+}
+
+// ===== نمایش کامل خلاصه =====
+function showFullSummary(id) {
+    const works = JSON.parse(localStorage.getItem('worksList') || '[]');
+    const item = works.find(w => w.id === id);
+    if (!item) {
+        alert('اثر مورد نظر یافت نشد.');
+        return;
+    }
+    
+    alert(`📄 عنوان: ${item.title}
+
+📝 خلاصه کامل:
+${item.summary}
+
+📅 تاریخ: ${item.date} - ${item.time}`);
+}
+</script>
+
 </body>
 </html>
-
