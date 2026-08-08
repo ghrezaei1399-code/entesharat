@@ -6,7 +6,6 @@
     <title>رادیو تلویزیون هوشمند | انتشارات کیمیا</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
-    <!-- کتابخانه‌ها -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -75,7 +74,6 @@
         .section-title i{color:#6C5CE7;font-size:1.5rem}
         .section-title .drag-hint{font-size:.6rem;color:#7f8c8d;font-weight:400}
 
-        /* ===== حالت تمام‌صفحه ===== */
         .section.fullscreen{position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:9998!important;border-radius:0!important;margin:0!important;overflow-y:auto!important;background:#fff!important;padding:25px!important}
         body.dark-mode .section.fullscreen{background:#16213e!important}
         .section.hidden-section{display:none!important}
@@ -84,7 +82,6 @@
         .player-box{background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:14px;padding:15px;text-align:center;margin:12px 0}
         .player-box audio,.player-box video{width:100%;border-radius:10px}
 
-        /* ===== کنترل‌ها ===== */
         .controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
         .controls button{padding:8px 16px;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:6px;font-size:.8rem}
         .controls button:hover{transform:scale(1.05)}
@@ -96,7 +93,6 @@
         .btn-share{background:#00cec9}
         .btn-add{background:#4a90d9}
 
-        /* ===== پلی‌لیست ===== */
         .playlist-item{display:flex;justify-content:space-between;padding:10px 14px;background:#fef9f0;border-radius:10px;margin:5px 0;border:1px solid #e8ddd0;transition:.3s;cursor:pointer;font-size:.9rem}
         .playlist-item:hover{background:#f5ede5}
         .playlist-item.active{background:#6C5CE7;color:#fff;border-color:#6C5CE7}
@@ -161,21 +157,23 @@
         .publish-card i{font-size:1.8rem;color:#6C5CE7;margin-bottom:8px;display:block}
 
         /* ===== فوتر ===== */
-        .footer{text-align:center;padding:20px;background:linear-gradient(135deg,#2d1b4e,#4a2c7a);border-radius:20px;margin-top:15px;color:#fff}
-        .footer .designer-info{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:12px}
-        .footer .designer-info h3{color:#fdcb6e;font-size:1.1rem}
-        .footer .designer-info h2{color:#fdcb6e;font-size:1.4rem}
-        .footer .designer-info p{color:rgba(255,255,255,0.8);font-size:.85rem;margin:0}
-        .footer .posters-row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:12px 0}
-        .footer .posters-row .poster-box{max-width:180px;border-radius:12px;overflow:hidden;border:2px solid #fdcb6e;transition:.3s}
+        .footer{text-align:center;padding:15px 20px;background:linear-gradient(135deg,#2d1b4e,#4a2c7a);border-radius:16px;margin-top:15px;color:#fff}
+        .footer .designer-info{display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px}
+        .footer .designer-info h3{color:#fdcb6e;font-size:1rem}
+        .footer .designer-info h2{color:#fdcb6e;font-size:1.2rem}
+        .footer .designer-info p{color:rgba(255,255,255,0.8);font-size:.8rem;margin:0}
+        .footer .posters-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:10px 0}
+        .footer .posters-row .poster-box{max-width:150px;border-radius:10px;overflow:hidden;border:2px solid #fdcb6e;transition:.3s}
         .footer .posters-row .poster-box:hover{transform:scale(1.04);border-color:#6C5CE7}
         .footer .posters-row .poster-box img{width:100%;height:auto;display:block}
-        .footer .copyright{color:rgba(255,255,255,0.6);font-size:.75rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;margin-top:12px}
+        .footer .copyright{color:rgba(255,255,255,0.6);font-size:.7rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;margin-top:10px}
 
         /* ===== شناور ===== */
-        .floating-toolbar{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:999;background:rgba(255,255,255,0.95);padding:8px 16px;border-radius:50px;box-shadow:0 4px 25px rgba(0,0,0,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3)}
-        .floating-toolbar button{width:40px;height:40px;border:none;border-radius:50%;font-size:1rem;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center}
+        .floating-toolbar{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:999;background:rgba(255,255,255,0.95);padding:6px 14px;border-radius:50px;box-shadow:0 4px 25px rgba(0,0,0,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3)}
+        .floating-toolbar button{width:36px;height:36px;border:none;border-radius:50%;font-size:.9rem;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;position:relative}
         .floating-toolbar button:hover{transform:scale(1.1)}
+        .floating-toolbar button .tooltip{display:none;position:absolute;bottom:45px;background:#2d1b4e;color:#fff;padding:4px 10px;border-radius:8px;font-size:.6rem;white-space:nowrap}
+        .floating-toolbar button:hover .tooltip{display:block}
         #themeToggle{background:#fdcb6e;color:#2d1b4e}
         #scrollTop,#scrollBottom{background:#6C5CE7;color:#fff}
         #resetLayout{background:#e17055;color:#fff}
@@ -206,7 +204,6 @@
         body.dark-mode .publish-card{background:#1a1a2e!important;border-color:#0f3460}
         body.dark-mode .ad-side .ad-box .ad-name{color:#e0e0e0}
 
-        /* ===== ریسپانسیو ===== */
         @media(max-width:768px){
             .container{padding:8px}
             body{padding:10px}
@@ -217,15 +214,15 @@
             .poster-form{grid-template-columns:1fr}
             .ad-side{display:none}
             .ad-side-mobile{display:block!important}
-            .footer .posters-row .poster-box{max-width:140px}
+            .footer .posters-row .poster-box{max-width:120px}
             .radio-tv-icons .icon-box{width:45px;height:45px}
             .radio-tv-icons .icon-box img{width:28px;height:28px}
             .section-title{font-size:1.1rem}
             .controls button{padding:6px 12px;font-size:.7rem}
-            .floating-toolbar{bottom:15px;padding:6px 12px;gap:5px}
-            .floating-toolbar button{width:32px;height:32px;font-size:.8rem}
+            .floating-toolbar{bottom:15px;padding:5px 10px;gap:4px}
+            .floating-toolbar button{width:30px;height:30px;font-size:.75rem}
             .section{padding:15px}
-            .footer .designer-info h2{font-size:1.2rem}
+            .footer .designer-info h2{font-size:1.1rem}
         }
         @media(min-width:769px){.ad-side-mobile{display:none!important}}
         
@@ -238,11 +235,7 @@
 <!-- ===== تبلیغات چپ ===== -->
 <div class="ad-side left" id="adLeft">
     <div class="ad-header">📢 تبلیغات مرتبط</div>
-    <div id="adLeftList">
-        <div class="ad-box"><span class="ad-logo">📚</span><div class="ad-name">کیمیای اندیشه</div><div class="ad-desc">ناشر هوش مصنوعی</div><a href="https://kimiaandisheh.com" target="_blank" class="ad-link">مشاهده</a></div>
-        <div class="ad-box"><span class="ad-logo">📖</span><div class="ad-name">انتشارات علمی</div><div class="ad-desc">کتب دانشگاهی</div><a href="#" class="ad-link">مشاهده</a></div>
-        <div class="ad-box"><span class="ad-logo">🎓</span><div class="ad-name">موسسه هنر و رسانه</div><div class="ad-desc">پژوهش و نشر</div><a href="#" class="ad-link">مشاهده</a></div>
-    </div>
+    <div id="adLeftList"></div>
     <div class="ad-upload">
         <input type="text" id="adLeftInput" placeholder="نام تبلیغ...">
         <input type="text" id="adLeftLink" placeholder="لینک...">
@@ -258,11 +251,7 @@
 <!-- ===== تبلیغات راست ===== -->
 <div class="ad-side right" id="adRight">
     <div class="ad-header">📢 تبلیغات مرتبط</div>
-    <div id="adRightList">
-        <div class="ad-box"><span class="ad-logo">📚</span><div class="ad-name">کیمیای اندیشه</div><div class="ad-desc">ناشر هوش مصنوعی</div><a href="https://kimiaandisheh.com" target="_blank" class="ad-link">مشاهده</a></div>
-        <div class="ad-box"><span class="ad-logo">📖</span><div class="ad-name">انتشارات علمی</div><div class="ad-desc">کتب دانشگاهی</div><a href="#" class="ad-link">مشاهده</a></div>
-        <div class="ad-box"><span class="ad-logo">🎓</span><div class="ad-name">موسسه هنر و رسانه</div><div class="ad-desc">پژوهش و نشر</div><a href="#" class="ad-link">مشاهده</a></div>
-    </div>
+    <div id="adRightList"></div>
     <div class="ad-upload">
         <input type="text" id="adRightInput" placeholder="نام تبلیغ...">
         <input type="text" id="adRightLink" placeholder="لینک...">
@@ -278,28 +267,17 @@
 <!-- ===== تبلیغات موبایل ===== -->
 <div class="ad-side-mobile" style="display:none;background:#f8f4f0;border-radius:14px;padding:12px;margin:10px 0;border:2px solid #d4a373">
     <div style="font-weight:700;color:#6C5CE7;font-size:.8rem;text-align:center;margin-bottom:8px">📢 تبلیغات مرتبط</div>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px" id="adMobileList">
-        <div style="background:#fff;border-radius:10px;padding:8px;flex:1;min-width:100px;border:1px solid #e8ddd0;text-align:center">
-            <span style="font-size:1.2rem">📚</span>
-            <div style="font-size:.65rem;font-weight:700;color:#2d1b4e">کیمیای اندیشه</div>
-            <a href="https://kimiaandisheh.com" target="_blank" style="font-size:.55rem;color:#6C5CE7">مشاهده</a>
-        </div>
-        <div style="background:#fff;border-radius:10px;padding:8px;flex:1;min-width:100px;border:1px solid #e8ddd0;text-align:center">
-            <span style="font-size:1.2rem">📖</span>
-            <div style="font-size:.65rem;font-weight:700;color:#2d1b4e">انتشارات علمی</div>
-            <a href="#" style="font-size:.55rem;color:#6C5CE7">مشاهده</a>
-        </div>
-    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px" id="adMobileList"></div>
 </div>
 
 <!-- ===== دکمه‌های شناور ===== -->
 <div class="floating-toolbar">
-    <button id="themeToggle" title="شب/روز"><i class="fas fa-moon"></i></button>
-    <button id="scrollTop" title="بالا"><i class="fas fa-arrow-up"></i></button>
-    <button id="scrollBottom" title="پایین"><i class="fas fa-arrow-down"></i></button>
-    <button id="resetLayout" title="بازگشت به حالت پیش‌فرض" style="background:#e17055;color:#fff"><i class="fas fa-undo-alt"></i></button>
-    <button id="toggleAds" title="تبلیغات" style="background:#00cec9;color:#fff"><i class="fas fa-ad"></i></button>
-    <button id="fontSizeBtn" title="اندازه فونت" style="background:#4a90d9;color:#fff"><i class="fas fa-font"></i></button>
+    <button id="themeToggle" title="تغییر حالت شب/روز"><i class="fas fa-moon"></i><span class="tooltip">شب/روز</span></button>
+    <button id="scrollTop" title="رفتن به بالای صفحه"><i class="fas fa-arrow-up"></i><span class="tooltip">بالا</span></button>
+    <button id="scrollBottom" title="رفتن به پایین صفحه"><i class="fas fa-arrow-down"></i><span class="tooltip">پایین</span></button>
+    <button id="resetLayout" title="بازگشت به چیدمان پیش‌فرض"><i class="fas fa-undo-alt"></i><span class="tooltip">ریست چیدمان</span></button>
+    <button id="toggleAds" title="نمایش/مخفی کردن تبلیغات"><i class="fas fa-ad"></i><span class="tooltip">تبلیغات</span></button>
+    <button id="fontSizeBtn" title="تغییر اندازه فونت (85% → 100% → 115% → 130%)"><i class="fas fa-font"></i><span class="tooltip">اندازه فونت</span></button>
 </div>
 
 <div class="container">
@@ -356,7 +334,7 @@
                 <button onclick="sendRadioMessage('video')" style="padding:6px 16px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.8rem">ویدئو</button>
             </div>
             <div id="responses_radio" class="response-box">
-                <div class="response-item"><span class="type-icon text">م</span> <span>به رادیو هوشمند خوش آمدید. پیام خود را ارسال کنید تا هوش مصنوعی پاسخ دهد.</span></div>
+                <div class="response-item"><span class="type-icon text">م</span> <span>به رادیو هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
             </div>
         </div>
     </div>
@@ -386,7 +364,7 @@
                 <button onclick="sendTvMessage('video')" style="padding:6px 16px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.8rem">ویدئو</button>
             </div>
             <div id="responses_tv" class="response-box">
-                <div class="response-item"><span class="type-icon text">م</span> <span>به تلویزیون هوشمند خوش آمدید. پیام خود را ارسال کنید تا هوش مصنوعی پاسخ دهد.</span></div>
+                <div class="response-item"><span class="type-icon text">م</span> <span>به تلویزیون هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
             </div>
         </div>
     </div>
@@ -407,7 +385,7 @@
                 <button onclick="sendArchiveMessage('video')" style="padding:6px 16px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.8rem">ویدئو</button>
             </div>
             <div id="responses_archive" class="response-box">
-                <div class="response-item"><span class="type-icon text">م</span> <span>به آرشیو هوشمند خوش آمدید. پیام خود را ارسال کنید تا هوش مصنوعی پاسخ دهد.</span></div>
+                <div class="response-item"><span class="type-icon text">م</span> <span>به آرشیو هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
             </div>
         </div>
     </div>
@@ -449,10 +427,18 @@
                 <img src="images/ChatGPT-Image-Jun-20-2026-07_46_54-AM-1.png" alt="پوستر ۴">
                 <div class="info"><h4>پوستر تبلیغاتی ۴</h4><p>تولید هوش مصنوعی</p></div>
             </div>
+            <div class="gallery-item">
+                <img src="images/ChatGPT-Image-Jun-20-2026-08_14_48-AM-1.png" alt="پوستر ۵">
+                <div class="info"><h4>پوستر تبلیغاتی ۵</h4><p>تولید هوش مصنوعی</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/ChatGPT-Image-Jun-21-2026-07_04_31-AM.png" alt="پوستر ۶">
+                <div class="info"><h4>پوستر تبلیغاتی ۶</h4><p>تولید هوش مصنوعی</p></div>
+            </div>
         </div>
     </div>
 
-    <!-- ===== رادیو نوای چاپ (قابل جابه‌جایی) ===== -->
+    <!-- ===== رادیو نوای چاپ ===== -->
     <div class="radio-nava-section draggable-section" id="radionava" style="cursor:grab">
         <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:2px solid rgba(255,255,255,0.2);margin-bottom:12px">
             <h2 style="font-size:1.4rem;margin:0">📻 <span>رادیو نوای چاپ</span></h2>
@@ -478,7 +464,7 @@
                 <button class="btn-video" onclick="sendMainVideo()"><i class="fas fa-video"></i> ارسال ویدئو</button>
             </div>
             <div class="response-box" id="mainResponses">
-                <div class="response-item"><span class="type-icon text">م</span> <span>به رادیو تلویزیون هوشمند خوش آمدید. پیام خود را ارسال کنید تا هوش مصنوعی پاسخ دهد.</span></div>
+                <div class="response-item"><span class="type-icon text">م</span> <span>به رادیو تلویزیون هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
             </div>
         </div>
     </div>
@@ -626,7 +612,7 @@
         </div>
     </div>
 
-    <!-- ===== FOOTER (کوچک‌تر) ===== -->
+    <!-- ===== FOOTER ===== -->
     <div class="footer">
         <div class="designer-info">
             <h3><i class="fas fa-crown" style="color:#fdcb6e"></i> طراحی و توسعه</h3>
@@ -671,22 +657,22 @@ const archiveItems = [
     'برنامه: تاریخ کتاب و چاپ در تهران قدیم'
 ];
 
+// ===== تبلیغات =====
 let allAds = {
     left: [
-        {name: 'کیمیای اندیشه', desc: 'ناشر هوش مصنوعی', link: 'https://kimiaandisheh.com', logo: '📚'},
-        {name: 'انتشارات علمی', desc: 'کتب دانشگاهی', link: '#', logo: '📖'},
-        {name: 'موسسه هنر و رسانه', desc: 'پژوهش و نشر', link: '#', logo: '🎓'}
+        {name: 'کیمیای اندیشه', desc: 'ناشر تخصصی هوش مصنوعی', link: 'https://kimiaandisheh.com', logo: '📚'},
+        {name: 'انتشارات دانشگاهی', desc: 'مرجع کتب علمی و پژوهشی', link: '#', logo: '📖'},
+        {name: 'موسسه هنر و رسانه', desc: 'پژوهش در حوزه ارتباطات', link: '#', logo: '🎨'}
     ],
     right: [
-        {name: 'کیمیای اندیشه', desc: 'ناشر هوش مصنوعی', link: 'https://kimiaandisheh.com', logo: '📚'},
-        {name: 'انتشارات علمی', desc: 'کتب دانشگاهی', link: '#', logo: '📖'},
-        {name: 'موسسه هنر و رسانه', desc: 'پژوهش و نشر', link: '#', logo: '🎓'}
+        {name: 'بوک‌مارت', desc: 'فروشگاه اینترنتی کتاب', link: '#', logo: '📚'},
+        {name: 'نشر فرهنگ', desc: 'انتشارات عمومی و ادبیات', link: '#', logo: '📖'},
+        {name: 'آکادمی هوش مصنوعی', desc: 'آموزش و پژوهش AI', link: '#', logo: '🤖'}
     ]
 };
 let adPage = {left: 0, right: 0};
 const ADS_PER_PAGE = 3;
 
-// ===== تبلیغات =====
 function renderAds(side) {
     const container = document.getElementById('ad' + side.charAt(0).toUpperCase() + side.slice(1) + 'List');
     if (!container) return;
@@ -694,22 +680,25 @@ function renderAds(side) {
     const start = adPage[side] * ADS_PER_PAGE;
     const pageAds = ads.slice(start, start + ADS_PER_PAGE);
     
-    container.innerHTML = pageAds.map(ad => `
-        <div class="ad-box">
-            <span class="ad-logo">${ad.logo || '📢'}</span>
-            <div class="ad-name">${ad.name}</div>
-            <div class="ad-desc">${ad.desc || ''}</div>
-            <a href="${ad.link || '#'}" target="_blank" class="ad-link">مشاهده</a>
-        </div>
-    `).join('');
+    if (pageAds.length === 0) {
+        container.innerHTML = '<div class="ad-box" style="padding:15px;color:#7f8c8d;font-size:.7rem">هیچ تبلیغی ثبت نشده است.</div>';
+    } else {
+        container.innerHTML = pageAds.map(ad => `
+            <div class="ad-box">
+                <span class="ad-logo">${ad.logo || '📢'}</span>
+                <div class="ad-name">${ad.name}</div>
+                <div class="ad-desc">${ad.desc || ''}</div>
+                <a href="${ad.link || '#'}" target="_blank" class="ad-link">مشاهده سایت</a>
+            </div>
+        `).join('');
+    }
     
-    // بروزرسانی شماره صفحه
     const pageNum = document.getElementById('ad' + side.charAt(0).toUpperCase() + side.slice(1) + 'PageNum');
-    if (pageNum) pageNum.textContent = adPage[side] + 1;
+    if (pageNum) pageNum.textContent = (adPage[side] + 1) + ' از ' + Math.max(1, Math.ceil(ads.length / ADS_PER_PAGE));
 }
 
 function changeAdPage(side, delta) {
-    const total = Math.ceil((allAds[side] || []).length / ADS_PER_PAGE);
+    const total = Math.max(1, Math.ceil((allAds[side] || []).length / ADS_PER_PAGE));
     adPage[side] = Math.max(0, Math.min(total - 1, adPage[side] + delta));
     renderAds(side);
     renderMobileAds();
@@ -737,6 +726,10 @@ function renderMobileAds() {
     const container = document.getElementById('adMobileList');
     if (!container) return;
     const all = [...allAds.left, ...allAds.right];
+    if (all.length === 0) {
+        container.innerHTML = '<div style="color:#7f8c8d;font-size:.7rem">هیچ تبلیغی ثبت نشده است.</div>';
+        return;
+    }
     container.innerHTML = all.slice(0, 6).map(ad => `
         <div style="background:#fff;border-radius:10px;padding:8px;flex:1;min-width:100px;border:1px solid #e8ddd0;text-align:center">
             <span style="font-size:1.2rem">${ad.logo || '📢'}</span>
@@ -849,36 +842,38 @@ function filterArchive() {
     });
 }
 
-// ===== پیام‌ها با پاسخ هوش مصنوعی =====
+// ===== تعامل =====
 function addInteraction(message, source, type, targetId) {
     const icons = { text: 'م', audio: 'ص', video: 'و' };
     const colors = { text: '#6C5CE7', audio: '#fd79a8', video: '#55efc4' };
     
     let targetContainer = document.getElementById(targetId) || document.getElementById('mainResponses');
-    if (!targetContainer) return;
+    if (!targetContainer) {
+        console.error('targetContainer not found:', targetId);
+        return;
+    }
     
     const div = document.createElement('div');
     div.className = 'response-item';
     div.innerHTML = `<span class="type-icon ${type}" style="background:${colors[type] || '#6C5CE7'}">${icons[type] || 'م'}</span> 
         <div><span>${message} ${source ? 'از ' + source : ''}</span>
-        <div class="ai-response">🤖 در حال پردازش توسط هوش مصنوعی... <span id="ai-response-${Date.now()}" style="display:block;margin-top:4px;color:#6C5CE7;font-size:.8rem"></span></div></div>`;
+        <div class="ai-response">🤖 <span id="ai-response-${Date.now()}" style="color:#6C5CE7;font-size:.8rem">در حال پردازش...</span></div></div>`;
     targetContainer.prepend(div);
     if (targetContainer.children.length > 10) targetContainer.removeChild(targetContainer.lastChild);
     
-    // شبیه‌سازی پاسخ هوش مصنوعی
     const responseId = 'ai-response-' + Date.now();
     setTimeout(() => {
         const responseEl = document.getElementById(responseId);
         if (responseEl) {
             const replies = [
                 '✅ پیام شما دریافت شد. از ارتباط شما سپاسگزاریم!',
-                '✅ ممنون از پیام شما. هوش مصنوعی در حال پردازش است.',
-                '✅ پاسخ: محتوای شما برای بررسی ثبت شد. به زودی پاسخ کامل ارسال می‌شود.',
+                '✅ ممنون از پیام شما. هوش مصنوعی پاسخ را ثبت کرد.',
+                '✅ پاسخ: محتوای شما برای بررسی ثبت شد.',
                 '✅ از شما متشکریم. پیام شما با موفقیت در سیستم ثبت شد.'
             ];
             responseEl.textContent = replies[Math.floor(Math.random() * replies.length)];
         }
-    }, 1500 + Math.random() * 1000);
+    }, 1000 + Math.random() * 1000);
 }
 
 function sendRadioMessage(type) {
@@ -921,8 +916,13 @@ function sendMainText() {
     input.value = '';
 }
 
-function sendMainAudio() { addInteraction('🎤 پیام صوتی ارسال شد', null, 'audio', 'mainResponses'); }
-function sendMainVideo() { addInteraction('🎬 پیام ویدئویی ارسال شد', null, 'video', 'mainResponses'); }
+function sendMainAudio() { 
+    addInteraction('🎤 پیام صوتی ارسال شد', null, 'audio', 'mainResponses'); 
+}
+
+function sendMainVideo() { 
+    addInteraction('🎬 پیام ویدئویی ارسال شد', null, 'video', 'mainResponses'); 
+}
 
 // ===== پوستر ساز =====
 function generatePoster() {
@@ -936,11 +936,12 @@ function generatePoster() {
     }
     
     status.style.display = 'block';
-    status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ساخت پوستر با هوش مصنوعی...';
+    status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ساخت پوستر با هوش مصنوعی DALL-E...';
+    status.style.background = '#f0ecff';
+    status.style.color = '#6C5CE7';
     
     setTimeout(() => {
-        // ساخت پوستر شبیه‌سازی شده
-        const colors = ['#6C5CE7', '#4a90d9', '#55efc4', '#fdcb6e', '#fd79a8'];
+        const colors = ['#6C5CE7', '#4a90d9', '#55efc4', '#fdcb6e', '#fd79a8', '#e17055'];
         const color1 = colors[Math.floor(Math.random() * colors.length)];
         const color2 = colors[Math.floor(Math.random() * colors.length)];
         
@@ -948,7 +949,6 @@ function generatePoster() {
         status.style.background = '#d4edda';
         status.style.color = '#155724';
         
-        // اضافه کردن به گالری
         const gallery = document.getElementById('posterGallery');
         const div = document.createElement('div');
         div.className = 'gallery-item';
@@ -961,8 +961,13 @@ function generatePoster() {
         `;
         gallery.prepend(div);
         
-        // ارسال ایمیل
-        alert(`📧 پوستر "${title}" به ایمیل شما ارسال شد!`);
+        // شبیه‌سازی ارسال ایمیل
+        const email = prompt('لطفاً ایمیل خود را برای دریافت پوستر وارد کنید:', 'example@email.com');
+        if (email) {
+            alert(`📧 پوستر "${title}" به ایمیل ${email} ارسال شد!`);
+        } else {
+            alert('✅ پوستر در گالری ذخیره شد. برای دریافت ایمیل، دوباره اقدام کنید.');
+        }
         
         document.getElementById('posterTitle').value = '';
         document.getElementById('posterDescription').value = '';
@@ -1093,7 +1098,10 @@ const Personalize = {
 
     setupDragAndDrop() {
         const container = document.querySelector('.container');
-        if (!container || typeof Sortable === 'undefined') return;
+        if (!container || typeof Sortable === 'undefined') {
+            console.warn('Sortable not available');
+            return;
+        }
         
         Sortable.create(container, {
             handle: '.section-title, .radio-nava-section',
@@ -1133,7 +1141,7 @@ const Personalize = {
             
             const btn = document.createElement('button');
             btn.className = 'fullscreen-exit-btn';
-            btn.innerHTML = '<i class="fas fa-compress"></i> خروج';
+            btn.innerHTML = '<i class="fas fa-compress"></i> خروج از تمام‌صفحه';
             btn.onclick = () => this.toggleFullscreen(id);
             document.body.appendChild(btn);
         }
@@ -1157,7 +1165,7 @@ const Personalize = {
     },
 
     resetLayout() {
-        if (!confirm('آیا می‌خواهید به حالت پیش‌فرض بازگردید؟')) return;
+        if (!confirm('آیا می‌خواهید به چیدمان پیش‌فرض بازگردید؟\n(همه بخش‌ها نمایش داده می‌شوند و به ترتیب اولیه برمی‌گردند)')) return;
         this.settings = { ...this.defaultSettings };
         this.saveSettings();
         this.applySettings();
@@ -1165,7 +1173,7 @@ const Personalize = {
         document.querySelector('.floating-toolbar').style.display = '';
         document.querySelector('.fullscreen-exit-btn')?.remove();
         document.body.style.overflow = '';
-        this.showNotification('✅ به حالت پیش‌فرض بازگشتید', 'success');
+        this.showNotification('✅ به چیدمان پیش‌فرض بازگشتید', 'success');
     },
 
     showNotification(message, type) {
@@ -1183,15 +1191,15 @@ const Personalize = {
         notification.style.cssText = `
             background: ${colors[type] || '#6C5CE7'};
             color: #fff;
-            padding: 12px 18px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 10px 16px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
             font-family: tahoma;
-            font-size: .9rem;
+            font-size: .85rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: 0.3s;
             animation: slideDown 0.3s ease;
         `;
@@ -1201,7 +1209,7 @@ const Personalize = {
             notification.style.opacity = '0';
             notification.style.transform = 'translateX(50px)';
             setTimeout(() => notification.remove(), 300);
-        }, 4000);
+        }, 3500);
     }
 };
 
@@ -1230,7 +1238,6 @@ async function fetchTextFromURL(url) {
 
 async function getAISummary(text) {
     console.log('📝 ارسال متن به هوش مصنوعی OpenAI...');
-    // شبیه‌سازی خلاصه‌سازی با ۵ ویژگی
     const sentences = text.split(/[.。!！?？\n]/).filter(s => s.trim().length > 10);
     return `📚 **خلاصه هوشمند (تولید شده توسط OpenAI)**
 
