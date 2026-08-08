@@ -522,9 +522,49 @@ document.addEventListener('DOMContentLoaded', function() {
                     title = 'متن ارسالی کاربر';
                 }
 
-                // ===== مرحله ۱: خلاصه‌سازی با هوش مصنوعی =====
-                showNotification('🤖 در حال خلاصه‌سازی با هوش مصنوعی...', 'info');
-                const summary = await getAISummary(text);
+                // ===== تابع خلاصه‌سازی با هوش مصنوعی =====
+async function getAISummary(text) {
+    console.log('📝 ارسال متن به هوش مصنوعی...');
+    console.log('📏 طول متن:', text.length, 'کاراکتر');
+    
+    // استفاده از Brain برای خلاصه‌سازی
+    if (typeof Brain !== 'undefined' && Brain.summarize) {
+        try {
+            const summary = await Brain.summarize(text);
+            console.log('✅ خلاصه دریافت شد');
+            return summary;
+        } catch (error) {
+            console.error('❌ خطا در Brain.summarize:', error);
+        }
+    }
+    
+    // اگر Brain در دسترس نبود، از روش جایگزین استفاده کن
+    return generateFallbackSummary(text);
+}
+
+// ===== خلاصه‌سازی جایگزین (وقتی Brain در دسترس نیست) =====
+function generateFallbackSummary(text) {
+    const sentences = text.split(/[.。!！?？\n]/).filter(s => s.trim().length > 10);
+    const firstSentences = sentences.slice(0, 5);
+    
+    return `📚 **خلاصه هوشمند (نسخه جایگزین)**
+
+🔹 **موضوع اصلی:** 
+${firstSentences[0] || 'متن برای تحلیل کافی نیست'}
+
+🔹 **ایده‌های کلیدی:**
+${firstSentences.slice(1, 4).map((s, i) => `• ${s.trim()}`).join('\n') || '• اطلاعات کافی برای استخراج ایده‌های کلیدی وجود ندارد'}
+
+🔹 **نتیجه‌گیری:**
+${firstSentences[firstSentences.length - 1] || 'متن برای نتیجه‌گیری کافی نیست'}
+
+🔹 **نکات کاربردی:**
+• متن ارسالی شما در گنجینه ذخیره شد
+• برای دریافت خلاصه دقیق‌تر، مطمئن شوید Brain به درستی بارگذاری شده است
+
+🔹 **ارزش مطالعه:**
+این اثر می‌تواند برای علاقه‌مندان به موضوع مفید باشد.`;
+}
                 
                 // ===== مرحله ۲: ذخیره در گنجینه =====
                 addToWorksList(title, summary, email);
