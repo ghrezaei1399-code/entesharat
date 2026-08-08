@@ -3,12 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const container = document.querySelector('.container');
     if (!container) return;
 
-    // اگر هدر و منو از قبل در container نباشند، اضافه کن
+    // فقط اگر هدر وجود نداشت، اضافه کن
     if (!container.querySelector('.header')) {
         container.insertAdjacentHTML('afterbegin', Header.render());
     }
+    
+    // فقط اگر منو وجود نداشت، اضافه کن
     if (!container.querySelector('.menu')) {
-        // منو را بعد از هدر اضافه کن
         const header = container.querySelector('.header');
         if (header) {
             header.insertAdjacentHTML('afterend', Menu.render());
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // فعال‌سازی منو
+    // فعال‌سازی منو - رفتن به بخش مورد نظر
     const menuLinks = document.querySelectorAll('.menu a');
     menuLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
@@ -29,4 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // فعال‌سازی دکمه تغییر تم
+    const themeBtn = document.getElementById('themeToggle');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', function() {
+            Core.toggleTheme();
+        });
+    }
 });
