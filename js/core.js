@@ -17,12 +17,12 @@ const Core = {
     },
     navigateTo(sectionId) {
         this.currentSection = sectionId;
+        // نمایش همه بخش‌ها به جای مخفی کردن
         document.querySelectorAll('.section, .new-section, .radio-nava-section').forEach(el => {
-            el.style.display = 'none';
+            el.style.display = '';
         });
         const target = document.getElementById(sectionId);
         if (target) {
-            target.style.display = 'block';
             target.scrollIntoView({ behavior: 'smooth' });
         }
     },
@@ -30,6 +30,10 @@ const Core = {
         const theme = localStorage.getItem('theme') || 'light';
         if (theme === 'dark') {
             document.body.classList.add('dark-mode');
+            const btn = document.getElementById('themeToggle');
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-sun"></i>';
+            }
         }
     },
     toggleTheme() {
