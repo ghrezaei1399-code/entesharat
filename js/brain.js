@@ -1,8 +1,8 @@
 // js/brain.js
 const Brain = {
-    // دریافت کلید API از منابع مختلف
+    // دریافت کلید API از CONFIG (که از ENV می‌خواند)
     getApiKey() {
-        return window.CONFIG?.OPENAI_API_KEY || window.ENV?.OPENAI_API_KEY || '';
+        return window.CONFIG?.OPENAI_API_KEY || '';
     },
 
     // خلاصه‌سازی متن با هوش مصنوعی
@@ -60,7 +60,7 @@ const Brain = {
         }
     },
 
-    // خلاصه‌سازی جایگزین
+    // خلاصه‌سازی جایگزین (وقتی API در دسترس نیست)
     fallbackSummary(text) {
         const sentences = text.split(/[.。!！?？\n]/).filter(s => s.trim().length > 10);
         const firstSentences = sentences.slice(0, 5);
@@ -92,9 +92,6 @@ ${firstSentences[firstSentences.length - 1] || 'متن برای نتیجه‌گ�
         console.log(`📧 ایمیل به ${email} ارسال شد.`);
         console.log(`📄 عنوان: ${title}`);
         console.log(`📝 خلاصه: ${summary.substring(0, 200)}...`);
-        
-        // در اینجا می‌توانید EmailJS یا سرویس دیگر را وصل کنید
-        // EmailJS.send('service_id', 'template_id', { email, summary, title });
     },
 
     // پردازش کامل متن
