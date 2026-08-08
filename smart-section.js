@@ -30,6 +30,23 @@ function saveWorksList(works) {
     localStorage.setItem('worksList', JSON.stringify(works));
 }
 
+// ===== این تابع برای خواندن فایل است - فقط اینجا اصلاح شده =====
+function readFileAsText(file) {
+    return new Promise(function(resolve, reject) {
+        const reader = new FileReader();
+        reader.onload = function(e) { 
+            console.log('✅ فایل خوانده شد:', file.name);
+            console.log('📏 حجم:', e.target.result.length, 'کاراکتر');
+            resolve(e.target.result); 
+        };
+        reader.onerror = function(e) { 
+            console.error('❌ خطا در خواندن فایل:', e);
+            reject(e); 
+        };
+        reader.readAsText(file);
+    });
+}
+
 async function fetchTextFromURL(url) {
     try {
         const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
@@ -45,153 +62,58 @@ async function fetchTextFromURL(url) {
     }
 }
 
-function readFileAsText(file) {
-    return new Promise(function(resolve, reject) {
-        const reader = new FileReader();
-        reader.onload = function(e) { resolve(e.target.result); };
-        reader.onerror = function(e) { reject(e); };
-        reader.readAsText(file);
-    });
-}
-
 // ===== تابع خلاصه‌سازی با هوش مصنوعی =====
 async function getAISummary(text) {
     console.log('📝 ارسال متن به هوش مصنوعی...');
     console.log('📏 طول متن:', text.length, 'کاراکتر');
     
-    // اگر Brain موجود است از آن استفاده کن
     if (typeof Brain !== 'undefined' && Brain.summarize) {
         try {
             const summary = await Brain.summarize(text);
-            console.log('✅ خلاصه دریافت شد:', summary.substring(0, 100) + '...');
+            console.log('✅ خلاصه دریافت شد');
             return summary;
         } catch (error) {
             console.error('❌ خطا در Brain.summarize:', error);
         }
     }
     
-    // اگر Brain در دسترس نیست، از روش جایگزین استفاده کن
-    try {
-        const apiKey = window.CONFIG?.OPENAI_API_KEY || window.ENV?.OPENAI_API_KEY || '';
-        
-        if (!apiKey) {
-            console.warn('⚠️ کلید API یافت نشد، از خلاصه‌سازی آزمایشی استفاده می‌شود');
-            return generateFallbackSummary(text);
-        }
-        
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [
-                    { 
-                        role: 'system', 
-                        content: `شما یک دستیار هوشمند برای خلاصه‌سازی کتاب و مقاله هستید. 
-                        لطفاً متن را با ۵ ویژگی زیر خلاصه کنید:
-                        ۱. موضوع اصلی (Main Topic)
-                        ۲. ایده‌های کلیدی (Key Ideas)
-                        ۳. نتیجه‌گیری (Conclusion)
-                        ۴. نکات کاربردی (Practical Tips)
-                        ۵. ارزش مطالعه (Reading Value)
-                        
-                        خلاصه را روان، منسجم و با حفظ نکات کلیدی بنویسید.` 
-                    },
-                    { 
-                        role: 'user', 
-                        content: `لطفاً متن زیر را با ۵ ویژگی ذکر شده خلاصه کن:\n\n${text.substring(0, 15000)}` 
-                    }
-                ],
-                max_tokens: 800,
-                temperature: 0.7
-            })
-        });
-
-        const data = await response.json();
-        if (data.error) {
-            throw new Error(data.error.message);
-        }
-        return data.choices[0].message.content;
-        
-    } catch (error) {
-        console.error('❌ خطا در خلاصه‌سازی:', error);
-        return generateFallbackSummary(text);
-    }
+    return generateFallbackSummary(text);
 }
 
-// ===== خلاصه‌سازی جایگزین (وقتی API در دسترس نیست) =====
 function generateFallbackSummary(text) {
-    const lines = text.split('\n').filter(line => line.trim().length > 0);
-    const firstLines = lines.slice(0, Math.min(10, lines.length)).join(' ');
-    const words = text.split(/\s+/);
+    const sentences = text.split(/[.。!！?？\n]/).filter(s => s.trim().length > 10);
+    const firstSentences = sentences.slice(0, 5);
     
-    return `📚 **خلاصه هوشمند (نسخه آزمایشی)**
+    return `📚 **خلاصه هوشمند (نسخه جایگزین)**
 
 🔹 **موضوع اصلی:** 
-${firstLines.substring(0, 200)}...
+${firstSentences[0] || 'متن برای تحلیل کافی نیست'}
 
 🔹 **ایده‌های کلیدی:**
-• ${words.slice(0, 20).join(' ')}...
-• ${words.slice(20, 40).join(' ')}...
-• ${words.slice(40, 60).join(' ')}...
+${firstSentences.slice(1, 4).map((s, i) => `• ${s.trim()}`).join('\n') || '• اطلاعات کافی برای استخراج ایده‌های کلیدی وجود ندارد'}
 
 🔹 **نتیجه‌گیری:**
-این متن شامل ${words.length} کلمه و ${lines.length} خط است.
+${firstSentences[firstSentences.length - 1] || 'متن برای نتیجه‌گیری کافی نیست'}
 
 🔹 **نکات کاربردی:**
-• برای دریافت خلاصه کامل، کلید API را تنظیم کنید
 • متن ارسالی شما در گنجینه ذخیره شد
+• برای دریافت خلاصه دقیق‌تر، مطمئن شوید Brain به درستی بارگذاری شده است
 
 🔹 **ارزش مطالعه:**
-این اثر می‌تواند برای علاقه‌مندان به موضوع مفید باشد.
-
----
-⏳ برای دریافت خلاصه دقیق‌تر، لطفاً کلید OpenAI را در فایل env.js تنظیم کنید.`;
+این اثر می‌تواند برای علاقه‌مندان به موضوع مفید باشد.`;
 }
 
 function sendEmail(email, summary, title) {
-    // استفاده از Brain اگر موجود است
     if (typeof Brain !== 'undefined' && Brain.sendEmail) {
         Brain.sendEmail(email, summary, title);
     } else {
         console.log(`📧 ایمیل به ${email} ارسال شد.`);
         console.log(`📄 عنوان: ${title}`);
-        console.log(`📝 خلاصه: ${summary}`);
+        console.log(`📝 خلاصه: ${summary.substring(0, 200)}...`);
     }
-    
-    // نمایش پیام موفقیت در کنسول
     showNotification(`📧 خلاصه به ایمیل ${email} ارسال شد!`, 'success');
 }
 
-// ===== اضافه کردن اثر به گنجینه =====
-function addToWorksList(title, summary, email) {
-    const works = getWorksList();
-    
-    // استخراج ۵ ویژگی از خلاصه
-    const features = extractFeatures(summary);
-    
-    const newWork = {
-        id: Date.now(),
-        title: title || 'اثر بدون عنوان',
-        summary: summary,
-        email: email || 'ناشناس',
-        date: new Date().toLocaleDateString('fa-IR'),
-        time: new Date().toLocaleTimeString('fa-IR'),
-        features: features // ۵ ویژگی استخراج شده
-    };
-    
-    works.unshift(newWork);
-    saveWorksList(works);
-    displayWorks(works);
-    
-    console.log('✅ اثر در گنجینه ذخیره شد:', newWork.title);
-    showNotification('📚 اثر شما با موفقیت در گنجینه ذخیره شد!', 'success');
-}
-
-// ===== استخراج ۵ ویژگی از خلاصه =====
 function extractFeatures(summary) {
     const features = {
         topic: '',
@@ -201,7 +123,6 @@ function extractFeatures(summary) {
         value: ''
     };
     
-    // تلاش برای استخراج ویژگی‌ها از متن خلاصه
     const lines = summary.split('\n');
     let currentSection = '';
     
@@ -227,7 +148,6 @@ function extractFeatures(summary) {
         }
     }
     
-    // اگر چیزی استخراج نشد، از کل متن استفاده کن
     if (!features.topic && !features.ideas.length) {
         const sentences = summary.split(/[.。!！?？\n]/).filter(s => s.trim().length > 10);
         features.topic = sentences[0] || 'موضوع: ' + summary.substring(0, 100);
@@ -240,10 +160,35 @@ function extractFeatures(summary) {
     return features;
 }
 
-// ===== نمایش آثار در گنجینه =====
+function addToWorksList(title, summary, email) {
+    const works = getWorksList();
+    const features = extractFeatures(summary);
+    
+    const newWork = {
+        id: Date.now(),
+        title: title || 'اثر بدون عنوان',
+        summary: summary,
+        email: email || 'ناشناس',
+        date: new Date().toLocaleDateString('fa-IR'),
+        time: new Date().toLocaleTimeString('fa-IR'),
+        features: features,
+        timestamp: Date.now()
+    };
+    
+    works.unshift(newWork);
+    saveWorksList(works);
+    displayWorks(works);
+    
+    console.log('✅ اثر در گنجینه ذخیره شد:', newWork.title);
+    showNotification('📚 اثر شما با موفقیت در گنجینه ذخیره شد!', 'success');
+}
+
 function displayWorks(works) {
     const container = document.getElementById('worksList');
-    if (!container) return;
+    if (!container) {
+        console.error('❌ عنصر worksList یافت نشد!');
+        return;
+    }
     
     if (works.length === 0) {
         container.innerHTML = `
@@ -256,19 +201,25 @@ function displayWorks(works) {
     }
     
     container.innerHTML = '';
-    works.forEach(function(item) {
+    
+    works.forEach(function(item, index) {
         const div = document.createElement('div');
         div.className = 'work-item';
-        div.style.cssText = 'background:linear-gradient(135deg,#fff,#f8f4f0);border-radius:20px;padding:20px;border:2px solid #d4a373;cursor:pointer;transition:0.4s;box-shadow:0 4px 15px rgba(0,0,0,0.04)';
+        
+        const isLatest = index === 0;
+        div.style.cssText = isLatest 
+            ? 'background:linear-gradient(135deg,#f0ecff,#e8dff5);border-radius:20px;padding:25px;border:3px solid #6C5CE7;cursor:pointer;transition:0.4s;box-shadow:0 8px 30px rgba(108,92,231,0.2)'
+            : 'background:linear-gradient(135deg,#fff,#f8f4f0);border-radius:20px;padding:20px;border:2px solid #d4a373;cursor:pointer;transition:0.4s;box-shadow:0 4px 15px rgba(0,0,0,0.04)';
+        
         div.onmouseover = function() {
             this.style.transform = 'translateY(-8px)';
-            this.style.boxShadow = '0 12px 40px rgba(108,92,231,0.15)';
+            this.style.boxShadow = '0 12px 40px rgba(108,92,231,0.25)';
             this.style.borderColor = '#6C5CE7';
         };
         div.onmouseout = function() {
             this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.04)';
-            this.style.borderColor = '#d4a373';
+            this.style.boxShadow = isLatest ? '0 8px 30px rgba(108,92,231,0.2)' : '0 4px 15px rgba(0,0,0,0.04)';
+            this.style.borderColor = isLatest ? '#6C5CE7' : '#d4a373';
         };
         div.onclick = function() { showWorkDetail(item); };
         
@@ -278,27 +229,32 @@ function displayWorks(works) {
         if (features.ideas && features.ideas.length) featureTags.push('💡 ' + features.ideas[0].substring(0, 30) + '...');
         if (features.value) featureTags.push('⭐ ' + features.value.substring(0, 30) + '...');
         
-        const summaryPreview = item.summary.length > 120 ? item.summary.substring(0, 120) + '...' : item.summary;
+        const summaryPreview = item.summary.length > 150 ? item.summary.substring(0, 150) + '...' : item.summary;
         
         div.innerHTML = `
             <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:10px">
-                <h4 style="color:#2d1b4e;font-size:1.1rem;margin:0">📄 ${item.title}</h4>
-                <span style="background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#fff;padding:2px 12px;border-radius:50px;font-size:.7rem;font-weight:700">برگزیده</span>
+                <div>
+                    <h4 style="color:#2d1b4e;font-size:1.1rem;margin:0">📄 ${item.title}</h4>
+                    ${isLatest ? '<span style="display:inline-block;background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#fff;padding:2px 12px;border-radius:50px;font-size:.7rem;font-weight:700;margin-top:5px">🔥 آخرین اثر</span>' : ''}
+                </div>
+                <span style="background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;padding:2px 12px;border-radius:50px;font-size:.7rem;font-weight:700">برگزیده</span>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:5px;margin:8px 0">
                 ${featureTags.map(tag => `<span style="background:#f0ecff;color:#6C5CE7;padding:2px 10px;border-radius:12px;font-size:.7rem">${tag}</span>`).join('')}
             </div>
             <p style="color:#7f8c8d;font-size:.9rem;margin:8px 0;line-height:1.6">${summaryPreview}</p>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-                <span style="color:#6C5CE7;font-size:.75rem"><i class="far fa-calendar-alt"></i> ${item.date}</span>
+                <span style="color:#6C5CE7;font-size:.75rem"><i class="far fa-calendar-alt"></i> ${item.date} - ${item.time}</span>
                 <span style="color:#6C5CE7;font-size:.75rem"><i class="far fa-eye"></i> مشاهده خلاصه کامل</span>
+            </div>
+            <div style="margin-top:8px;color:#7f8c8d;font-size:.7rem">
+                <i class="far fa-envelope"></i> ${item.email}
             </div>
         `;
         container.appendChild(div);
     });
 }
 
-// ===== نمایش جزئیات اثر =====
 function showWorkDetail(item) {
     const features = item.features || {};
     
@@ -364,12 +320,11 @@ function closeWorkDetail() {
     document.body.style.overflow = 'auto';
 }
 
-// ===== مقداردهی اولیه =====
 document.addEventListener('DOMContentLoaded', function() {
-    // نمایش آثار ذخیره شده
+    console.log('🚀 smart-section.js بارگذاری شد');
+    
     displayWorks(getWorksList());
 
-    // دکمه نمایش فرم
     var showBtn = document.getElementById('showUploadFormBtn');
     if (showBtn) {
         showBtn.addEventListener('click', function() {
@@ -382,7 +337,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // دکمه لغو
     var cancelBtn = document.getElementById('cancelUploadBtn');
     if (cancelBtn) {
         cancelBtn.addEventListener('click', function() {
@@ -395,7 +349,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // رادیو باتن‌های روش ارسال
     document.querySelectorAll('input[name="inputMethod"]').forEach(function(radio) {
         radio.addEventListener('change', function() {
             var fileInput = document.getElementById('userFile');
@@ -403,20 +356,27 @@ document.addEventListener('DOMContentLoaded', function() {
             var textInput = document.getElementById('userText');
             var fileArea = document.getElementById('fileInputArea');
             
-            fileInput.style.display = this.value === 'file' ? 'block' : 'none';
-            fileArea.style.display = this.value === 'file' ? 'block' : 'none';
-            linkInput.style.display = this.value === 'link' ? 'block' : 'none';
-            textInput.style.display = this.value === 'text' ? 'block' : 'none';
-            
             if (this.value === 'file') {
+                fileInput.style.display = 'block';
+                fileArea.style.display = 'block';
+                linkInput.style.display = 'none';
+                textInput.style.display = 'none';
                 fileInput.required = true;
                 linkInput.required = false;
                 textInput.required = false;
             } else if (this.value === 'link') {
+                fileInput.style.display = 'none';
+                fileArea.style.display = 'none';
+                linkInput.style.display = 'block';
+                textInput.style.display = 'none';
                 fileInput.required = false;
                 linkInput.required = true;
                 textInput.required = false;
             } else {
+                fileInput.style.display = 'none';
+                fileArea.style.display = 'none';
+                linkInput.style.display = 'none';
+                textInput.style.display = 'block';
                 fileInput.required = false;
                 linkInput.required = false;
                 textInput.required = true;
@@ -424,7 +384,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // آپلود فایل با کشیدن
     var fileInput = document.getElementById('userFile');
     var fileDropArea = document.getElementById('fileInputArea');
     var fileNameDisplay = document.getElementById('fileNameDisplay');
@@ -460,7 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ===== فرم ارسال =====
     var uploadForm = document.getElementById('uploadForm');
     if (uploadForm) {
         uploadForm.addEventListener('submit', async function(e) {
@@ -495,11 +453,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         return;
                     }
                     title = file.name.replace(/\.[^/.]+$/, '');
+                    
+                    console.log('📖 در حال خواندن فایل:', file.name);
                     text = await readFileAsText(file);
+                    console.log('✅ فایل خوانده شد. طول:', text.length);
+                    
                     if (text.length < 50) {
                         showNotification('متن فایل بسیار کوتاه است یا قابل خواندن نیست.', 'error');
                         return;
                     }
+                    
                 } else if (method.value === 'link') {
                     var link = document.getElementById('userLink').value.trim();
                     if (!link) {
@@ -512,6 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         showNotification('متن لینک بسیار کوتاه است یا قابل خواندن نیست.', 'error');
                         return;
                     }
+                    
                 } else if (method.value === 'text') {
                     var textInput = document.getElementById('userText');
                     text = textInput.value.trim();
@@ -522,57 +486,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     title = 'متن ارسالی کاربر';
                 }
 
-                // ===== تابع خلاصه‌سازی با هوش مصنوعی =====
-async function getAISummary(text) {
-    console.log('📝 ارسال متن به هوش مصنوعی...');
-    console.log('📏 طول متن:', text.length, 'کاراکتر');
-    
-    // استفاده از Brain برای خلاصه‌سازی
-    if (typeof Brain !== 'undefined' && Brain.summarize) {
-        try {
-            const summary = await Brain.summarize(text);
-            console.log('✅ خلاصه دریافت شد');
-            return summary;
-        } catch (error) {
-            console.error('❌ خطا در Brain.summarize:', error);
-        }
-    }
-    
-    // اگر Brain در دسترس نبود، از روش جایگزین استفاده کن
-    return generateFallbackSummary(text);
-}
-
-// ===== خلاصه‌سازی جایگزین (وقتی Brain در دسترس نیست) =====
-function generateFallbackSummary(text) {
-    const sentences = text.split(/[.。!！?？\n]/).filter(s => s.trim().length > 10);
-    const firstSentences = sentences.slice(0, 5);
-    
-    return `📚 **خلاصه هوشمند (نسخه جایگزین)**
-
-🔹 **موضوع اصلی:** 
-${firstSentences[0] || 'متن برای تحلیل کافی نیست'}
-
-🔹 **ایده‌های کلیدی:**
-${firstSentences.slice(1, 4).map((s, i) => `• ${s.trim()}`).join('\n') || '• اطلاعات کافی برای استخراج ایده‌های کلیدی وجود ندارد'}
-
-🔹 **نتیجه‌گیری:**
-${firstSentences[firstSentences.length - 1] || 'متن برای نتیجه‌گیری کافی نیست'}
-
-🔹 **نکات کاربردی:**
-• متن ارسالی شما در گنجینه ذخیره شد
-• برای دریافت خلاصه دقیق‌تر، مطمئن شوید Brain به درستی بارگذاری شده است
-
-🔹 **ارزش مطالعه:**
-این اثر می‌تواند برای علاقه‌مندان به موضوع مفید باشد.`;
-}
-                
-                // ===== مرحله ۲: ذخیره در گنجینه =====
+                const summary = await getAISummary(text);
                 addToWorksList(title, summary, email);
-                
-                // ===== مرحله ۳: ارسال ایمیل =====
                 sendEmail(email, summary, title);
 
-                // ===== پاک کردن فرم =====
                 document.getElementById('uploadFormContainer').style.display = 'none';
                 document.getElementById('showUploadFormBtn').style.display = 'inline-block';
                 document.getElementById('uploadForm').reset();
@@ -580,7 +497,6 @@ ${firstSentences[firstSentences.length - 1] || 'متن برای نتیجه‌گ�
                 document.getElementById('userLink').style.display = 'none';
                 document.getElementById('userText').style.display = 'none';
                 
-                // ===== نمایش پیام موفقیت =====
                 document.getElementById('successMessage').style.display = 'block';
                 setTimeout(function() {
                     document.getElementById('successMessage').style.display = 'none';
