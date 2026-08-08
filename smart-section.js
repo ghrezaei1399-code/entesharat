@@ -61,7 +61,6 @@ async function getAISummary(text) {
     console.log('📝 متن دریافتی:', text.substring(0, 100) + '...');
     return 'این یک خلاصه‌ی آزمایشی است که توسط سیستم تولید شده است. متن ارسالی شما با موفقیت دریافت و پردازش شد. این خلاصه برای نمایش عملکرد بخش هوشمند گزینی بدون نیاز به کلید API تولید شده است.';
 }
-
 function sendEmail(email, summary, title) {
     console.log('📧 ایمیل به:', email);
     console.log('📄 عنوان:', title);
