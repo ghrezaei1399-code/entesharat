@@ -1,6 +1,6 @@
 // js/brain.js
 const Brain = {
-    apiKey: '', // اینجا کلید API را قرار می‌دهیم
+    apiKey: window.CONFIG?.OPENAI_API_KEY || '',
 
     // تنظیم کلید API
     setApiKey(key) {
@@ -55,7 +55,6 @@ const Brain = {
         console.log(`📧 ایمیل به ${email} ارسال شد.`);
         console.log(`📄 عنوان: ${title}`);
         console.log(`📝 خلاصه: ${summary}`);
-        // در صورت تنظیم EmailJS، کد واقعی ارسال ایمیل اینجا قرار می‌گیرد
     },
 
     // تابع برای استفاده در smart-section.js
