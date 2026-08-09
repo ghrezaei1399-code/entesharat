@@ -1,12 +1,10 @@
 // ===== ماژول شخصی‌سازی =====
 const PersonalizeModule = {
     storageKey: 'personalize_settings',
-    defaultSettings: {
-        hiddenSections: [],
-        sectionOrder: ['radio', 'tv', 'archive', 'gallery', 'radionava', 'interact', 'smart-select', 'reading-growth', 'book-narrators', 'media-helpers', 'publish', 'footer'],
-        adsVisible: true,
-        fontSize: 100
-    },
+   defaultSettings: {
+    sectionOrder: ['radio', 'tv', 'archive', 'gallery', 'radionava', 'interact', 'smart-select', 'reading-growth', 'book-narrators', 'media-helpers', 'publish', 'footer-mini'],
+    // ✅ 'footer-mini' اضافه شد
+}
 
     loadSettings() {
         return Storage.get(this.storageKey, this.defaultSettings);
