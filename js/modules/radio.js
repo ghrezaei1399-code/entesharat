@@ -1,87 +1,105 @@
-// ===== ماژول رادیو =====
-const RadioModule = {
-    files: ['images/Ayrilik_aleftab.ir.mp3', 'images/Careless Whisper2.mp3'],
-    titles: ['آهنگ اول - Ayrilik', 'آهنگ دوم - Careless Whisper'],
-    currentIndex: 0,
+// ============================================================
+// ماژول رادیو - مدیریت پخش‌کننده و لیست آهنگ‌ها
+// ============================================================
 
-    renderPlaylist() {
-        const container = document.getElementById('radioPlaylist');
-        if (!container) return;
-        container.innerHTML = '';
-        this.files.forEach((file, i) => {
-            const div = document.createElement('div');
-            div.className = 'playlist-item' + (i === this.currentIndex ? ' active' : '');
-            div.innerHTML = `<span>${this.titles[i] || 'فایل ' + (i+1)}</span><span>${new Date().toLocaleDateString('fa-IR')}</span>`;
-            div.onclick = () => this.load(i);
-            container.appendChild(div);
-        });
-    },
+import APP_CONFIG from '../config.js';
 
-    load(index) {
-        const player = document.getElementById('radioPlayer');
-        if (this.files[index]) {
-            player.src = this.files[index];
-            player.load();
-            player.play();
-            this.currentIndex = index;
-            this.renderPlaylist();
-        }
-    },
+class RadioModule {
+  constructor() {
+    this.tracks = APP_CONFIG.radio.tracks;
+    this.currentTrackIndex = 0;
+    this.audio = new Audio();
+    this.isPlaying = false;
+    this.init();
+  }
 
-    next() { this.load((this.currentIndex + 1) % this.files.length); },
-    prev() { this.load((this.currentIndex - 1 + this.files.length) % this.files.length); },
+  init() {
+    this.renderTrackList();
+    this.setupControls();
+    this.loadTrack(0);
+  }
 
-    addFile() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'audio/*';
-        input.onchange = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                this.files.push(URL.createObjectURL(file));
-                this.titles.push(file.name);
-                this.renderPlaylist();
-                alert('✅ فایل با موفقیت اضافه شد!');
-            }
-        };
-        input.click();
-    },
+  renderTrackList() {
+    const listContainer = document.querySelector('.radio-track-list');
+    if (!listContainer) return;
 
-    // پیام‌ها فقط در باکس نمایش داده می‌شوند (بدون درخواست به OpenAI)
-    sendMessage(type) {
-        const input = document.getElementById('comment_radio');
-        let message = input.value.trim();
-        if (type === 'audio') message = '🎤 پیام صوتی';
-        else if (type === 'video') message = '🎬 پیام ویدئویی';
-        else if (!message) {
-            alert('لطفاً متن خود را بنویسید.');
-            return;
-        }
-        // نمایش پیام کاربر
-        const container = document.getElementById('responses_radio');
-        const div = document.createElement('div');
-        div.className = 'response-item';
-        div.innerHTML = `<span class="type-icon text">م</span> <span>${message}</span>`;
-        container.prepend(div);
-        input.value = '';
-        // پاسخ خودکار ساده
-        setTimeout(() => {
-            const replyDiv = document.createElement('div');
-            replyDiv.className = 'response-item';
-            replyDiv.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> <span>✅ پیام شما دریافت شد. از ارتباط شما سپاسگزاریم!</span>`;
-            container.prepend(replyDiv);
-        }, 500);
-    },
+    listContainer.innerHTML = this.tracks.map((track, index) => `
+      <div class="track-item ${index === this.currentTrackIndex ? 'active' : ''}" data-index="${index}">
+        <span class="track-title">${track.title}</span>
+        <span class="track-date">${track.date}</span>
+        <button class="play-btn" data-index="${index}">▶</button>
+      </div>
+    `).join('');
 
-    init() {
-        this.renderPlaylist();
-        document.querySelector('#radio .btn-next')?.addEventListener('click', () => this.next());
-        document.querySelector('#radio .btn-prev')?.addEventListener('click', () => this.prev());
-        document.querySelector('#radio .btn-add')?.addEventListener('click', () => this.addFile());
-        console.log('✅ RadioModule فعال شد');
+    // اتصال رویداد کلیک به دکمه‌های پخش
+    listContainer.querySelectorAll('.play-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const index = parseInt(btn.dataset.index);
+        this.loadTrack(index);
+        this.togglePlay();
+      });
+    });
+  }
+
+  loadTrack(index) {
+    this.currentTrackIndex = index;
+    const track = this.tracks[index];
+    this.audio.src = track.file;
+    this.audio.load();
+    this.updateActiveTrack(index);
+  }
+
+  togglePlay() {
+    if (this.isPlaying) {
+      this.audio.pause();
+      this.isPlaying = false;
+    } else {
+      this.audio.play().catch(err => console.log('خطا در پخش:', err));
+      this.isPlaying = true;
     }
-};
+    this.updatePlayButton();
+  }
 
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = RadioModule;
+  setupControls() {
+    const playBtn = document.querySelector('.radio-play-btn');
+    const nextBtn = document.querySelector('.radio-next-btn');
+    const prevBtn = document.querySelector('.radio-prev-btn');
+
+    if (playBtn) {
+      playBtn.addEventListener('click', () => this.togglePlay());
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const nextIndex = (this.currentTrackIndex + 1) % this.tracks.length;
+        this.loadTrack(nextIndex);
+        if (this.isPlaying) this.audio.play();
+      });
+    }
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const prevIndex = (this.currentTrackIndex - 1 + this.tracks.length) % this.tracks.length;
+        this.loadTrack(prevIndex);
+        if (this.isPlaying) this.audio.play();
+      });
+    }
+  }
+
+  updateActiveTrack(index) {
+    document.querySelectorAll('.track-item').forEach((item, i) => {
+      item.classList.toggle('active', i === index);
+    });
+  }
+
+  updatePlayButton() {
+    const btn = document.querySelector('.radio-play-btn');
+    if (btn) {
+      btn.textContent = this.isPlaying ? '⏸' : '▶';
+    }
+  }
 }
+
+// راه‌اندازی ماژول
+document.addEventListener('DOMContentLoaded', () => {
+  new RadioModule();
+});
