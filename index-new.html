@@ -12,6 +12,62 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.2.0/docx.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+    <style>
+        /* ===== استایل بخش طراحی و توسعه (سبز فسفری + کوچک) ===== */
+        .footer-mini {
+            background: #39FF14 !important;
+            padding: 10px 15px !important;
+            border-radius: 12px !important;
+            margin-top: 10px !important;
+            text-align: center !important;
+            color: #1a1a2e !important;
+            border: 2px solid #1a1a2e !important;
+            max-width: 400px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+        .footer-mini .designer-info h3 {
+            color: #1a1a2e !important;
+            font-size: 0.9rem !important;
+            margin: 0 !important;
+        }
+        .footer-mini .designer-info h2 {
+            color: #1a1a2e !important;
+            font-size: 1rem !important;
+            margin: 2px 0 !important;
+        }
+        .footer-mini .designer-info p {
+            color: #1a1a2e !important;
+            font-size: 0.7rem !important;
+            margin: 0 !important;
+        }
+        .footer-mini .posters-row {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            margin: 6px 0 !important;
+        }
+        .footer-mini .posters-row .poster-box {
+            max-width: 80px !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
+            border: 2px solid #1a1a2e !important;
+        }
+        .footer-mini .posters-row .poster-box img {
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+        }
+        .footer-mini .copyright {
+            font-size: 0.6rem !important;
+            color: #1a1a2e !important;
+            border-top: 1px solid #1a1a2e !important;
+            padding-top: 6px !important;
+            margin-top: 6px !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -91,7 +147,7 @@
         <a href="#reading-growth"><i class="fas fa-chart-line"></i> رشد سرانه مطالعه</a>
         <a href="#book-narrators"><i class="fas fa-users"></i> راویان</a>
         <a href="#media-helpers"><i class="fas fa-hand-holding-heart"></i> یاوران</a>
-        <a href="#footer"><i class="fas fa-crown"></i> طراحی و توسعه</a>
+        <a href="#footer-mini"><i class="fas fa-crown"></i> طراحی و توسعه</a>
     </nav>
 
     <!-- ===== رادیو ===== -->
@@ -397,12 +453,12 @@
         </div>
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <div class="footer draggable-section" id="footer">
+    <!-- ===== بخش طراحی و توسعه (پایین صفحه - سبز فسفری - کوچک) ===== -->
+    <div class="footer-mini" id="footer-mini">
         <div class="designer-info">
-            <h3><i class="fas fa-crown" style="color:#fdcb6e"></i> طراحی و توسعه</h3>
+            <h3><i class="fas fa-crown" style="color:#1a1a2e"></i> طراحی و توسعه</h3>
             <h2>غلامرضا رضائی</h2>
-            <p>طراح و توسعه‌دهنده سیستم رادیو تلویزیون هوشمند</p>
+            <p>طراح و توسعه‌دهنده رادیو تلویزیون هوشمند</p>
         </div>
         
         <div class="posters-row">
@@ -416,7 +472,7 @@
         
         <div class="copyright">
             <p>© تمامی حقوق این اثر متعلق به <strong>غلامرضا رضائی</strong> می‌باشد.</p>
-            <p style="font-size:.65rem;margin-top:3px">هرگونه کپی برداری و سوء استفاده بدون اجازه طراح، پیگرد قانونی دارد.</p>
+            <p style="font-size:0.5rem;margin-top:2px">هرگونه کپی برداری و سوء استفاده بدون اجازه طراح، پیگرد قانونی دارد.</p>
         </div>
     </div>
 
