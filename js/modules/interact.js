@@ -1,56 +1,65 @@
 // ===== ماژول تعامل =====
 const InteractModule = {
-    sendText() {
+    async sendText() {
         const input = document.getElementById('mainInteract');
         if (!input.value.trim()) {
-            alert('لطفاً متن خود را بنویسید.');
+            Core.showNotification('لطفاً متن خود را بنویسید.', 'error');
             return;
         }
         
-        Core.addInteraction('💬 ' + input.value, null, 'text', 'mainResponses');
+        const message = input.value;
+        Core.addInteraction('💬 ' + message, null, 'text', 'mainResponses');
         input.value = '';
         
-        // پاسخ هوش مصنوعی
-        setTimeout(async () => {
+        try {
+            const reply = await AI.respond(message);
             const responses = document.getElementById('mainResponses');
             const div = document.createElement('div');
             div.className = 'response-item';
             div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
-                <div class="ai-response">✅ در حال پردازش...</div>`;
+                <div class="ai-response">${reply}</div>`;
             responses.appendChild(div);
-            
-            // استفاده از AI واقعی
-            try {
-                const reply = await AI.respond(input.value);
-                div.querySelector('.ai-response').textContent = '🤖 ' + reply;
-            } catch (e) {
-                div.querySelector('.ai-response').textContent = '🤖 از پیام شما سپاسگزاریم!';
-            }
-        }, 1000);
+            responses.scrollTop = responses.scrollHeight;
+        } catch (error) {
+            console.error('خطا در AI:', error);
+            Core.showNotification('خطا در ارتباط با هوش مصنوعی', 'error');
+        }
     },
 
     sendAudio() {
         Core.addInteraction('🎤 پیام صوتی ارسال شد', null, 'audio', 'mainResponses');
-        setTimeout(() => {
-            const responses = document.getElementById('mainResponses');
-            const div = document.createElement('div');
-            div.className = 'response-item';
-            div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
-                <div class="ai-response">✅ پیام صوتی شما دریافت شد!</div>`;
-            responses.appendChild(div);
-        }, 800);
+        setTimeout(async () => {
+            try {
+                const reply = await AI.respond('پیام صوتی');
+                const responses = document.getElementById('mainResponses');
+                const div = document.createElement('div');
+                div.className = 'response-item';
+                div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+                    <div class="ai-response">${reply}</div>`;
+                responses.appendChild(div);
+                responses.scrollTop = responses.scrollHeight;
+            } catch (error) {
+                console.error('خطا در AI:', error);
+            }
+        }, 500);
     },
 
     sendVideo() {
         Core.addInteraction('🎬 پیام ویدئویی ارسال شد', null, 'video', 'mainResponses');
-        setTimeout(() => {
-            const responses = document.getElementById('mainResponses');
-            const div = document.createElement('div');
-            div.className = 'response-item';
-            div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
-                <div class="ai-response">✅ پیام ویدئویی شما دریافت شد!</div>`;
-            responses.appendChild(div);
-        }, 800);
+        setTimeout(async () => {
+            try {
+                const reply = await AI.respond('پیام ویدئویی');
+                const responses = document.getElementById('mainResponses');
+                const div = document.createElement('div');
+                div.className = 'response-item';
+                div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+                    <div class="ai-response">${reply}</div>`;
+                responses.appendChild(div);
+                responses.scrollTop = responses.scrollHeight;
+            } catch (error) {
+                console.error('خطا در AI:', error);
+            }
+        }, 500);
     },
 
     init() {
