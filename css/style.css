@@ -5,26 +5,66 @@ body{background:linear-gradient(135deg,#e8f0fe,#d4e4f7,#c8d6e5);font-family:taho
 .container{max-width:1200px;margin:0 auto;position:relative}
 
 /* ===== تبلیغات ===== */
-.ad-side{position:fixed;top:10%;width:180px;z-index:100;max-height:80vh;overflow-y:auto}
+.ad-side {
+    position: fixed;
+    top: 10%;
+    width: 220px;  /* ← بزرگ‌تر */
+    z-index: 100;
+    max-height: 85vh;
+    overflow-y: auto;
+}
 .ad-side::-webkit-scrollbar{width:4px}
 .ad-side::-webkit-scrollbar-thumb{background:#6C5CE7;border-radius:10px}
 .ad-side.left{left:10px}
 .ad-side.right{right:10px}
-.ad-side .ad-header{background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;padding:8px 12px;border-radius:12px 12px 0 0;font-size:.7rem;font-weight:700;text-align:center}
-.ad-side .ad-box{background:#fff;padding:10px 12px;border:1px solid #d4a373;border-top:none;text-align:center}
-.ad-side .ad-box:last-child{border-radius:0 0 12px 12px}
-.ad-side .ad-box .ad-logo{font-size:1.5rem;display:block}
-.ad-side .ad-box .ad-name{font-size:.7rem;font-weight:700;color:#2d1b4e}
-.ad-side .ad-box .ad-desc{font-size:.6rem;color:#7f8c8d}
-.ad-side .ad-box .ad-link{display:inline-block;margin-top:4px;padding:3px 10px;background:#6C5CE7;color:#fff;border-radius:15px;font-size:.55rem;text-decoration:none}
-.ad-side .ad-box .ad-link:hover{background:#5a4bd1}
-.ad-side .ad-upload{background:#f8f4f0;padding:8px;border:1px solid #d4a373;border-top:none;border-radius:0 0 12px 12px;text-align:center}
-.ad-side .ad-upload input{width:100%;padding:4px;border:1px solid #d4a373;border-radius:6px;font-size:.6rem;margin-bottom:4px}
-.ad-side .ad-upload button{padding:3px 12px;background:#55efc4;border:none;border-radius:12px;color:#2d1b4e;font-weight:700;font-size:.6rem;cursor:pointer}
-.ad-side .ad-pagination{text-align:center;padding:5px;background:#f0ecff;border:1px solid #d4a373;border-top:none;border-radius:0 0 12px 12px}
-.ad-side .ad-pagination button{background:none;border:none;color:#6C5CE7;cursor:pointer;font-size:.7rem;padding:0 5px}
-.ad-side .ad-pagination .active{font-weight:700;color:#2d1b4e}
-.ad-side-mobile{display:none}
+.ad-side .ad-header {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    padding: 12px 16px;  /* ← بزرگ‌تر */
+    border-radius: 16px 16px 0 0;
+    font-size: .85rem;   /* ← بزرگ‌تر */
+    font-weight: 700;
+    text-align: center;
+}
+.ad-side .ad-box {
+    background: #fff;
+    padding: 14px 16px;  /* ← بزرگ‌تر */
+    border: 1px solid #d4a373;
+    border-top: none;
+    text-align: center;
+}
+.ad-side .ad-box:last-child {
+    border-radius: 0 0 16px 16px;
+}
+.ad-side .ad-box .ad-logo {
+    font-size: 1.8rem;   /* ← بزرگ‌تر */
+    display: block;
+}
+.ad-side .ad-box .ad-name {
+    font-size: .85rem;   /* ← بزرگ‌تر */
+    font-weight: 700;
+    color: #2d1b4e;
+}
+.ad-side .ad-box .ad-desc {
+    font-size: .7rem;    /* ← بزرگ‌تر */
+    color: #7f8c8d;
+    line-height: 1.4;
+}
+.ad-side .ad-box .ad-link {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 4px 14px;
+    background: #6C5CE7;
+    color: #fff;
+    border-radius: 20px;
+    font-size: .65rem;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.ad-side .ad-box .ad-link:hover {
+    background: #5a4bd1;
+    transform: scale(1.05);
+}
 
 /* ===== هدر ===== */
 .header{background:linear-gradient(135deg,#4a90d9,#6C5CE7,#fdcb6e,#55efc4);background-size:400% 400%;animation:gradientBG 12s ease infinite;border-radius:30px;padding:25px;text-align:center;margin-bottom:25px;border:3px solid #fdcb6e}
