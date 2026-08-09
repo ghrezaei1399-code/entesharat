@@ -1,96 +1,66 @@
-// js/personalize.js
-const Personalize = {
+// js/modules/personalize.js
+const PersonalizeModule = {
     storageKey: 'personalize_settings',
     defaultSettings: {
         hiddenSections: [],
         sectionOrder: ['radio', 'tv', 'archive', 'gallery', 'radionava', 'interact', 'smart-select', 'reading-growth', 'book-narrators', 'media-helpers', 'publish', 'footer-mini'],
         adsVisible: true,
-        fullscreenSection: null
-    },
-
-    init() {
-        // بارگذاری تنظیمات
-        this.settings = this.loadSettings();
-        
-        // اعمال تنظیمات
-        this.applySettings();
-        
-        // راه‌اندازی کشیدن و رها کردن
-        this.setupDragAndDrop();
-        
-        // دابل‌کلیک برای تمام‌صفحه
-        this.setupFullscreen();
-        
-        // دکمه بازگشت به حالت پیش‌فرض
-        document.getElementById('resetLayout')?.addEventListener('click', () => this.resetLayout());
-        
-        // دکمه مخفی/نمایش تبلیغات
-        document.getElementById('toggleAds')?.addEventListener('click', () => this.toggleAds());
-        
-        console.log('✅ شخصی‌سازی فعال شد');
+        fontSize: 100
     },
 
     loadSettings() {
-        try {
-            const saved = localStorage.getItem(this.storageKey);
-            if (saved) {
-                return { ...this.defaultSettings, ...JSON.parse(saved) };
-            }
-        } catch (e) {
-            console.warn('خطا در بارگذاری تنظیمات:', e);
-        }
-        return { ...this.defaultSettings };
+        return Storage.get(this.storageKey, this.defaultSettings);
     },
 
-    saveSettings() {
-        try {
-            localStorage.setItem(this.storageKey, JSON.stringify(this.settings));
-        } catch (e) {
-            console.warn('خطا در ذخیره تنظیمات:', e);
-        }
+    saveSettings(settings) {
+        Storage.save(this.storageKey, settings);
     },
 
-    applySettings() {
-        // اعمال مخفی‌سازی بخش‌ها
+    applySettings(settings) {
+        // مخفی/نمایش بخش‌ها
         document.querySelectorAll('.draggable-section').forEach(el => {
             const id = el.id;
-            if (this.settings.hiddenSections.includes(id)) {
+            if (settings.hiddenSections.includes(id)) {
                 el.classList.add('hidden-section');
             } else {
                 el.classList.remove('hidden-section');
             }
         });
         
-        // اعمال ترتیب بخش‌ها
+        // ترتیب بخش‌ها
         const container = document.querySelector('.container');
-        const sections = this.settings.sectionOrder.map(id => document.getElementById(id)).filter(Boolean);
+        const sections = settings.sectionOrder.map(id => document.getElementById(id)).filter(Boolean);
         sections.forEach(el => {
             if (el) container.appendChild(el);
         });
         
-        // اعمال نمایش تبلیغات
+        // تبلیغات
         const ads = document.querySelectorAll('.ad-side, .ad-side-mobile');
         ads.forEach(el => {
-            el.style.display = this.settings.adsVisible ? '' : 'none';
+            el.style.display = settings.adsVisible ? '' : 'none';
         });
+        
+        // اندازه فونت
+        document.body.style.fontSize = (settings.fontSize || 100) + '%';
     },
 
     setupDragAndDrop() {
         const container = document.querySelector('.container');
-        if (!container) return;
+        if (!container || typeof Sortable === 'undefined') {
+            console.warn('Sortable not available');
+            return;
+        }
         
         Sortable.create(container, {
-            handle: '.section-title, .footer-mini',  // ✅ اضافه شد
+            handle: '.section-title, .radio-nava-section, .footer-mini',
             animation: 150,
-            filter: '.header, .menu, .footer, .radio-nava-section, .ad-side, .ad-side-mobile',
-            onEnd: (evt) => {
-                // به‌روزرسانی ترتیب در تنظیمات
+            filter: '.header, .menu, .footer, .ad-side, .ad-side-mobile',
+            onEnd: () => {
                 const sections = container.querySelectorAll('.draggable-section');
-                this.settings.sectionOrder = Array.from(sections).map(el => el.id);
-                this.saveSettings();
-                
-                // نمایش پیام
-                showNotification('✅ ترتیب بخش‌ها ذخیره شد', 'success');
+                const settings = this.loadSettings();
+                settings.sectionOrder = Array.from(sections).map(el => el.id);
+                this.saveSettings(settings);
+                Core.showNotification('✅ ترتیب بخش‌ها ذخیره شد', 'success');
             }
         });
     },
@@ -109,152 +79,72 @@ const Personalize = {
         
         const isFullscreen = el.classList.contains('fullscreen');
         
-        // اگر قبلاً تمام‌صفحه بود، برگردان
         if (isFullscreen) {
             el.classList.remove('fullscreen');
-            this.settings.fullscreenSection = null;
             document.body.style.overflow = '';
-            // نمایش دوباره دکمه‌های شناور
             document.querySelector('.floating-toolbar').style.display = '';
+            document.querySelector('.fullscreen-exit-btn')?.remove();
         } else {
-            // بستن تمام‌صفحه قبلی
             document.querySelectorAll('.fullscreen').forEach(el => el.classList.remove('fullscreen'));
-            
-            // باز کردن تمام‌صفحه جدید
             el.classList.add('fullscreen');
-            this.settings.fullscreenSection = id;
             document.body.style.overflow = 'hidden';
-            // مخفی کردن دکمه‌های شناور
             document.querySelector('.floating-toolbar').style.display = 'none';
             
-            // دکمه خروج از تمام‌صفحه
-            this.addFullscreenExit(el);
+            const btn = document.createElement('button');
+            btn.className = 'fullscreen-exit-btn';
+            btn.innerHTML = '<i class="fas fa-compress"></i> خروج از تمام‌صفحه';
+            btn.onclick = () => this.toggleFullscreen(id);
+            document.body.appendChild(btn);
         }
-        
-        this.saveSettings();
-    },
-
-    addFullscreenExit(el) {
-        // حذف دکمه قبلی
-        const oldBtn = document.querySelector('.fullscreen-exit-btn');
-        if (oldBtn) oldBtn.remove();
-        
-        // اضافه کردن دکمه خروج
-        const btn = document.createElement('button');
-        btn.className = 'fullscreen-exit-btn';
-        btn.innerHTML = '<i class="fas fa-compress"></i> خروج از تمام‌صفحه';
-        btn.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            padding: 12px 25px;
-            background: #e17055;
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            transition: 0.3s;
-        `;
-        btn.onmouseover = () => btn.style.transform = 'scale(1.05)';
-        btn.onmouseout = () => btn.style.transform = 'scale(1)';
-        btn.onclick = () => this.toggleFullscreen(el.id);
-        document.body.appendChild(btn);
     },
 
     toggleAds() {
-        this.settings.adsVisible = !this.settings.adsVisible;
-        this.saveSettings();
-        this.applySettings();
-        showNotification(this.settings.adsVisible ? '✅ تبلیغات نمایش داده می‌شود' : '✅ تبلیغات مخفی شد', 'info');
+        const settings = this.loadSettings();
+        settings.adsVisible = !settings.adsVisible;
+        this.saveSettings(settings);
+        this.applySettings(settings);
+        Core.showNotification(settings.adsVisible ? '✅ تبلیغات نمایش داده می‌شود' : '✅ تبلیغات مخفی شد', 'info');
     },
 
-    toggleSection(id) {
-        const index = this.settings.hiddenSections.indexOf(id);
-        if (index > -1) {
-            this.settings.hiddenSections.splice(index, 1);
-            showNotification('✅ بخش نمایش داده شد', 'success');
-        } else {
-            this.settings.hiddenSections.push(id);
-            showNotification('✅ بخش مخفی شد', 'info');
-        }
-        this.saveSettings();
-        this.applySettings();
+    cycleFontSize() {
+        const sizes = [85, 100, 115, 130];
+        const settings = this.loadSettings();
+        let current = settings.fontSize || 100;
+        let nextIndex = (sizes.indexOf(current) + 1) % sizes.length;
+        settings.fontSize = sizes[nextIndex];
+        this.saveSettings(settings);
+        this.applySettings(settings);
+        Core.showNotification('✅ اندازه فونت: ' + settings.fontSize + '%', 'info');
     },
 
     resetLayout() {
-        if (!confirm('آیا می‌خواهید به حالت پیش‌فرض بازگردید؟')) return;
+        if (!confirm('آیا می‌خواهید به چیدمان پیش‌فرض بازگردید؟\n(همه بخش‌ها نمایش داده می‌شوند و به ترتیب اولیه برمی‌گردند)')) return;
         
-        this.settings = { ...this.defaultSettings };
-        this.saveSettings();
-        this.applySettings();
+        this.saveSettings(this.defaultSettings);
+        this.applySettings(this.defaultSettings);
         
-        // بستن تمام‌صفحه
         document.querySelectorAll('.fullscreen').forEach(el => el.classList.remove('fullscreen'));
         document.querySelector('.floating-toolbar').style.display = '';
         document.querySelector('.fullscreen-exit-btn')?.remove();
         document.body.style.overflow = '';
         
-        showNotification('✅ به حالت پیش‌فرض بازگشتید', 'success');
+        Core.showNotification('✅ به چیدمان پیش‌فرض بازگشتید', 'success');
+    },
+
+    init() {
+        const settings = this.loadSettings();
+        this.applySettings(settings);
+        this.setupDragAndDrop();
+        this.setupFullscreen();
+        
+        document.getElementById('resetLayout')?.addEventListener('click', () => this.resetLayout());
+        document.getElementById('toggleAds')?.addEventListener('click', () => this.toggleAds());
+        document.getElementById('fontSizeBtn')?.addEventListener('click', () => this.cycleFontSize());
+        
+        console.log('✅ PersonalizeModule فعال شد');
     }
 };
 
-// ===== راه‌اندازی =====
-document.addEventListener('DOMContentLoaded', function() {
-    // فقط اگر Sortable وجود دارد
-    if (typeof Sortable !== 'undefined') {
-        Personalize.init();
-    } else {
-        console.warn('⚠️ کتابخانه Sortable بارگذاری نشد.');
-    }
-});
-
-// ===== تابع نمایش پیام =====
-function showNotification(message, type = 'info') {
-    const container = document.getElementById('notificationContainer') || (() => {
-        const div = document.createElement('div');
-        div.id = 'notificationContainer';
-        div.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;max-width:400px;width:100%';
-        document.body.appendChild(div);
-        return div;
-    })();
-    
-    const notification = document.createElement('div');
-    const colors = {
-        success: '#28a745',
-        error: '#e17055',
-        info: '#6C5CE7'
-    };
-    const icons = {
-        success: 'fa-check-circle',
-        error: 'fa-exclamation-circle',
-        info: 'fa-info-circle'
-    };
-    
-    notification.style.cssText = `
-        background: ${colors[type] || '#6C5CE7'};
-        color: #fff;
-        padding: 15px 20px;
-        border-radius: 12px;
-        margin-bottom: 10px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        font-family: tahoma;
-        font-size: .95rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        transition: 0.3s;
-        animation: slideDown 0.3s ease;
-    `;
-    notification.innerHTML = `<i class="fas ${icons[type] || 'fa-info-circle'}"></i> ${message}`;
-    container.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateX(50px)';
-        setTimeout(() => notification.remove(), 300);
-    }, 4000);
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = PersonalizeModule;
 }
