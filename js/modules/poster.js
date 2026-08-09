@@ -1,12 +1,12 @@
 // ===== ماژول ساخت پوستر =====
 const PosterModule = {
-    generate() {
+    async generate() {
         const title = document.getElementById('posterTitle').value.trim();
         const description = document.getElementById('posterDescription').value.trim();
         const status = document.getElementById('posterStatus');
         
         if (!title || !description) {
-            alert('لطفاً عنوان و توضیحات پوستر را وارد کنید.');
+            Core.showNotification('لطفاً عنوان و توضیحات پوستر را وارد کنید.', 'error');
             return;
         }
         
@@ -15,8 +15,10 @@ const PosterModule = {
         status.style.background = '#f0ecff';
         status.style.color = '#6C5CE7';
         
-        // استفاده از AI واقعی
-        AI.generatePoster(description).then(async (imageUrl) => {
+        try {
+            // ساخت پوستر با AI
+            const imageUrl = await AI.generatePoster(description);
+            
             if (imageUrl) {
                 // اضافه کردن به گالری
                 const gallery = document.getElementById('posterGallery');
@@ -36,7 +38,7 @@ const PosterModule = {
                 const email = prompt('ایمیل خود را برای دریافت پوستر وارد کنید:', '');
                 if (email) {
                     await Email.sendPoster(email, title, description);
-                    alert(`📧 پوستر "${title}" به ایمیل ${email} ارسال شد!`);
+                    Core.showNotification(`📧 پوستر "${title}" به ایمیل ${email} ارسال شد!`, 'success');
                 }
             } else {
                 // نسخه جایگزین (بدون API)
@@ -65,11 +67,13 @@ const PosterModule = {
             document.getElementById('posterDescription').value = '';
             
             setTimeout(() => { status.style.display = 'none'; }, 5000);
-        }).catch((error) => {
+            
+        } catch (error) {
+            console.error('خطا در ساخت پوستر:', error);
             status.innerHTML = '❌ خطا در ساخت پوستر: ' + error.message;
             status.style.background = '#f8d7da';
             status.style.color = '#721c24';
-        });
+        }
     },
 
     clear() {
