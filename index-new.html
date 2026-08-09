@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رادیو تلویزیون هوشمند | انتشارات کیمیا (نسخه جدید)</title>
+    
+    <!-- فونت‌ها و آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- کتابخانه‌های مورد نیاز -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.2.0/docx.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    
+    <!-- استایل‌ها -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== تبلیغات چپ ===== -->
+<div class="ad-side left" id="adLeft">
+    <div class="ad-header">📢 تبلیغات مرتبط</div>
+    <div id="adLeftList"></div>
+    <div class="ad-upload">
+        <input type="text" id="adLeftInput" placeholder="نام تبلیغ...">
+        <input type="text" id="adLeftLink" placeholder="لینک...">
+        <button onclick="AdsModule.addAd('left')">➕ افزودن</button>
+    </div>
+    <div class="ad-pagination" id="adLeftPagination">
+        <button onclick="AdsModule.changePage('left',-1)">‹</button>
+        <span class="active" id="adLeftPageNum">1</span>
+        <button onclick="AdsModule.changePage('left',1)">›</button>
+    </div>
+</div>
+
+<!-- ===== تبلیغات راست ===== -->
+<div class="ad-side right" id="adRight">
+    <div class="ad-header">📢 تبلیغات مرتبط</div>
+    <div id="adRightList"></div>
+    <div class="ad-upload">
+        <input type="text" id="adRightInput" placeholder="نام تبلیغ...">
+        <input type="text" id="adRightLink" placeholder="لینک...">
+        <button onclick="AdsModule.addAd('right')">➕ افزودن</button>
+    </div>
+    <div class="ad-pagination" id="adRightPagination">
+        <button onclick="AdsModule.changePage('right',-1)">‹</button>
+        <span class="active" id="adRightPageNum">1</span>
+        <button onclick="AdsModule.changePage('right',1)">›</button>
+    </div>
+</div>
+
+<!-- ===== تبلیغات موبایل ===== -->
+<div class="ad-side-mobile" id="adMobileList" style="background:#f8f4f0;border-radius:14px;padding:12px;margin:10px 0;border:2px solid #d4a373">
+    <div style="font-weight:700;color:#6C5CE7;font-size:.8rem;text-align:center;margin-bottom:8px">📢 تبلیغات مرتبط</div>
+</div>
+
+<!-- ===== دکمه‌های شناور ===== -->
+<div class="floating-toolbar">
+    <button id="themeToggle" title="تغییر حالت شب/روز"><i class="fas fa-moon"></i><span class="tooltip">شب/روز</span></button>
+    <button id="scrollTop" title="رفتن به بالای صفحه"><i class="fas fa-arrow-up"></i><span class="tooltip">بالا</span></button>
+    <button id="scrollBottom" title="رفتن به پایین صفحه"><i class="fas fa-arrow-down"></i><span class="tooltip">پایین</span></button>
+    <button id="resetLayout" title="بازگشت به چیدمان پیش‌فرض"><i class="fas fa-undo-alt"></i><span class="tooltip">ریست</span></button>
+    <button id="toggleAds" title="نمایش/مخفی کردن تبلیغات"><i class="fas fa-ad"></i><span class="tooltip">تبلیغات</span></button>
+    <button id="fontSizeBtn" title="تغییر اندازه فونت"><i class="fas fa-font"></i><span class="tooltip">فونت</span></button>
+</div>
+
+<div class="container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header" id="headerContainer">
+        <!-- توسط HeaderModule ساخته می‌شود -->
+    </div>
+
+    <!-- ===== MENU ===== -->
+    <div id="menuContainer">
+        <!-- توسط MenuModule ساخته می‌شود -->
+    </div>
+
+    <!-- ===== رادیو ===== -->
+    <div class="section draggable-section" id="radio">
+        <div class="section-title"><i class="fas fa-radio"></i> رادیو هوشمند <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <div class="player-box">
+            <audio id="radioPlayer" controls>
+                <source src="images/Ayrilik_aleftab.ir.mp3" type="audio/mpeg">
+                <source src="images/Careless Whisper2.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+        <div class="controls">
+            <button class="btn-play" onclick="document.getElementById('radioPlayer').play()"><i class="fas fa-play"></i> پخش</button>
+            <button class="btn-stop" onclick="document.getElementById('radioPlayer').pause()"><i class="fas fa-stop"></i> توقف</button>
+            <button class="btn-next"><i class="fas fa-forward"></i> بعدی</button>
+            <button class="btn-prev"><i class="fas fa-backward"></i> قبلی</button>
+            <button class="btn-add"><i class="fas fa-plus"></i> افزودن</button>
+        </div>
+        <div id="radioPlaylist"></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:2px dashed #d4a373">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <input type="text" id="comment_radio" placeholder="نظر یا سوال خود را بنویسید..." style="flex:1;padding:8px 12px;border:2px solid #d4a373;border-radius:10px;font-family:inherit;font-size:.85rem;min-width:150px">
+                <button onclick="RadioModule.sendMessage('text')" style="padding:6px 16px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem">متن</button>
+                <button onclick="RadioModule.sendMessage('audio')" style="padding:6px 16px;background:#fd79a8;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem">ویس</button>
+                <button onclick="RadioModule.sendMessage('video')" style="padding:6px 16px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.8rem">ویدئو</button>
+            </div>
+            <div id="responses_radio" class="response-box">
+                <div class="response-item"><span class="type-icon text">م</span> <span>به رادیو هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== تلویزیون ===== -->
+    <div class="section draggable-section" id="tv">
+        <div class="section-title"><i class="fas fa-tv"></i> تلویزیون هوشمند <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <div class="player-box">
+            <video id="tvPlayer" controls>
+                <source src="images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4" type="video/mp4">
+                <source src="images/ویئوی کتاب هنر هوشمند نگاری 2.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="controls">
+            <button class="btn-play" onclick="document.getElementById('tvPlayer').play()"><i class="fas fa-play"></i> پخش</button>
+            <button class="btn-stop" onclick="document.getElementById('tvPlayer').pause()"><i class="fas fa-stop"></i> توقف</button>
+            <button class="btn-next"><i class="fas fa-forward"></i> بعدی</button>
+            <button class="btn-prev"><i class="fas fa-backward"></i> قبلی</button>
+            <button class="btn-add"><i class="fas fa-plus"></i> افزودن</button>
+        </div>
+        <div id="tvPlaylist"></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:2px dashed #d4a373">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <input type="text" id="comment_tv" placeholder="نظر یا سوال خود را بنویسید..." style="flex:1;padding:8px 12px;border:2px solid #d4a373;border-radius:10px;font-family:inherit;font-size:.85rem;min-width:150px">
+                <button onclick="TvModule.sendMessage('text')" style="padding:6px 16px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem">متن</button>
+                <button onclick="TvModule.sendMessage('audio')" style="padding:6px 16px;background:#fd79a8;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem">ویس</button>
+                <button onclick="TvModule.sendMessage('video')" style="padding:6px 16px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.8rem">ویدئو</button>
+            </div>
+            <div id="responses_tv" class="response-box">
+                <div class="response-item"><span class="type-icon text">م</span> <span>به تلویزیون هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== آرشیو ===== -->
+    <div class="section draggable-section" id="archive">
+        <div class="section-title"><i class="fas fa-archive"></i> آرشیو هوشمند <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:15px">
+            <input type="text" id="searchInput" placeholder="جستجو..." style="flex:1;padding:10px;border:2px solid #d4a373;border-radius:10px;font-size:.9rem">
+            <button class="btn-search" onclick="ArchiveModule.filter()" style="padding:10px 20px;background:#6C5CE7;border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer"><i class="fas fa-search"></i></button>
+        </div>
+        <div id="archiveList"></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:2px dashed #d4a373">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <input type="text" id="comment_archive" placeholder="نظر یا سوال خود را بنویسید..." style="flex:1;padding:8px 12px;border:2px solid #d4a373;border-radius:10px;font-family:inherit;font-size:.85rem;min-width:150px">
+                <button onclick="ArchiveModule.sendMessage('text')" style="padding:6px 16px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem">متن</button>
+                <button onclick="ArchiveModule.sendMessage('audio')" style="padding:6px 16px;background:#fd79a8;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem">ویس</button>
+                <button onclick="ArchiveModule.sendMessage('video')" style="padding:6px 16px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.8rem">ویدئو</button>
+            </div>
+            <div id="responses_archive" class="response-box">
+                <div class="response-item"><span class="type-icon text">م</span> <span>به آرشیو هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== گالری پوستر ===== -->
+    <div class="section draggable-section" id="gallery">
+        <div class="section-title"><i class="fas fa-images"></i> گالری هوشمند پوستر <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <p style="color:#7f8c8d;font-size:.9rem;margin-bottom:12px">پوسترهای ساخته شده توسط هوش مصنوعی را مشاهده کنید یا پوستر مورد نظر خود را پیشنهاد دهید.</p>
+        
+        <div class="poster-section">
+            <h4 style="color:#2d1b4e;display:flex;align-items:center;gap:8px;font-size:1rem"><i class="fas fa-paint-brush" style="color:#6C5CE7"></i> ساخت پوستر با هوش مصنوعی</h4>
+            <div class="poster-form">
+                <input type="text" id="posterTitle" placeholder="عنوان پوستر..." class="full-width" style="font-size:.9rem">
+                <textarea id="posterDescription" placeholder="توضیحات پوستر مورد نظر خود را بنویسید..." class="full-width" rows="2" style="font-size:.9rem"></textarea>
+                <div style="display:flex;gap:8px;flex-wrap:wrap" class="full-width">
+                    <button class="btn-generate" style="padding:10px 25px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.9rem">
+                        <i class="fas fa-wand-magic-sparkles"></i> ساخت پوستر
+                    </button>
+                    <button class="btn-clear" style="padding:10px 25px;background:#e8ddd0;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.9rem">پاک کردن</button>
+                </div>
+            </div>
+            <div id="posterStatus" style="margin-top:8px;padding:8px;border-radius:10px;background:#f0ecff;display:none;text-align:center;color:#6C5CE7;font-size:.9rem"></div>
+        </div>
+        
+        <div class="gallery-grid" id="posterGallery">
+            <div class="gallery-item">
+                <img src="images/4da5fc01-9111-4a99-bccd-c0649274768c (1).png" alt="پوستر ۱">
+                <div class="info"><h4>پوستر تبلیغاتی ۱</h4><p>تولید هوش مصنوعی</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/ChatGPT-Image-Jun-20-2026-07_13_49-AM.png" alt="پوستر ۲">
+                <div class="info"><h4>پوستر تبلیغاتی ۲</h4><p>تولید هوش مصنوعی</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/ChatGPT-Image-Jun-20-2026-07_22_26-AM.png" alt="پوستر ۳">
+                <div class="info"><h4>پوستر تبلیغاتی ۳</h4><p>تولید هوش مصنوعی</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/ChatGPT-Image-Jun-20-2026-07_46_54-AM-1.png" alt="پوستر ۴">
+                <div class="info"><h4>پوستر تبلیغاتی ۴</h4><p>تولید هوش مصنوعی</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/ChatGPT-Image-Jun-20-2026-08_14_48-AM-1.png" alt="پوستر ۵">
+                <div class="info"><h4>پوستر تبلیغاتی ۵</h4><p>تولید هوش مصنوعی</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/ChatGPT-Image-Jun-21-2026-07_04_31-AM.png" alt="پوستر ۶">
+                <div class="info"><h4>پوستر تبلیغاتی ۶</h4><p>تولید هوش مصنوعی</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== رادیو نوای چاپ ===== -->
+    <div class="radio-nava-section draggable-section" id="radionava" style="cursor:grab">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:2px solid rgba(255,255,255,0.2);margin-bottom:12px">
+            <h2 style="font-size:1.4rem;margin:0">📻 <span>رادیو نوای چاپ</span></h2>
+            <span style="font-size:.6rem;color:rgba(255,255,255,0.5)">(کشیدن برای جابه‌جایی)</span>
+        </div>
+        <p style="font-size:.9rem">صدای ماندگار صنعت چاپ، نشر، بسته‌بندی، کاغذ و مقوا</p>
+        <img class="poster-img" src="images/posterenava.png" alt="پوستر رادیو نوای چاپ" style="max-height:250px">
+        <div>
+            <a href="https://t.me/radionavayechap" target="_blank" class="btn-radio" style="font-size:.85rem;padding:8px 20px"><i class="fab fa-telegram"></i> تلگرام</a>
+            <a href="http://ble.ir/radionavayechap" target="_blank" class="btn-radio" style="background:#00b894;color:#fff;font-size:.85rem;padding:8px 20px"><i class="fas fa-radio"></i> بله</a>
+            <a href="https://kimiaandisheh.com" target="_blank" class="btn-radio" style="background:#e17055;color:#fff;font-size:.85rem;padding:8px 20px"><i class="fas fa-globe"></i> سایت</a>
+        </div>
+    </div>
+
+    <!-- ===== تعامل ===== -->
+    <div class="section draggable-section" id="interact">
+        <div class="section-title"><i class="fas fa-comment-dots"></i> تعامل هوشمند <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <div class="interact-box">
+            <textarea id="mainInteract" placeholder="نظر، پیشنهاد یا سوال خود را بنویسید..." style="font-size:.9rem"></textarea>
+            <div class="interact-tools">
+                <button class="btn-text"><i class="fas fa-paper-plane"></i> ارسال متن</button>
+                <button class="btn-audio"><i class="fas fa-microphone"></i> ارسال ویس</button>
+                <button class="btn-video"><i class="fas fa-video"></i> ارسال ویدئو</button>
+            </div>
+            <div class="response-box" id="mainResponses">
+                <div class="response-item"><span class="type-icon text">م</span> <span>به رادیو تلویزیون هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== هوشمند گزینی ===== -->
+    <div class="section draggable-section" id="smart-select" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px solid #6C5CE7;border-radius:24px;padding:25px;margin-bottom:25px">
+        <div style="text-align:center;margin-bottom:20px">
+            <div style="display:inline-block;background:linear-gradient(135deg,#6C5CE7,#a29bfe);padding:4px 20px;border-radius:50px;margin-bottom:8px">
+                <span style="color:#fff;font-weight:700;font-size:.8rem;letter-spacing:1px">✨ هوشمند گزینی و خوانی ✨</span>
+            </div>
+            <h2 style="color:#2d1b4e;font-size:1.6rem;margin:8px 0">
+                <i class="fas fa-robot" style="color:#6C5CE7"></i> 
+                با هوش مصنوعی، متون خود را متحول کنید
+            </h2>
+            <p style="color:#7f8c8d;font-size:.95rem">سه روش برای ارسال متن و دریافت خلاصه هوشمند</p>
+        </div>
+
+        <div style="text-align:center;margin:20px 0">
+            <button id="showUploadFormBtn" style="padding:12px 35px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);border:none;border-radius:50px;color:#fff;font-weight:700;font-size:1rem;cursor:pointer;transition:0.3s;box-shadow:0 6px 25px rgba(108,92,231,0.3)">
+                <i class="fas fa-upload"></i> ارسال اثر خود
+            </button>
+        </div>
+
+        <div id="uploadFormContainer" style="display:none;background:linear-gradient(135deg,#fff,#f8f4f0);border-radius:20px;padding:25px;border:2px solid #6C5CE7;margin:15px 0;animation:slideDown 0.4s ease">
+            <h4 style="color:#2d1b4e;text-align:center;font-size:1.2rem;margin-bottom:15px"><i class="fas fa-file-upload" style="color:#6C5CE7"></i> فرم ارسال</h4>
+            
+            <form id="uploadForm">
+                <div style="margin-bottom:14px">
+                    <label style="display:block;font-weight:700;color:#2d1b4e;margin-bottom:4px;font-size:.9rem">📧 ایمیل خود را وارد کنید:</label>
+                    <input type="email" id="userEmail" placeholder="example@email.com" required style="width:100%;padding:10px;border:2px solid #d4a373;border-radius:10px;font-family:inherit;font-size:.9rem">
+                </div>
+
+                <div style="margin-bottom:15px">
+                    <label style="display:block;font-weight:700;color:#2d1b4e;margin-bottom:8px;font-size:.9rem">📌 روش ارسال:</label>
+                    
+                    <div style="margin-bottom:12px;border:2px solid #d4a373;border-radius:12px;padding:12px;background:#f8f4f0">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                            <input type="radio" name="inputMethod" value="file" id="methodFile" checked style="width:16px;height:16px">
+                            <label for="methodFile" style="font-weight:700;color:#2d1b4e;font-size:.9rem">📄 آپلود فایل (PDF, Word, TXT)</label>
+                        </div>
+                        <div id="fileInputArea" style="border:2px dashed #d4a373;border-radius:10px;padding:15px;text-align:center;cursor:pointer;transition:0.3s" onclick="document.getElementById('userFile').click()">
+                            <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#6C5CE7;display:block;margin-bottom:6px"></i>
+                            <p style="color:#7f8c8d;font-size:.85rem">برای انتخاب فایل کلیک کنید</p>
+                            <input type="file" id="userFile" accept=".doc,.docx,.pdf,.txt" style="display:none">
+                            <p id="fileNameDisplay" style="color:#6C5CE7;font-weight:700;margin-top:4px;display:none;font-size:.85rem"></p>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:12px;border:2px solid #d4a373;border-radius:12px;padding:12px;background:#f8f4f0">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                            <input type="radio" name="inputMethod" value="link" id="methodLink" style="width:16px;height:16px">
+                            <label for="methodLink" style="font-weight:700;color:#2d1b4e;font-size:.9rem">🔗 لینک مقاله</label>
+                        </div>
+                        <input type="url" id="userLink" placeholder="https://example.com/article" style="width:100%;padding:8px 12px;border:2px solid #d4a373;border-radius:8px;font-family:inherit;font-size:.9rem;display:none">
+                    </div>
+
+                    <div style="border:2px solid #d4a373;border-radius:12px;padding:12px;background:#f8f4f0">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                            <input type="radio" name="inputMethod" value="text" id="methodText" style="width:16px;height:16px">
+                            <label for="methodText" style="font-weight:700;color:#2d1b4e;font-size:.9rem">✏️ چسباندن متن</label>
+                        </div>
+                        <textarea id="userText" placeholder="متن خود را اینجا بچسبانید..." style="width:100%;padding:8px 12px;border:2px solid #d4a373;border-radius:8px;font-family:inherit;font-size:.9rem;min-height:80px;display:none"></textarea>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                    <button type="submit" style="padding:10px 30px;background:linear-gradient(135deg,#55efc4,#00b894);border:none;border-radius:50px;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;transition:0.3s">
+                        <i class="fas fa-paper-plane"></i> ارسال
+                    </button>
+                    <button type="button" id="cancelUploadBtn" style="padding:10px 30px;background:linear-gradient(135deg,#e17055,#fd79a8);border:none;border-radius:50px;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;transition:0.3s">
+                        <i class="fas fa-times"></i> لغو
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="successMessage" style="display:none;background:linear-gradient(135deg,#d4edda,#c3e6cb);border-radius:20px;padding:25px;text-align:center;border:2px solid #28a745;margin:15px 0;animation:popIn 0.4s ease">
+            <i class="fas fa-check-circle" style="color:#28a745;font-size:2.5rem;display:block;margin-bottom:10px"></i>
+            <p style="color:#155724;font-size:1.1rem;font-weight:700">✅ متن شما با موفقیت ارسال شد!</p>
+            <p style="color:#155724;font-size:.9rem">خلاصه هوشمند به ایمیل شما ارسال شد و در گنجینه نمایش داده می‌شود.</p>
+        </div>
+
+        <!-- ===== گنجینه ===== -->
+        <div style="margin-top:30px;padding-top:25px;border-top:3px solid #d4a373">
+            <h3 style="color:#2d1b4e;text-align:center;font-size:1.5rem;margin-bottom:15px;display:flex;align-items:center;justify-content:center;gap:12px">
+                <i class="fas fa-crown" style="color:#fdcb6e"></i>
+                گنجینه آثار برگزیده
+                <i class="fas fa-crown" style="color:#fdcb6e"></i>
+            </h3>
+            
+            <div class="works-container">
+                <div class="latest-work" id="latestWork">
+                    <div class="badge">🔥 آخرین اثر</div>
+                    <div id="latestWorkContent">
+                        <p style="color:#7f8c8d;text-align:center;padding:20px 0;font-size:.9rem">هنوز اثری در گنجینه ثبت نشده است.</p>
+                    </div>
+                </div>
+                
+                <div class="archive-list" id="archiveListContainer">
+                    <h4 style="color:#2d1b4e;margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:1rem">
+                        <i class="fas fa-list" style="color:#6C5CE7"></i> فهرست آثار
+                    </h4>
+                    <div id="worksList">
+                        <p style="color:#7f8c8d;text-align:center;padding:15px 0;font-size:.9rem">هنوز اثری ثبت نشده است.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== رشد سرانه مطالعه ===== -->
+    <div class="section draggable-section" id="reading-growth" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
+        <div class="section-title"><i class="fas fa-chart-line"></i> رشد سرانه مطالعه <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <div style="text-align:center;padding:30px 15px;color:#7f8c8d">
+            <i class="fas fa-book" style="font-size:2.5rem;color:#d4a373;display:block;margin-bottom:10px"></i>
+            <p style="font-size:.9rem">این بخش به زودی با آمار و تحلیل‌های مربوط به سرانه مطالعه پر می‌شود.</p>
+        </div>
+    </div>
+
+    <!-- ===== راویان ===== -->
+    <div class="section draggable-section" id="book-narrators" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
+        <div class="section-title"><i class="fas fa-users"></i> راویان کتاب خوانی <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <div style="text-align:center;padding:30px 15px;color:#7f8c8d">
+            <i class="fas fa-microphone-alt" style="font-size:2.5rem;color:#d4a373;display:block;margin-bottom:10px"></i>
+            <p style="font-size:.9rem">این بخش به زودی با معرفی راویان و داستان‌های کتابخوانی پر می‌شود.</p>
+        </div>
+    </div>
+
+    <!-- ===== یاوران ===== -->
+    <div class="section draggable-section" id="media-helpers" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
+        <div class="section-title"><i class="fas fa-hand-holding-heart"></i> یاوران رسانه مکتوب <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <div style="text-align:center;padding:30px 15px;color:#7f8c8d">
+            <i class="fas fa-newspaper" style="font-size:2.5rem;color:#d4a373;display:block;margin-bottom:10px"></i>
+            <p style="font-size:.9rem">این بخش به زودی با معرفی یاوران و حامیان رسانه‌های مکتوب پر می‌شود.</p>
+        </div>
+    </div>
+
+    <!-- ===== انتشارات ===== -->
+    <div class="section draggable-section" id="publish">
+        <div class="section-title"><i class="fas fa-building"></i> انتشارات کیمیا <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
+        <div class="publish-grid">
+            <div class="publish-card"><i class="fas fa-phone"></i><h4 style="color:#2d1b4e;font-size:.95rem">تلفن تماس</h4><p style="color:#5d4037;font-size:.85rem">۰۹۱۲۲۴۷۲۴۴۸</p><p style="color:#5d4037;font-size:.85rem">۰۲۱۶۶۹۶۱۵۶۹</p><p style="color:#5d4037;font-size:.85rem">۰۲۱۶۶۴۶۲۸۶۴</p></div>
+            <div class="publish-card"><i class="fas fa-clock"></i><h4 style="color:#2d1b4e;font-size:.95rem">ساعات پاسخگویی</h4><p style="color:#5d4037;font-size:.85rem">همه روزه از <span style="color:#6C5CE7;font-weight:700">۸ صبح تا ۱۸</span></p></div>
+            <div class="publish-card"><i class="fas fa-map-marker-alt"></i><h4 style="color:#2d1b4e;font-size:.95rem">آدرس</h4><p style="color:#5d4037;font-size:.85rem">تهران، خیابان انقلاب، فخر رازی، وحید نظری شرقی، پلاک ۶۵</p></div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+        <div class="designer-info">
+            <h3><i class="fas fa-crown" style="color:#fdcb6e"></i> طراحی و توسعه</h3>
+            <h2>غلامرضا رضائی</h2>
+            <p>طراح و توسعه‌دهنده سیستم رادیو تلویزیون هوشمند</p>
+        </div>
+        
+        <div class="posters-row">
+            <div class="poster-box">
+                <img src="images/پوستر عالی برای کسب و کارها 2.png" alt="پوستر کسب و کار">
+            </div>
+            <div class="poster-box">
+                <img src="images/پوستر نهایی.png" alt="پوستر نهایی">
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© تمامی حقوق این اثر متعلق به <strong>غلامرضا رضائی</strong> می‌باشد.</p>
+            <p style="font-size:.65rem;margin-top:3px">هرگونه کپی برداری و سوء استفاده بدون اجازه طراح، پیگرد قانونی دارد.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== اسکریپت‌ها ===== -->
+<script src="js/config.js"></script>
+<script src="js/env.js"></script>
+
+<!-- سرویس‌ها -->
+<script src="js/services/storage.js"></script>
+<script src="js/services/ai.js"></script>
+<script src="js/services/email.js"></script>
+<script src="js/services/fileReader.js"></script>
+
+<!-- ماژول‌ها -->
+<script src="js/modules/header.js"></script>
+<script src="js/modules/menu.js"></script>
+<script src="js/modules/ads.js"></script>
+<script src="js/modules/radio.js"></script>
+<script src="js/modules/tv.js"></script>
+<script src="js/modules/archive.js"></script>
+<script src="js/modules/interact.js"></script>
+<script src="js/modules/poster.js"></script>
+<script src="js/modules/smart.js"></script>
+<script src="js/modules/personalize.js"></script>
+
+<!-- مغز اصلی -->
+<script src="js/core.js"></script>
+
+</body>
+</html>
