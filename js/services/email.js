@@ -61,3 +61,9 @@ const Email = {
             این پوستر توسط هوش مصنوعی DALL-E ساخته شده است.
         `;
         return this.send(email, subject, body);
+    }
+};
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Email;
+}
