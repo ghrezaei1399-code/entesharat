@@ -6,56 +6,59 @@ const AI = {
     },
 
     // پاسخ به پیام کاربر
-    async respond(message) {
-        const apiKey = this.getApiKey();
-        
-        console.log('📤 ارسال به OpenAI...');
-        console.log('🔑 کلید:', apiKey ? '✅ موجود' : '❌ موجود نیست');
-        console.log('📝 پیام:', message);
+   
+async respond(message) {
+    const apiKey = this.getApiKey();
 
-        if (!apiKey) {
-            console.warn('⚠️ کلید API یافت نشد');
-            return '⚠️ کلید هوش مصنوعی تنظیم نشده است. لطفاً با مدیر سیستم تماس بگیرید.';
+    console.log('📤 ارسال به OpenAI...');
+    console.log('🔑 کلید:', apiKey ? '✅ موجود' : '❌ موجود نیست');
+    console.log('📝 پیام:', message);
+
+    if (!apiKey) {
+        console.warn('⚠️ کلید API یافت نشد');
+        return '⚠️ کلید هوش مصنوعی تنظیم نشده است. لطفاً با مدیر سیستم تماس بگیرید.';
+    }
+
+    try {
+        // ✅ استفاده از encodeURIComponent برای ایمن‌سازی هدر
+        const encodedKey = encodeURIComponent(apiKey).replace(/%20/g, '');
+
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + encodedKey
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'شما یک دستیار هوشمند برای پاسخ به سوالات کاربران درباره موسیقی، رادیو و تلویزیون هستید. پاسخ‌ها را محترمانه، مفید و مختصر بنویسید.'
+                    },
+                    {
+                        role: 'user',
+                        content: message
+                    }
+                ],
+                max_tokens: 200,
+                temperature: 0.7
+            })
+        });
+
+        const data = await response.json();
+        console.log('📥 پاسخ از OpenAI:', data);
+
+        if (data.error) {
+            throw new Error(data.error.message);
         }
+        return data.choices[0].message.content;
 
-        try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                        { 
-                            role: 'system', 
-                            content: 'شما یک دستیار هوشمند برای پاسخ به سوالات کاربران درباره موسیقی، رادیو و تلویزیون هستید. پاسخ‌ها را محترمانه، مفید و مختصر بنویسید.' 
-                        },
-                        { 
-                            role: 'user', 
-                            content: message
-                        }
-                    ],
-                    max_tokens: 200,
-                    temperature: 0.7
-                })
-            });
-
-            const data = await response.json();
-            console.log('📥 پاسخ از OpenAI:', data);
-
-            if (data.error) {
-                throw new Error(data.error.message);
-            }
-            return data.choices[0].message.content;
-
-        } catch (error) {
-            console.error('❌ خطا در پاسخگویی:', error);
-            return '❌ خطا در ارتباط با هوش مصنوعی. لطفاً دوباره تلاش کنید.';
-        }
-    },
-
+    } catch (error) {
+        console.error('❌ خطا در پاسخگویی:', error);
+        return '❌ خطا در ارتباط با هوش مصنوعی. لطفاً دوباره تلاش کنید.';
+    }
+}
     // خلاصه‌سازی متن
     async summarize(text) {
         const apiKey = this.getApiKey();
