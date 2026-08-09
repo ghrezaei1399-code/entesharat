@@ -57,6 +57,5 @@ const APP_CONFIG = {
 };
 
 // در دسترس قرار دادن برای سایر فایل‌ها
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = APP_CONFIG;
+export default APP_CONFIG;
 }
