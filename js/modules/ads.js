@@ -1,15 +1,77 @@
 // ===== ماژول تبلیغات =====
 const AdsModule = {
     data: {
+        // سمت چپ: تبلیغات همکاران حوزه چاپ
         left: [
-            {name: 'کیمیای اندیشه', desc: 'ناشر تخصصی هوش مصنوعی', link: 'https://kimiaandisheh.com', logo: '📚'},
-            {name: 'انتشارات دانشگاهی', desc: 'مرجع کتب علمی', link: 'https://example.com', logo: '📖'},
-            {name: 'موسسه هنر و رسانه', desc: 'پژوهش و نشر', link: 'https://example.com', logo: '🎨'}
+            {
+                name: 'چاپ گرافیت',
+                desc: 'کانون تبلیغاتی معتبر | چاپ بنر، کاتالوگ، بسته‌بندی',
+                link: 'https://graphit-print.com',
+                logo: '🖨️'
+            },
+            {
+                name: 'چاپ ایما',
+                desc: 'بزرگترین مجموعه چاپ دیجیتال شرق کشور',
+                link: 'https://ima-print.com',
+                logo: '📇'
+            },
+            {
+                name: 'انتشارات طلوع مجد',
+                desc: 'چاپ کتاب، صفحه‌آرایی، طراحی جلد و تبلیغات',
+                link: 'https://tolouemajd.ir',
+                logo: '📘'
+            },
+            {
+                name: 'چاپخانه رهام',
+                desc: 'چاپ افست و دیجیتال با کیفیت بالا',
+                link: 'https://roham-print.ir',
+                logo: '📰'
+            }
         ],
+        // سمت راست: تبلیغات همکاران نشر
         right: [
-            {name: 'بوک‌مارت', desc: 'فروشگاه کتاب', link: 'https://example.com', logo: '📚'},
-            {name: 'نشر فرهنگ', desc: 'انتشارات عمومی', link: 'https://example.com', logo: '📖'},
-            {name: 'آکادمی هوش مصنوعی', desc: 'آموزش و پژوهش', link: 'https://example.com', logo: '🤖'}
+            {
+                name: 'نشر ققنوس',
+                desc: 'قدیمی‌ترین ناشر ادبیات، فلسفه و تاریخ ایران',
+                link: 'https://ghoghnoospub.ir',
+                logo: '📚'
+            },
+            {
+                name: 'نشر چشمه',
+                desc: 'پیشرو در ادبیات معاصر و شعر نو',
+                link: 'https://cheshmeh.ir',
+                logo: '📖'
+            },
+            {
+                name: 'نشر ثالث',
+                desc: 'ناشر برتر ادبیات داستانی و ترجمه',
+                link: 'https://salespub.ir',
+                logo: '📕'
+            },
+            {
+                name: 'نشر مرکز',
+                desc: 'معتبر در ادبیات فارسی و علوم انسانی',
+                link: 'https://markazpub.ir',
+                logo: '📗'
+            },
+            {
+                name: 'نشر قطره',
+                desc: 'فعال در ادبیات، روانشناسی و کتاب‌های آموزشی',
+                link: 'https://ghatreh.com',
+                logo: '📙'
+            },
+            {
+                name: 'نشر نی',
+                desc: 'برجسته در فلسفه، علوم اجتماعی و تاریخ',
+                link: 'https://ney-pub.ir',
+                logo: '📘'
+            },
+            {
+                name: 'انتشارات فروغ سیمرغ',
+                desc: 'ناشر ادبیات کلاسیک و معاصر فارسی',
+                link: 'https://forughsimorgh.ir',
+                logo: '🦅'
+            }
         ]
     },
     page: {left: 0, right: 0},
@@ -18,11 +80,12 @@ const AdsModule = {
     render(side) {
         const container = document.getElementById('ad' + side.charAt(0).toUpperCase() + side.slice(1) + 'List');
         if (!container) return;
-        
+
+        const sideName = side === 'left' ? 'چاپ' : 'نشر';
         const ads = this.data[side] || [];
         const start = this.page[side] * this.perPage;
         const pageAds = ads.slice(start, start + this.perPage);
-        
+
         if (pageAds.length === 0) {
             container.innerHTML = '<div class="ad-box" style="padding:15px;color:#7f8c8d;font-size:.7rem">هیچ تبلیغی ثبت نشده است.</div>';
         } else {
@@ -35,7 +98,7 @@ const AdsModule = {
                 </div>
             `).join('');
         }
-        
+
         const pageNum = document.getElementById('ad' + side.charAt(0).toUpperCase() + side.slice(1) + 'PageNum');
         if (pageNum) {
             const total = Math.max(1, Math.ceil(ads.length / this.perPage));
@@ -53,19 +116,19 @@ const AdsModule = {
     addAd(side) {
         const input = document.getElementById('ad' + side.charAt(0).toUpperCase() + side.slice(1) + 'Input');
         const link = document.getElementById('ad' + side.charAt(0).toUpperCase() + side.slice(1) + 'Link');
-        
+
         if (!input || !input.value.trim()) {
             Core.showNotification('لطفاً نام تبلیغ را وارد کنید.', 'error');
             return;
         }
-        
+
         this.data[side].push({
             name: input.value.trim(),
             desc: 'تبلیغ جدید',
             link: link.value.trim() || '#',
             logo: '📢'
         });
-        
+
         input.value = '';
         if (link) link.value = '';
         this.render(side);
@@ -76,13 +139,13 @@ const AdsModule = {
     renderMobile() {
         const container = document.getElementById('adMobileList');
         if (!container) return;
-        
+
         const all = [...this.data.left, ...this.data.right];
         if (all.length === 0) {
             container.innerHTML = '<div style="color:#7f8c8d;font-size:.7rem">هیچ تبلیغی ثبت نشده است.</div>';
             return;
         }
-        
+
         container.innerHTML = all.slice(0, 6).map(ad => `
             <div style="background:#fff;border-radius:10px;padding:8px;flex:1;min-width:100px;border:1px solid #e8ddd0;text-align:center">
                 <span style="font-size:1.2rem">${ad.logo || '📢'}</span>
