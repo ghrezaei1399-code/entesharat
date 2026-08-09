@@ -6,9 +6,17 @@ const PersonalizeModule = {
     // ✅ 'footer-mini' اضافه شد
 }
 
-    loadSettings() {
-        return Storage.get(this.storageKey, this.defaultSettings);
-    },
+  loadSettings() {
+    try {
+        const saved = localStorage.getItem(this.storageKey);
+        if (saved) {
+            return { ...this.defaultSettings, ...JSON.parse(saved) };
+        }
+    } catch (e) {
+        console.warn('خطا در بارگذاری تنظیمات:', e);
+    }
+    return { ...this.defaultSettings };
+},
 
     saveSettings(settings) {
         Storage.save(this.storageKey, settings);
