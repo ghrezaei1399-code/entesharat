@@ -3,7 +3,7 @@ const PersonalizeModule = {
     storageKey: 'personalize_settings',
     defaultSettings: {
         hiddenSections: [],
-        sectionOrder: ['radio', 'tv', 'archive', 'gallery', 'radionava', 'interact', 'smart-select', 'reading-growth', 'book-narrators', 'media-helpers', 'publish', 'footer-mini'],
+       sectionOrder: ['radio', 'tv', ... , 'publish', 'footer-mini'],
         adsVisible: true,
         fontSize: 100
     },
