@@ -1,8 +1,8 @@
 // ===== ماژول تلویزیون =====
 const TvModule = {
     files: [
-        'images/ویدئوی طرح همگام سازی خدمات هوشمند~2.mp4',
-        'images/ویئوی کتاب هنر هوشمند نگاری 2.mp4'
+        'images/ویدئوی همگام سازی .mp4',
+        'images/ویدئوی هوشمند نگاری.mp4'
     ],
     titles: ['ویدئوی طرح همگام‌سازی خدمات', 'ویدئوی کتاب هنر هوشمند نگاری ۲'],
     currentIndex: 0,
@@ -10,7 +10,6 @@ const TvModule = {
     renderPlaylist() {
         const container = document.getElementById('tvPlaylist');
         if (!container) return;
-        
         container.innerHTML = '';
         this.files.forEach((file, i) => {
             const div = document.createElement('div');
@@ -32,13 +31,8 @@ const TvModule = {
         }
     },
 
-    next() {
-        this.load((this.currentIndex + 1) % this.files.length);
-    },
-
-    prev() {
-        this.load((this.currentIndex - 1 + this.files.length) % this.files.length);
-    },
+    next() { this.load((this.currentIndex + 1) % this.files.length); },
+    prev() { this.load((this.currentIndex - 1 + this.files.length) % this.files.length); },
 
     addFile() {
         const input = document.createElement('input');
@@ -50,47 +44,43 @@ const TvModule = {
                 this.files.push(URL.createObjectURL(file));
                 this.titles.push(file.name);
                 this.renderPlaylist();
-                Core.showNotification('✅ ویدئو با موفقیت اضافه شد!', 'success');
+                alert('✅ ویدئو با موفقیت اضافه شد!');
             }
         };
         input.click();
     },
 
-    async sendMessage(type) {
+    // پیام‌ها فقط در باکس نمایش داده می‌شوند (بدون درخواست به OpenAI)
+    sendMessage(type) {
         const input = document.getElementById('comment_tv');
         let message = input.value.trim();
         if (type === 'audio') message = '🎤 پیام صوتی';
         else if (type === 'video') message = '🎬 پیام ویدئویی';
         else if (!message) {
-            Core.showNotification('لطفاً متن خود را بنویسید.', 'error');
+            alert('لطفاً متن خود را بنویسید.');
             return;
         }
-        
-        Core.addInteraction(message, 'تلویزیون', type, 'responses_tv');
+        // نمایش پیام کاربر
+        const container = document.getElementById('responses_tv');
+        const div = document.createElement('div');
+        div.className = 'response-item';
+        div.innerHTML = `<span class="type-icon text">م</span> <span>${message}</span>`;
+        container.prepend(div);
         input.value = '';
-        
-        try {
-            const reply = await AI.respond(message);
-            const responses = document.getElementById('responses_tv');
-            const div = document.createElement('div');
-            div.className = 'response-item';
-            div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
-                <div class="ai-response">${reply}</div>`;
-            responses.appendChild(div);
-            responses.scrollTop = responses.scrollHeight;
-        } catch (error) {
-            console.error('خطا در AI:', error);
-            Core.showNotification('خطا در ارتباط با هوش مصنوعی', 'error');
-        }
+        // پاسخ خودکار ساده
+        setTimeout(() => {
+            const replyDiv = document.createElement('div');
+            replyDiv.className = 'response-item';
+            replyDiv.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> <span>✅ پیام شما دریافت شد. از ارتباط شما سپاسگزاریم!</span>`;
+            container.prepend(replyDiv);
+        }, 500);
     },
 
     init() {
         this.renderPlaylist();
-        
         document.querySelector('#tv .btn-next')?.addEventListener('click', () => this.next());
         document.querySelector('#tv .btn-prev')?.addEventListener('click', () => this.prev());
         document.querySelector('#tv .btn-add')?.addEventListener('click', () => this.addFile());
-        
         console.log('✅ TvModule فعال شد');
     }
 };
