@@ -1,22 +1,16 @@
-// ===== ماژول شخصی‌سازی =====
+// js/modules/personalize.js
 const PersonalizeModule = {
     storageKey: 'personalize_settings',
-   defaultSettings: {
-    sectionOrder: ['radio', 'tv', 'archive', 'gallery', 'radionava', 'interact', 'smart-select', 'reading-growth', 'book-narrators', 'media-helpers', 'publish', 'footer-mini'],
-    // ✅ 'footer-mini' اضافه شد
-}
+    defaultSettings: {
+        hiddenSections: [],
+        sectionOrder: ['radio', 'tv', 'archive', 'gallery', 'radionava', 'interact', 'smart-select', 'reading-growth', 'book-narrators', 'media-helpers', 'publish', 'footer-mini'],
+        adsVisible: true,
+        fontSize: 100
+    },
 
-  loadSettings() {
-    try {
-        const saved = localStorage.getItem(this.storageKey);
-        if (saved) {
-            return { ...this.defaultSettings, ...JSON.parse(saved) };
-        }
-    } catch (e) {
-        console.warn('خطا در بارگذاری تنظیمات:', e);
-    }
-    return { ...this.defaultSettings };
-},
+    loadSettings() {
+        return Storage.get(this.storageKey, this.defaultSettings);
+    },
 
     saveSettings(settings) {
         Storage.save(this.storageKey, settings);
@@ -43,18 +37,20 @@ const PersonalizeModule = {
             el.style.display = settings.adsVisible ? '' : 'none';
         });
         
-        // اعمال اندازه فونت
         document.body.style.fontSize = (settings.fontSize || 100) + '%';
     },
 
     setupDragAndDrop() {
         const container = document.querySelector('.container');
-        if (!container || typeof Sortable === 'undefined') return;
+        if (!container || typeof Sortable === 'undefined') {
+            console.warn('Sortable not available');
+            return;
+        }
         
         Sortable.create(container, {
-            handle: '.section-title, .radio-nava-section, .footer',
+            handle: '.section-title, .radio-nava-section, .footer-mini',
             animation: 150,
-            filter: '.header, .menu, .ad-side, .ad-side-mobile',
+            filter: '.header, .menu, .footer, .ad-side, .ad-side-mobile',
             onEnd: () => {
                 const sections = container.querySelectorAll('.draggable-section');
                 const settings = this.loadSettings();
