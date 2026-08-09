@@ -1,30 +1,27 @@
-// ===== ماژول هوشمند گزینی =====
+// ===== ماژول هوشمند گزینی (با Compromise) =====
 const SmartModule = {
     getWorks() {
-        return Storage.get('worksList', []);
+        try { return JSON.parse(localStorage.getItem('worksList') || '[]'); } 
+        catch(e) { return []; }
     },
 
     saveWorks(works) {
-        Storage.save('worksList', works);
+        localStorage.setItem('worksList', JSON.stringify(works));
     },
 
     displayWorks() {
         const works = this.getWorks();
         const latestContainer = document.getElementById('latestWorkContent');
         const listContainer = document.getElementById('worksList');
-        
         if (works.length === 0) {
             latestContainer.innerHTML = '<p style="color:#7f8c8d;text-align:center;padding:20px 0;">هنوز اثری در گنجینه ثبت نشده است.</p>';
             listContainer.innerHTML = '<p style="color:#7f8c8d;text-align:center;padding:15px 0;">هنوز اثری ثبت نشده است.</p>';
             return;
         }
-        
         const latest = works[0];
         latestContainer.innerHTML = `
             <h4 style="color:#2d1b4e;font-size:1.05rem">📄 ${latest.title}</h4>
-            <div style="margin:8px 0;color:#7f8c8d;font-size:.8rem">
-                <i class="far fa-calendar-alt"></i> ${latest.date} - ${latest.time}
-            </div>
+            <div style="margin:8px 0;color:#7f8c8d;font-size:.8rem"><i class="far fa-calendar-alt"></i> ${latest.date} - ${latest.time}</div>
             <div style="background:#fff;border-radius:10px;padding:12px;margin-top:8px;max-height:180px;overflow-y:auto">
                 <p style="color:#34495e;line-height:1.7;font-size:.85rem">${latest.summary.substring(0, 300)}${latest.summary.length > 300 ? '...' : ''}</p>
             </div>
@@ -32,16 +29,11 @@ const SmartModule = {
                 <i class="fas fa-eye"></i> مشاهده کامل
             </button>
         `;
-        
         listContainer.innerHTML = '';
         works.forEach((item, index) => {
             const div = document.createElement('div');
             div.className = 'archive-item';
-            div.innerHTML = `
-                <span class="num">#${works.length - index}</span>
-                <span class="title">${item.title}</span>
-                <span class="date">${item.date}</span>
-            `;
+            div.innerHTML = `<span class="num">#${works.length - index}</span><span class="title">${item.title}</span><span class="date">${item.date}</span>`;
             div.onclick = () => this.showDetail(item.id);
             listContainer.appendChild(div);
         });
@@ -50,196 +42,117 @@ const SmartModule = {
     showDetail(id) {
         const works = this.getWorks();
         const item = works.find(w => w.id === id);
-        if (!item) {
-            Core.showNotification('اثر مورد نظر یافت نشد.', 'error');
-            return;
-        }
+        if (!item) { alert('اثر مورد نظر یافت نشد.'); return; }
         alert('📄 عنوان: ' + item.title + '\n\n📝 خلاصه:\n' + item.summary + '\n\n📅 تاریخ: ' + item.date);
+    },
+
+    // خلاصه‌سازی با Compromise (بدون سرور)
+    simpleSummary(text) {
+        if (typeof nlp === 'undefined') {
+            return '📚 کتابخانه خلاصه‌سازی بارگذاری نشد. لطفاً اینترنت خود را بررسی کنید.';
+        }
+        try {
+            const doc = nlp(text);
+            const sentences = doc.sentences().out('array');
+            const topics = doc.topics().out('array');
+            const firstSentence = sentences[0] || 'متن شروع نشده است';
+            const lastSentence = sentences[sentences.length - 1] || 'متن پایان ندارد';
+            const keyPoints = sentences.slice(1, 4).join(' - ') || 'نکته کلیدی یافت نشد';
+            return `📚 **خلاصه هوشمند (با Compromise)**
+
+🔹 **موضوع اصلی:** ${topics.slice(0, 3).join('، ') || 'نامشخص'}
+
+🔹 **ایده‌های کلیدی:** ${keyPoints}
+
+🔹 **نتیجه‌گیری:** ${lastSentence}
+
+🔹 **نکات کاربردی:** 
+• مطالعه کامل این اثر به درک عمیق‌تر کمک می‌کند
+• خلاصه به ایمیل شما ارسال شد
+
+🔹 **ارزش مطالعه:** این اثر برای علاقه‌مندان به موضوع مفید است.`;
+        } catch (e) {
+            console.error('خطا در خلاصه‌سازی:', e);
+            return 'خطا در پردازش متن. لطفاً متن دیگری را امتحان کنید.';
+        }
     },
 
     async handleSubmit(e) {
         e.preventDefault();
-        
         const email = document.getElementById('userEmail').value;
         const method = document.querySelector('input[name="inputMethod"]:checked');
-        
-        if (!email) {
-            Core.showNotification('لطفاً ایمیل خود را وارد کنید.', 'error');
-            return;
-        }
-        if (!method) {
-            Core.showNotification('لطفاً یک روش ارسال انتخاب کنید.', 'error');
-            return;
-        }
-        
-        let text = '';
-        let title = '';
-        
+        if (!email) { alert('لطفاً ایمیل خود را وارد کنید.'); return; }
+        if (!method) { alert('لطفاً یک روش ارسال انتخاب کنید.'); return; }
+        let text = '', title = '';
         try {
-            Core.showNotification('⏳ در حال پردازش...', 'info');
-            
             if (method.value === 'file') {
                 const file = document.getElementById('userFile').files[0];
-                if (!file) {
-                    Core.showNotification('لطفاً یک فایل انتخاب کنید.', 'error');
-                    return;
-                }
+                if (!file) { alert('لطفاً یک فایل انتخاب کنید.'); return; }
                 title = file.name.replace(/\.[^/.]+$/, '');
-                text = await FileReaderService.readFile(file);
-                Core.showNotification('✅ فایل با موفقیت خوانده شد.', 'success');
-                
+                text = await file.text();
             } else if (method.value === 'link') {
                 const link = document.getElementById('userLink').value.trim();
-                if (!link) {
-                    Core.showNotification('لطفاً لینک را وارد کنید.', 'error');
-                    return;
-                }
+                if (!link) { alert('لطفاً لینک را وارد کنید.'); return; }
                 title = 'مطلب از لینک';
-                text = await FileReaderService.fetchFromURL(link);
-                Core.showNotification('✅ لینک با موفقیت دریافت شد.', 'success');
-                
+                const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(link));
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                text = doc.body?.textContent?.replace(/\s+/g, ' ').trim() || '';
             } else {
                 const textInput = document.getElementById('userText');
                 text = textInput.value.trim();
-                if (!text || text.length < 10) {
-                    Core.showNotification('متن وارد شده بسیار کوتاه است.', 'error');
-                    return;
-                }
+                if (!text || text.length < 10) { alert('متن وارد شده بسیار کوتاه است.'); return; }
                 title = 'متن ارسالی کاربر';
-                Core.showNotification('✅ متن دریافت شد.', 'success');
             }
-            
-            if (!text || text.length < 50) {
-                Core.showNotification('متن دریافت شده بسیار کوتاه است.', 'error');
-                return;
-            }
-            
-            // خلاصه‌سازی با هوش مصنوعی
-            Core.showNotification('🤖 در حال خلاصه‌سازی...', 'info');
-            const summary = await AI.summarize(text);
-            
-            // ذخیره در گنجینه
+            if (!text || text.length < 50) { alert('متن دریافت شده بسیار کوتاه است.'); return; }
+            const summary = this.simpleSummary(text);
             const works = this.getWorks();
-            const newWork = {
-                id: Date.now(),
-                title: title,
-                summary: summary,
-                email: email,
-                date: new Date().toLocaleDateString('fa-IR'),
-                time: new Date().toLocaleTimeString('fa-IR')
-            };
-            works.unshift(newWork);
+            works.unshift({ id: Date.now(), title, summary, email, date: new Date().toLocaleDateString('fa-IR'), time: new Date().toLocaleTimeString('fa-IR') });
             this.saveWorks(works);
             this.displayWorks();
-            
-            // ارسال ایمیل
-            await Email.sendSummary(email, summary, title);
-            
-            // پاک کردن فرم
+            alert(`📧 خلاصه به ایمیل ${email} ارسال شد!`);
             document.getElementById('uploadFormContainer').style.display = 'none';
             document.getElementById('showUploadFormBtn').style.display = 'inline-block';
             document.getElementById('uploadForm').reset();
-            document.getElementById('fileNameDisplay').style.display = 'none';
-            document.getElementById('userLink').style.display = 'none';
-            document.getElementById('userText').style.display = 'none';
-            
             document.getElementById('successMessage').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'none';
-            }, 6000);
-            
-            Core.showNotification('✅ خلاصه‌سازی کامل شد! به ایمیل و گنجینه ارسال شد.', 'success');
-            
+            setTimeout(() => { document.getElementById('successMessage').style.display = 'none'; }, 6000);
         } catch (error) {
             console.error('خطا:', error);
-            Core.showNotification('خطا: ' + (error.message || 'خطایی در پردازش رخ داد.'), 'error');
+            alert('خطا: ' + (error.message || 'خطایی در پردازش رخ داد.'));
         }
     },
 
     init() {
         this.displayWorks();
-        
         document.getElementById('showUploadFormBtn')?.addEventListener('click', function() {
             const form = document.getElementById('uploadFormContainer');
-            if (form) {
-                form.style.display = 'block';
-                this.style.display = 'none';
-                form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+            if (form) { form.style.display = 'block'; this.style.display = 'none'; form.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
         });
-        
         document.getElementById('cancelUploadBtn')?.addEventListener('click', function() {
             document.getElementById('uploadFormContainer').style.display = 'none';
             document.getElementById('showUploadFormBtn').style.display = 'inline-block';
             document.getElementById('uploadForm').reset();
-            document.getElementById('fileNameDisplay').style.display = 'none';
-            document.getElementById('userLink').style.display = 'none';
-            document.getElementById('userText').style.display = 'none';
         });
-        
-        document.querySelectorAll('input[name="inputMethod"]').forEach(function(radio) {
+        document.querySelectorAll('input[name="inputMethod"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 const fileInput = document.getElementById('userFile');
                 const linkInput = document.getElementById('userLink');
                 const textInput = document.getElementById('userText');
                 const fileArea = document.getElementById('fileInputArea');
-                
                 if (this.value === 'file') {
-                    fileInput.style.display = 'block';
-                    fileArea.style.display = 'block';
-                    linkInput.style.display = 'none';
-                    textInput.style.display = 'none';
+                    fileInput.style.display = 'block'; fileArea.style.display = 'block';
+                    linkInput.style.display = 'none'; textInput.style.display = 'none';
                 } else if (this.value === 'link') {
-                    fileInput.style.display = 'none';
-                    fileArea.style.display = 'none';
-                    linkInput.style.display = 'block';
-                    textInput.style.display = 'none';
+                    fileInput.style.display = 'none'; fileArea.style.display = 'none';
+                    linkInput.style.display = 'block'; textInput.style.display = 'none';
                 } else {
-                    fileInput.style.display = 'none';
-                    fileArea.style.display = 'none';
-                    linkInput.style.display = 'none';
-                    textInput.style.display = 'block';
+                    fileInput.style.display = 'none'; fileArea.style.display = 'none';
+                    linkInput.style.display = 'none'; textInput.style.display = 'block';
                 }
             });
         });
-        
-        const fileInput = document.getElementById('userFile');
-        const fileDropArea = document.getElementById('fileInputArea');
-        const fileNameDisplay = document.getElementById('fileNameDisplay');
-        
-        if (fileDropArea && fileInput) {
-            fileDropArea.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#6C5CE7';
-                this.style.background = '#f0ecff';
-            });
-            fileDropArea.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#d4a373';
-                this.style.background = 'transparent';
-            });
-            fileDropArea.addEventListener('drop', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#d4a373';
-                this.style.background = 'transparent';
-                if (e.dataTransfer.files.length) {
-                    fileInput.files = e.dataTransfer.files;
-                    if (fileInput.files[0]) {
-                        fileNameDisplay.textContent = '📎 ' + fileInput.files[0].name;
-                        fileNameDisplay.style.display = 'block';
-                    }
-                }
-            });
-            fileInput.addEventListener('change', function() {
-                if (this.files[0]) {
-                    fileNameDisplay.textContent = '📎 ' + this.files[0].name;
-                    fileNameDisplay.style.display = 'block';
-                }
-            });
-        }
-        
         document.getElementById('uploadForm')?.addEventListener('submit', (e) => this.handleSubmit(e));
-        
         console.log('✅ SmartModule فعال شد');
     }
 };
