@@ -47,30 +47,45 @@ const RadioModule = {
                 this.files.push(URL.createObjectURL(file));
                 this.titles.push(file.name);
                 this.renderPlaylist();
-                alert('✅ فایل با موفقیت اضافه شد!');
+                Core.showNotification('✅ فایل با موفقیت اضافه شد!', 'success');
             }
         };
         input.click();
     },
 
-    sendMessage(type) {
+    async sendMessage(type) {
         const input = document.getElementById('comment_radio');
         let message = input.value.trim();
         if (type === 'audio') message = '🎤 پیام صوتی';
         else if (type === 'video') message = '🎬 پیام ویدئویی';
         else if (!message) {
-            alert('لطفاً متن خود را بنویسید.');
+            Core.showNotification('لطفاً متن خود را بنویسید.', 'error');
             return;
         }
         
+        // نمایش پیام کاربر
         Core.addInteraction(message, 'رادیو', type, 'responses_radio');
         input.value = '';
+        
+        // دریافت پاسخ واقعی از AI
+        try {
+            const reply = await AI.respond(message);
+            const responses = document.getElementById('responses_radio');
+            const div = document.createElement('div');
+            div.className = 'response-item';
+            div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
+                <div class="ai-response">${reply}</div>`;
+            responses.appendChild(div);
+            responses.scrollTop = responses.scrollHeight;
+        } catch (error) {
+            console.error('خطا در AI:', error);
+            Core.showNotification('خطا در ارتباط با هوش مصنوعی', 'error');
+        }
     },
 
     init() {
         this.renderPlaylist();
         
-        // دکمه‌ها
         document.querySelector('#radio .btn-next')?.addEventListener('click', () => this.next());
         document.querySelector('#radio .btn-prev')?.addEventListener('click', () => this.prev());
         document.querySelector('#radio .btn-add')?.addEventListener('click', () => this.addFile());
