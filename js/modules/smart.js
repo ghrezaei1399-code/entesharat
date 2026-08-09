@@ -201,3 +201,54 @@ const SmartModule = {
                     fileArea.style.display = 'none';
                     linkInput.style.display = 'none';
                     textInput.style.display
+
+                }
+            });
+        });
+        
+        // آپلود فایل با کشیدن
+        const fileInput = document.getElementById('userFile');
+        const fileDropArea = document.getElementById('fileInputArea');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        
+        if (fileDropArea && fileInput) {
+            fileDropArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#6C5CE7';
+                this.style.background = '#f0ecff';
+            });
+            fileDropArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#d4a373';
+                this.style.background = 'transparent';
+            });
+            fileDropArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#d4a373';
+                this.style.background = 'transparent';
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    if (fileInput.files[0]) {
+                        fileNameDisplay.textContent = '📎 ' + fileInput.files[0].name;
+                        fileNameDisplay.style.display = 'block';
+                    }
+                }
+            });
+            fileInput.addEventListener('change', function() {
+                if (this.files[0]) {
+                    fileNameDisplay.textContent = '📎 ' + this.files[0].name;
+                    fileNameDisplay.style.display = 'block';
+                }
+            });
+        }
+        
+        // فرم ارسال
+        document.getElementById('uploadForm')?.addEventListener('submit', (e) => this.handleSubmit(e));
+        
+        console.log('✅ SmartModule فعال شد');
+    }
+};
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = SmartModule;
+}
