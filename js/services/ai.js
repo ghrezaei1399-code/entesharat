@@ -5,7 +5,58 @@ const AI = {
         return window.CONFIG?.OPENAI_API_KEY || window.ENV?.OPENAI_API_KEY || '';
     },
 
-    // خلاصه‌سازی متن با ۵ ویژگی
+    // پاسخ به پیام کاربر
+    async respond(message) {
+        const apiKey = this.getApiKey();
+        
+        console.log('📤 ارسال به OpenAI...');
+        console.log('🔑 کلید:', apiKey ? '✅ موجود' : '❌ موجود نیست');
+        console.log('📝 پیام:', message);
+
+        if (!apiKey) {
+            console.warn('⚠️ کلید API یافت نشد');
+            return '⚠️ کلید هوش مصنوعی تنظیم نشده است. لطفاً با مدیر سیستم تماس بگیرید.';
+        }
+
+        try {
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-3.5-turbo',
+                    messages: [
+                        { 
+                            role: 'system', 
+                            content: 'شما یک دستیار هوشمند برای پاسخ به سوالات کاربران درباره موسیقی، رادیو و تلویزیون هستید. پاسخ‌ها را محترمانه، مفید و مختصر بنویسید.' 
+                        },
+                        { 
+                            role: 'user', 
+                            content: message
+                        }
+                    ],
+                    max_tokens: 200,
+                    temperature: 0.7
+                })
+            });
+
+            const data = await response.json();
+            console.log('📥 پاسخ از OpenAI:', data);
+
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
+            return data.choices[0].message.content;
+
+        } catch (error) {
+            console.error('❌ خطا در پاسخگویی:', error);
+            return '❌ خطا در ارتباط با هوش مصنوعی. لطفاً دوباره تلاش کنید.';
+        }
+    },
+
+    // خلاصه‌سازی متن
     async summarize(text) {
         const apiKey = this.getApiKey();
         
@@ -15,7 +66,6 @@ const AI = {
         }
 
         try {
-            console.log('📤 ارسال به OpenAI...');
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
                 headers: {
@@ -29,17 +79,15 @@ const AI = {
                             role: 'system', 
                             content: `شما یک دستیار هوشمند برای خلاصه‌سازی کتاب و مقاله هستید. 
                             لطفاً متن را با ۵ ویژگی زیر خلاصه کنید:
-                            ۱. موضوع اصلی (Main Topic)
-                            ۲. ایده‌های کلیدی (Key Ideas) - حداقل ۳ مورد
-                            ۳. نتیجه‌گیری (Conclusion)
-                            ۴. نکات کاربردی (Practical Tips) - حداقل ۲ مورد
-                            ۵. ارزش مطالعه (Reading Value)
-                            
-                            خلاصه را روان، منسجم و با حفظ نکات کلیدی بنویسید.` 
+                            ۱. موضوع اصلی
+                            ۲. ایده‌های کلیدی - حداقل ۳ مورد
+                            ۳. نتیجه‌گیری
+                            ۴. نکات کاربردی - حداقل ۲ مورد
+                            ۵. ارزش مطالعه` 
                         },
                         { 
                             role: 'user', 
-                            content: `لطفاً متن زیر را با ۵ ویژگی ذکر شده خلاصه کن:\n\n${text.substring(0, 15000)}` 
+                            content: `لطفاً متن زیر را خلاصه کن:\n\n${text.substring(0, 15000)}` 
                         }
                     ],
                     max_tokens: 800,
@@ -51,7 +99,6 @@ const AI = {
             if (data.error) {
                 throw new Error(data.error.message);
             }
-            console.log('✅ خلاصه از OpenAI دریافت شد');
             return data.choices[0].message.content;
 
         } catch (error) {
@@ -60,31 +107,23 @@ const AI = {
         }
     },
 
-    // خلاصه جایگزین (بدون API)
     fallbackSummary(text) {
         const sentences = text.split(/[.。!！?？\n]/).filter(s => s.trim().length > 10);
-        const firstSentences = sentences.slice(0, 5);
-        
         return `📚 **خلاصه هوشمند (نسخه جایگزین)**
 
 🔹 **موضوع اصلی:** 
-${firstSentences[0] || 'متن برای تحلیل کافی نیست'}
+${sentences[0] || 'متن برای تحلیل کافی نیست'}
 
 🔹 **ایده‌های کلیدی:**
-${firstSentences.slice(1, 4).map((s, i) => `• ${s.trim()}`).join('\n') || '• اطلاعات کافی برای استخراج ایده‌های کلیدی وجود ندارد'}
+• ${sentences[1] || 'ایده اول'}
+• ${sentences[2] || 'ایده دوم'}
+• ${sentences[3] || 'ایده سوم'}
 
 🔹 **نتیجه‌گیری:**
-${firstSentences[firstSentences.length - 1] || 'متن برای نتیجه‌گیری کافی نیست'}
-
-🔹 **نکات کاربردی:**
-• مطالعه کامل این اثر به درک عمیق‌تر کمک می‌کند
-• خلاصه به ایمیل شما ارسال شد
-
-🔹 **ارزش مطالعه:**
-این اثر برای علاقه‌مندان به موضوع بسیار مفید و ارزشمند است.`;
+${sentences[sentences.length - 1] || 'نتیجه‌گیری'}`;
     },
 
-    // ساخت پوستر با DALL-E
+    // ساخت پوستر
     async generatePoster(description) {
         const apiKey = this.getApiKey();
         
@@ -94,7 +133,6 @@ ${firstSentences[firstSentences.length - 1] || 'متن برای نتیجه‌گ�
         }
 
         try {
-            console.log('🎨 در حال ساخت پوستر با DALL-E...');
             const response = await fetch('https://api.openai.com/v1/images/generations', {
                 method: 'POST',
                 headers: {
@@ -113,56 +151,11 @@ ${firstSentences[firstSentences.length - 1] || 'متن برای نتیجه‌گ�
             if (data.error) {
                 throw new Error(data.error.message);
             }
-            console.log('✅ پوستر ساخته شد');
             return data.data[0].url;
 
         } catch (error) {
             console.error('❌ خطا در ساخت پوستر:', error);
             return null;
-        }
-    },
-
-    // پاسخ به پیام کاربر
-    async respond(message) {
-        const apiKey = this.getApiKey();
-        
-        if (!apiKey) {
-            return 'از پیام شما سپاسگزاریم. در حال پردازش...';
-        }
-
-        try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                        { 
-                            role: 'system', 
-                            content: 'شما یک دستیار هوشمند برای پاسخ به سوالات کاربران هستید. پاسخ‌ها را محترمانه، مفید و مختصر بنویسید.' 
-                        },
-                        { 
-                            role: 'user', 
-                            content: message
-                        }
-                    ],
-                    max_tokens: 200,
-                    temperature: 0.7
-                })
-            });
-
-            const data = await response.json();
-            if (data.error) {
-                throw new Error(data.error.message);
-            }
-            return data.choices[0].message.content;
-
-        } catch (error) {
-            console.error('❌ خطا در پاسخگویی:', error);
-            return 'از پیام شما سپاسگزاریم. در حال پردازش...';
         }
     }
 };
