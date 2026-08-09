@@ -1,16 +1,13 @@
 // ===== ماژول هوشمند گزینی =====
 const SmartModule = {
-    // دریافت لیست آثار
     getWorks() {
         return Storage.get('worksList', []);
     },
 
-    // ذخیره لیست آثار
     saveWorks(works) {
         Storage.save('worksList', works);
     },
 
-    // نمایش گنجینه
     displayWorks() {
         const works = this.getWorks();
         const latestContainer = document.getElementById('latestWorkContent');
@@ -22,7 +19,6 @@ const SmartModule = {
             return;
         }
         
-        // آخرین اثر
         const latest = works[0];
         latestContainer.innerHTML = `
             <h4 style="color:#2d1b4e;font-size:1.05rem">📄 ${latest.title}</h4>
@@ -37,7 +33,6 @@ const SmartModule = {
             </button>
         `;
         
-        // فهرست
         listContainer.innerHTML = '';
         works.forEach((item, index) => {
             const div = document.createElement('div');
@@ -52,18 +47,16 @@ const SmartModule = {
         });
     },
 
-    // نمایش جزئیات اثر
     showDetail(id) {
         const works = this.getWorks();
         const item = works.find(w => w.id === id);
         if (!item) {
-            alert('اثر مورد نظر یافت نشد.');
+            Core.showNotification('اثر مورد نظر یافت نشد.', 'error');
             return;
         }
         alert('📄 عنوان: ' + item.title + '\n\n📝 خلاصه:\n' + item.summary + '\n\n📅 تاریخ: ' + item.date);
     },
 
-    // پردازش فرم ارسال
     async handleSubmit(e) {
         e.preventDefault();
         
@@ -71,11 +64,11 @@ const SmartModule = {
         const method = document.querySelector('input[name="inputMethod"]:checked');
         
         if (!email) {
-            alert('لطفاً ایمیل خود را وارد کنید.');
+            Core.showNotification('لطفاً ایمیل خود را وارد کنید.', 'error');
             return;
         }
         if (!method) {
-            alert('لطفاً یک روش ارسال انتخاب کنید.');
+            Core.showNotification('لطفاً یک روش ارسال انتخاب کنید.', 'error');
             return;
         }
         
@@ -83,38 +76,46 @@ const SmartModule = {
         let title = '';
         
         try {
+            Core.showNotification('⏳ در حال پردازش...', 'info');
+            
             if (method.value === 'file') {
                 const file = document.getElementById('userFile').files[0];
                 if (!file) {
-                    alert('لطفاً یک فایل انتخاب کنید.');
+                    Core.showNotification('لطفاً یک فایل انتخاب کنید.', 'error');
                     return;
                 }
                 title = file.name.replace(/\.[^/.]+$/, '');
                 text = await FileReaderService.readFile(file);
+                Core.showNotification('✅ فایل با موفقیت خوانده شد.', 'success');
+                
             } else if (method.value === 'link') {
                 const link = document.getElementById('userLink').value.trim();
                 if (!link) {
-                    alert('لطفاً لینک را وارد کنید.');
+                    Core.showNotification('لطفاً لینک را وارد کنید.', 'error');
                     return;
                 }
                 title = 'مطلب از لینک';
                 text = await FileReaderService.fetchFromURL(link);
+                Core.showNotification('✅ لینک با موفقیت دریافت شد.', 'success');
+                
             } else {
                 const textInput = document.getElementById('userText');
                 text = textInput.value.trim();
                 if (!text || text.length < 10) {
-                    alert('متن وارد شده بسیار کوتاه است.');
+                    Core.showNotification('متن وارد شده بسیار کوتاه است.', 'error');
                     return;
                 }
                 title = 'متن ارسالی کاربر';
+                Core.showNotification('✅ متن دریافت شد.', 'success');
             }
             
             if (!text || text.length < 50) {
-                alert('متن دریافت شده بسیار کوتاه است.');
+                Core.showNotification('متن دریافت شده بسیار کوتاه است.', 'error');
                 return;
             }
             
             // خلاصه‌سازی با هوش مصنوعی
+            Core.showNotification('🤖 در حال خلاصه‌سازی...', 'info');
             const summary = await AI.summarize(text);
             
             // ذخیره در گنجینه
@@ -147,18 +148,17 @@ const SmartModule = {
                 document.getElementById('successMessage').style.display = 'none';
             }, 6000);
             
-            alert('✅ خلاصه‌سازی کامل شد! به ایمیل و گنجینه ارسال شد.');
+            Core.showNotification('✅ خلاصه‌سازی کامل شد! به ایمیل و گنجینه ارسال شد.', 'success');
             
         } catch (error) {
             console.error('خطا:', error);
-            alert('خطا: ' + (error.message || 'خطایی در پردازش رخ داد.'));
+            Core.showNotification('خطا: ' + (error.message || 'خطایی در پردازش رخ داد.'), 'error');
         }
     },
 
     init() {
         this.displayWorks();
         
-        // دکمه نمایش فرم
         document.getElementById('showUploadFormBtn')?.addEventListener('click', function() {
             const form = document.getElementById('uploadFormContainer');
             if (form) {
@@ -168,7 +168,6 @@ const SmartModule = {
             }
         });
         
-        // دکمه لغو
         document.getElementById('cancelUploadBtn')?.addEventListener('click', function() {
             document.getElementById('uploadFormContainer').style.display = 'none';
             document.getElementById('showUploadFormBtn').style.display = 'inline-block';
@@ -178,7 +177,6 @@ const SmartModule = {
             document.getElementById('userText').style.display = 'none';
         });
         
-        // رادیو باتن‌ها
         document.querySelectorAll('input[name="inputMethod"]').forEach(function(radio) {
             radio.addEventListener('change', function() {
                 const fileInput = document.getElementById('userFile');
@@ -200,13 +198,11 @@ const SmartModule = {
                     fileInput.style.display = 'none';
                     fileArea.style.display = 'none';
                     linkInput.style.display = 'none';
-                    textInput.style.display
-
+                    textInput.style.display = 'block';
                 }
             });
         });
         
-        // آپلود فایل با کشیدن
         const fileInput = document.getElementById('userFile');
         const fileDropArea = document.getElementById('fileInputArea');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
@@ -242,7 +238,6 @@ const SmartModule = {
             });
         }
         
-        // فرم ارسال
         document.getElementById('uploadForm')?.addEventListener('submit', (e) => this.handleSubmit(e));
         
         console.log('✅ SmartModule فعال شد');
