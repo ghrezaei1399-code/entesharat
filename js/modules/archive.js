@@ -12,7 +12,6 @@ const ArchiveModule = {
     render() {
         const container = document.getElementById('archiveList');
         if (!container) return;
-        
         container.innerHTML = '';
         this.items.forEach(item => {
             const div = document.createElement('div');
@@ -30,40 +29,36 @@ const ArchiveModule = {
         });
     },
 
-    async sendMessage(type) {
+    // پیام‌ها فقط در باکس نمایش داده می‌شوند (بدون درخواست به OpenAI)
+    sendMessage(type) {
         const input = document.getElementById('comment_archive');
         let message = input.value.trim();
         if (type === 'audio') message = '🎤 پیام صوتی';
         else if (type === 'video') message = '🎬 پیام ویدئویی';
         else if (!message) {
-            Core.showNotification('لطفاً متن خود را بنویسید.', 'error');
+            alert('لطفاً متن خود را بنویسید.');
             return;
         }
-        
-        Core.addInteraction(message, 'آرشیو', type, 'responses_archive');
+        // نمایش پیام کاربر
+        const container = document.getElementById('responses_archive');
+        const div = document.createElement('div');
+        div.className = 'response-item';
+        div.innerHTML = `<span class="type-icon text">م</span> <span>${message}</span>`;
+        container.prepend(div);
         input.value = '';
-        
-        try {
-            const reply = await AI.respond(message);
-            const responses = document.getElementById('responses_archive');
-            const div = document.createElement('div');
-            div.className = 'response-item';
-            div.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> 
-                <div class="ai-response">${reply}</div>`;
-            responses.appendChild(div);
-            responses.scrollTop = responses.scrollHeight;
-        } catch (error) {
-            console.error('خطا در AI:', error);
-            Core.showNotification('خطا در ارتباط با هوش مصنوعی', 'error');
-        }
+        // پاسخ خودکار ساده
+        setTimeout(() => {
+            const replyDiv = document.createElement('div');
+            replyDiv.className = 'response-item';
+            replyDiv.innerHTML = `<span class="type-icon text" style="background:#55efc4;color:#2d1b4e">🤖</span> <span>✅ پیام شما دریافت شد. از ارتباط شما سپاسگزاریم!</span>`;
+            container.prepend(replyDiv);
+        }, 500);
     },
 
     init() {
         this.render();
-        
         document.getElementById('searchInput')?.addEventListener('keyup', () => this.filter());
         document.querySelector('#archive .btn-search')?.addEventListener('click', () => this.filter());
-        
         console.log('✅ ArchiveModule فعال شد');
     }
 };
