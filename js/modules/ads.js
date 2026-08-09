@@ -3,13 +3,13 @@ const AdsModule = {
     data: {
         left: [
             {name: 'کیمیای اندیشه', desc: 'ناشر تخصصی هوش مصنوعی', link: 'https://kimiaandisheh.com', logo: '📚'},
-            {name: 'انتشارات دانشگاهی', desc: 'مرجع کتب علمی', link: '#', logo: '📖'},
-            {name: 'موسسه هنر و رسانه', desc: 'پژوهش و نشر', link: '#', logo: '🎨'}
+            {name: 'انتشارات دانشگاهی', desc: 'مرجع کتب علمی', link: 'https://example.com', logo: '📖'},
+            {name: 'موسسه هنر و رسانه', desc: 'پژوهش و نشر', link: 'https://example.com', logo: '🎨'}
         ],
         right: [
-            {name: 'بوک‌مارت', desc: 'فروشگاه کتاب', link: '#', logo: '📚'},
-            {name: 'نشر فرهنگ', desc: 'انتشارات عمومی', link: '#', logo: '📖'},
-            {name: 'آکادمی هوش مصنوعی', desc: 'آموزش و پژوهش', link: '#', logo: '🤖'}
+            {name: 'بوک‌مارت', desc: 'فروشگاه کتاب', link: 'https://example.com', logo: '📚'},
+            {name: 'نشر فرهنگ', desc: 'انتشارات عمومی', link: 'https://example.com', logo: '📖'},
+            {name: 'آکادمی هوش مصنوعی', desc: 'آموزش و پژوهش', link: 'https://example.com', logo: '🤖'}
         ]
     },
     page: {left: 0, right: 0},
@@ -31,7 +31,7 @@ const AdsModule = {
                     <span class="ad-logo">${ad.logo || '📢'}</span>
                     <div class="ad-name">${ad.name}</div>
                     <div class="ad-desc">${ad.desc || ''}</div>
-                    <a href="${ad.link || '#'}" target="_blank" class="ad-link">مشاهده</a>
+                    <a href="${ad.link || '#'}" target="_blank" class="ad-link">مشاهده سایت</a>
                 </div>
             `).join('');
         }
@@ -55,7 +55,7 @@ const AdsModule = {
         const link = document.getElementById('ad' + side.charAt(0).toUpperCase() + side.slice(1) + 'Link');
         
         if (!input || !input.value.trim()) {
-            alert('لطفاً نام تبلیغ را وارد کنید.');
+            Core.showNotification('لطفاً نام تبلیغ را وارد کنید.', 'error');
             return;
         }
         
@@ -70,7 +70,7 @@ const AdsModule = {
         if (link) link.value = '';
         this.render(side);
         this.renderMobile();
-        alert('✅ تبلیغ با موفقیت اضافه شد!');
+        Core.showNotification('✅ تبلیغ با موفقیت اضافه شد!', 'success');
     },
 
     renderMobile() {
