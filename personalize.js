@@ -3,7 +3,7 @@ const Personalize = {
     storageKey: 'personalize_settings',
     defaultSettings: {
         hiddenSections: [],
-        sectionOrder: ['radio', 'tv', 'archive', 'gallery', 'radionava', 'interact', 'smart-select', 'reading-growth', 'book-narrators', 'media-helpers', 'publish'],
+        sectionOrder: ['radio', 'tv', 'archive', 'gallery', 'radionava', 'interact', 'smart-select', 'reading-growth', 'book-narrators', 'media-helpers', 'publish', 'footer-mini'],
         adsVisible: true,
         fullscreenSection: null
     },
@@ -80,7 +80,7 @@ const Personalize = {
         if (!container) return;
         
         Sortable.create(container, {
-            handle: '.section-title',
+            handle: '.section-title, .footer-mini',  // ✅ اضافه شد
             animation: 150,
             filter: '.header, .menu, .footer, .radio-nava-section, .ad-side, .ad-side-mobile',
             onEnd: (evt) => {
