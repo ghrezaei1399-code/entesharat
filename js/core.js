@@ -14,12 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
   
   console.log('✅ Config: داده‌ها بارگذاری شد');
   
-  // ============================================================
-  // ۱. بارگذاری رادیو (ویس‌ها در پلیر اصلی)
+   // ============================================================
+  // ۱. بارگذاری رادیو (ویس‌ها در پلیر اصلی + لیست پخش)
   // ============================================================
   const radioPlayer = document.getElementById('radioPlayer');
+  const radioPlaylist = document.getElementById('radioPlaylist');
+  
   if (radioPlayer && window.APP_CONFIG.radio) {
     const tracks = window.APP_CONFIG.radio.tracks;
+    // پاک کردن source‌های قبلی
     radioPlayer.innerHTML = '';
     tracks.forEach(track => {
       const source = document.createElement('source');
@@ -29,13 +32,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     radioPlayer.load();
     console.log('✅ رادیو: ویس‌ها بارگذاری شدند');
-    console.log('📢 مسیر ویس‌ها:', tracks.map(t => t.file).join(', '));
+    
+    // ساخت لیست پخش
+    if (radioPlaylist) {
+      radioPlaylist.innerHTML = tracks.map((track, index) => `
+        <div class="playlist-item" style="
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 12px;
+          margin-bottom: 4px;
+          background: #f8f4f0;
+          border-radius: 6px;
+          border: 1px solid #e8ddd0;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onclick="document.getElementById('radioPlayer').src = '${track.file}'; document.getElementById('radioPlayer').load(); document.getElementById('radioPlayer').play();">
+          <span>${track.title}</span>
+          <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
+        </div>
+      `).join('');
+      console.log('✅ لیست پخش رادیو: ساخته شد');
+    }
   }
-  
-  // ============================================================
-  // ۲. بارگذاری تلویزیون (ویدیوها در پلیر اصلی)
+   // ============================================================
+  // ۲. بارگذاری تلویزیون (ویدیوها در پلیر اصلی + لیست پخش)
   // ============================================================
   const tvPlayer = document.getElementById('tvPlayer');
+  const tvPlaylist = document.getElementById('tvPlaylist');
+  
   if (tvPlayer && window.APP_CONFIG.tv) {
     const videos = window.APP_CONFIG.tv.videos;
     tvPlayer.innerHTML = '';
@@ -47,7 +71,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     tvPlayer.load();
     console.log('✅ تلویزیون: ویدیوها بارگذاری شدند');
-    console.log('📢 مسیر ویدیوها:', videos.map(v => v.file).join(', '));
+    
+    // ساخت لیست پخش
+    if (tvPlaylist) {
+      tvPlaylist.innerHTML = videos.map((video, index) => `
+        <div class="playlist-item" style="
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 12px;
+          margin-bottom: 4px;
+          background: #f8f4f0;
+          border-radius: 6px;
+          border: 1px solid #e8ddd0;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onclick="document.getElementById('tvPlayer').src = '${video.file}'; document.getElementById('tvPlayer').load(); document.getElementById('tvPlayer').play();">
+          <span>${video.title}</span>
+          <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
+        </div>
+      `).join('');
+      console.log('✅ لیست پخش تلویزیون: ساخته شد');
+    }
   }
   
   // ============================================================
