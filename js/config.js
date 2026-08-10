@@ -17,11 +17,11 @@ window.APP_CONFIG = {
   
   // داده‌های تلویزیون (ویدیوها)
   tv: {
-    videos: [
-      { id: 1, title: 'ویدئوی طرح همگام‌سازی خدمات', file: 'images/ویدئوی همگام سازی .mp4' },
-      { id: 2, title: 'ویدئوی کتاب هنر هوشمند نگاری ۲', file: 'images/ویدئوی هوشمند نگاری.mp4' }
-    ]
-  },
+  videos: [
+    { id: 1, title: 'ویدئوی طرح همگام‌سازی خدمات', file: 'images/video1.mp4' },
+    { id: 2, title: 'ویدئوی کتاب هنر هوشمند نگاری ۲', file: 'images/video2.mp4' }
+  ]
+},
   
   // داده‌های آرشیو
   archive: {
