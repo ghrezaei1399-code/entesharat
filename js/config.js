@@ -7,7 +7,7 @@ const APP_CONFIG = {
   title: 'رادیو تلویزیون هوشمند | انتشارات کیمیا',
   brand: 'انتشارات کیمیا',
   
-  // داده‌های رادیو
+  // داده‌های رادیو - لیست آهنگ‌ها
   radio: {
     tracks: [
       { id: 1, title: 'آهنگ اول - Ayrilik', file: 'images/Ayrilik_aleftab.ir.mp3', date: '۱۴۰۵/۵/۱۹' },
@@ -15,7 +15,7 @@ const APP_CONFIG = {
     ]
   },
   
-  // داده‌های تلویزیون
+  // داده‌های تلویزیون - لیست ویدئوها
   tv: {
     videos: [
       { id: 1, title: 'ویدئوی طرح همگام‌سازی خدمات', file: 'images/ویدئوی همگام سازی .mp4' },
@@ -23,7 +23,7 @@ const APP_CONFIG = {
     ]
   },
   
-  // داده‌های آرشیو
+  // داده‌های آرشیو - لیست برنامه‌ها
   archive: {
     programs: [
       { id: 1, title: 'زندگینامه همایون صنعتی‌زاده', date: '۱۴۰۵/۵/۱۹' },
@@ -35,7 +35,7 @@ const APP_CONFIG = {
     ]
   },
   
-  // داده‌های گالری پوستر
+  // داده‌های گالری - لیست پوسترها
   gallery: {
     posters: [
       { id: 1, title: 'پوستر تبلیغاتی ۱', image: 'images/posterngo.png' },
@@ -58,4 +58,3 @@ const APP_CONFIG = {
 
 // در دسترس قرار دادن برای سایر فایل‌ها
 export default APP_CONFIG;
-}
