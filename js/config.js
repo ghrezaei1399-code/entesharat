@@ -57,4 +57,4 @@ window.APP_CONFIG = {
   }
 };
 
-console.log('✅ Config: بارگذاری شد');
+export default APP_CONFIG;
