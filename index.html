@@ -532,21 +532,6 @@
 </div>
 <!-- ===== اسکریپت‌ها ===== -->
 <script src="js/config.js"></script>
-<script src="js/env.js"></script>
-
-<!-- سرویس‌ها -->
-<script src="js/services/storage.js"></script>
-<script src="js/services/ai.js"></script>
-<script src="js/services/email.js"></script>
-<script src="js/services/fileReader.js"></script>
-
-<!-- ===== اسکریپت‌ها ===== -->
-<script src="js/config.js"></script>
-<script src="js/env.js"></script>
-<script src="js/services/storage.js"></script>
-<script src="js/services/ai.js"></script>
-<script src="js/services/email.js"></script>
-<script src="js/services/fileReader.js"></script>
 <script src="js/core.js"></script>
 
 <script>
@@ -555,18 +540,42 @@
         function renderMobileAds(containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
-            if (typeof AdsModule !== 'undefined' && AdsModule.data) {
-                const all = [...AdsModule.data.left, ...AdsModule.data.right];
-                container.innerHTML = all.slice(0, 4).map(ad => `
-                    <div class="ad-item">
-                        <span class="ad-logo">${ad.logo || '📢'}</span>
-                        <div class="ad-name">${ad.name}</div>
-                        <a href="${ad.link || '#'}" target="_blank" class="ad-link">مشاهده</a>
-                    </div>
-                `).join('');
-            } else {
-                container.innerHTML = '<div style="color:#7f8c8d;font-size:.7rem;text-align:center;padding:5px;">تبلیغاتی ثبت نشده است.</div>';
+            
+            // استفاده از داده‌های APP_CONFIG
+            if (typeof window.APP_CONFIG !== 'undefined' && window.APP_CONFIG.ads) {
+                const all = [...(window.APP_CONFIG.ads.chap || []), ...(window.APP_CONFIG.ads.nashr || [])];
+                if (all.length > 0) {
+                    container.innerHTML = all.slice(0, 4).map(ad => `
+                        <div class="ad-item" style="
+                            background: #fff;
+                            border-radius: 12px;
+                            padding: 12px;
+                            border: 1px solid #e8ddd0;
+                            text-align: center;
+                            flex: 1;
+                            min-width: 100px;
+                        ">
+                            <div style="font-size: 1.8rem; display: block; margin-bottom: 4px;">${ad.logo || '📢'}</div>
+                            <div style="font-weight: 700; color: #2d1b4e; font-size: 0.75rem; margin-bottom: 4px;">${ad.name}</div>
+                            <a href="${ad.link || '#'}" target="_blank" style="
+                                display: inline-block;
+                                background: #6C5CE7;
+                                color: #fff;
+                                padding: 2px 12px;
+                                border-radius: 50px;
+                                text-decoration: none;
+                                font-size: 0.65rem;
+                                font-weight: 600;
+                            ">
+                                مشاهده
+                            </a>
+                        </div>
+                    `).join('');
+                    return;
+                }
             }
+            
+            container.innerHTML = '<div style="color:#7f8c8d;font-size:.7rem;text-align:center;padding:10px;">تبلیغاتی ثبت نشده است.</div>';
         }
         renderMobileAds('adMobileList');
     });
