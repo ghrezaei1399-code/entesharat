@@ -2,13 +2,12 @@
 // پیکربندی مرکزی رادیو تلویزیون هوشمند انتشارات کیمیا
 // ============================================================
 
-// همه‌ی داده‌ها در یک شیء سراسری
 window.APP_CONFIG = {
   // اطلاعات پایه
   title: 'رادیو تلویزیون هوشمند | انتشارات کیمیا',
   brand: 'انتشارات کیمیا',
   
-  // داده‌های رادیو
+  // داده‌های رادیو (ویس‌ها)
   radio: {
     tracks: [
       { id: 1, title: 'آهنگ اول - Ayrilik', file: 'images/Ayrilik_aleftab.ir.mp3', date: '۱۴۰۵/۵/۱۹' },
@@ -16,7 +15,7 @@ window.APP_CONFIG = {
     ]
   },
   
-  // داده‌های تلویزیون
+  // داده‌های تلویزیون (ویدیوها)
   tv: {
     videos: [
       { id: 1, title: 'ویدئوی طرح همگام‌سازی خدمات', file: 'images/ویدئوی همگام سازی .mp4' },
@@ -36,25 +35,29 @@ window.APP_CONFIG = {
     ]
   },
   
-  // داده‌های گالری
+  // داده‌های گالری پوستر
   gallery: {
     posters: [
-      { id: 1, title: 'پوستر تبلیغاتی ۱', image: 'images/posterngo.png' },
-      { id: 2, title: 'پوستر تبلیغاتی ۲', image: 'images/posterenava.png' },
-      { id: 3, title: 'پوستر تبلیغاتی ۳', image: 'images/posterwork.png' },
-      { id: 4, title: 'پوستر تبلیغاتی ۴', image: 'images/bestbooks.png' },
-      { id: 5, title: 'پوستر تبلیغاتی ۵', image: 'images/bestclasick.png' },
-      { id: 6, title: 'پوستر تبلیغاتی ۶', image: 'images/rezaeibooks.png' }
+      { id: 1, title: 'پوستر تبلیغاتی ۱', image: 'images/bestclasick.png' },
+      { id: 2, title: 'پوستر تبلیغاتی ۲', image: 'images/nafis.png' },
+      { id: 3, title: 'پوستر تبلیغاتی ۳', image: 'images/rezaeibooks.png' },
+      { id: 4, title: 'پوستر تبلیغاتی ۴', image: 'images/litografi.png' },
+      { id: 5, title: 'پوستر تبلیغاتی ۵', image: 'images/bestbooks.png' },
+      { id: 6, title: 'پوستر تبلیغاتی ۶', image: 'images/bestbooks2.png' }
     ]
   },
   
-  // تبلیغات
+  // داده‌های تبلیغات دو طرف (چپ و راست)
   ads: {
-    slides: [
-      { id: 1, title: 'چاپ و تبلیغات آریا', link: '#', image: 'images/logo.jpg' },
-      { id: 2, title: 'چاپ دیجیتال سروش', link: '#', image: 'images/logo2.jpg' }
+    chap: [
+      { id: 1, name: 'چاپ و تبلیغات آریا', logo: '🖨️', link: '#' },
+      { id: 2, name: 'چاپ دیجیتال سروش', logo: '📇', link: '#' }
+    ],
+    nashr: [
+      { id: 1, name: 'نشر چشمه', logo: '📖', link: '#' },
+      { id: 2, name: 'نشر ققنوس', logo: '📚', link: '#' }
     ]
   }
 };
-// export default APP_CONFIG;  // کامنت شد
+
 console.log('✅ Config: بارگذاری شد');
