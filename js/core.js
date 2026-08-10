@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="track-item" data-index="${index}">
         <span>${track.title}</span>
         <span>${track.date}</span>
-        <button onclick="playTrack(${index})">▶</button>
+        <button onclick="window.playTrack(${index})">▶</button>
       </div>
     `).join('');
     console.log('✅ رادیو: بارگذاری شد');
@@ -82,21 +82,21 @@ document.addEventListener('DOMContentLoaded', function() {
 // ==============================
 // تابع پخش برای رادیو
 // ==============================
-let currentAudio = null;
-
-function playTrack(index) {
+window.playTrack = function(index) {
   if (!window.APP_CONFIG || !window.APP_CONFIG.radio) return;
   
   const track = window.APP_CONFIG.radio.tracks[index];
   if (!track) return;
   
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
+  // اگر قبلاً یک پخش‌کننده وجود داشت، متوقفش کن
+  if (window.currentAudio) {
+    window.currentAudio.pause();
+    window.currentAudio = null;
   }
   
-  currentAudio = new Audio(track.file);
-  currentAudio.play().catch(err => {
+  // پخش آهنگ جدید
+  window.currentAudio = new Audio(track.file);
+  window.currentAudio.play().catch(err => {
     console.log('خطا در پخش:', err);
   });
   
@@ -104,4 +104,4 @@ function playTrack(index) {
   document.querySelectorAll('.track-item').forEach((item, i) => {
     item.classList.toggle('active', i === index);
   });
-}
+};
