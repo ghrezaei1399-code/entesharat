@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const radioPlayer = document.getElementById('radioPlayer');
   if (radioPlayer && window.APP_CONFIG.radio) {
     const tracks = window.APP_CONFIG.radio.tracks;
-    // پاک کردن source‌های قبلی
     radioPlayer.innerHTML = '';
     tracks.forEach(track => {
       const source = document.createElement('source');
@@ -30,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     radioPlayer.load();
     console.log('✅ رادیو: ویس‌ها بارگذاری شدند');
+    console.log('📢 مسیر ویس‌ها:', tracks.map(t => t.file).join(', '));
   }
   
   // ============================================================
@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     tvPlayer.load();
     console.log('✅ تلویزیون: ویدیوها بارگذاری شدند');
+    console.log('📢 مسیر ویدیوها:', videos.map(v => v.file).join(', '));
   }
   
   // ============================================================
@@ -85,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (adLeftList && adRightList && window.APP_CONFIG.ads) {
     const ads = window.APP_CONFIG.ads;
     
-    // ===== تبلیغات چپ (حوزه چاپ) =====
     if (ads.chap && ads.chap.length > 0) {
       adLeftList.innerHTML = ads.chap.map(ad => `
         <div class="ad-item" style="
@@ -119,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
       adLeftList.innerHTML = '<p style="color:#999;font-size:.7rem;text-align:center;padding:10px;">تبلیغی ثبت نشده</p>';
     }
     
-    // ===== تبلیغات راست (حوزه نشر) =====
     if (ads.nashr && ads.nashr.length > 0) {
       adRightList.innerHTML = ads.nashr.map(ad => `
         <div class="ad-item" style="
@@ -224,13 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
       chatInput.value = '';
     };
     
-    // دکمه ارسال
     const sendBtn = document.querySelector('#interact .chat-input button');
     if (sendBtn) {
       sendBtn.onclick = window.sendChatMessage;
     }
     
-    // ارسال با Enter
     chatInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         window.sendChatMessage();
