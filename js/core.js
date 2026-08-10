@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   console.log('✅ Config: داده‌ها بارگذاری شد');
   
-   // ============================================================
+  // ============================================================
   // ۱. بارگذاری رادیو (ویس‌ها در پلیر اصلی + لیست پخش)
   // ============================================================
   const radioPlayer = document.getElementById('radioPlayer');
@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (radioPlayer && window.APP_CONFIG.radio) {
     const tracks = window.APP_CONFIG.radio.tracks;
-    // پاک کردن source‌های قبلی
     radioPlayer.innerHTML = '';
     tracks.forEach(track => {
       const source = document.createElement('source');
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
     radioPlayer.load();
     console.log('✅ رادیو: ویس‌ها بارگذاری شدند');
     
-    // ساخت لیست پخش
     if (radioPlaylist) {
       radioPlaylist.innerHTML = tracks.map((track, index) => `
         <div class="playlist-item" style="
@@ -54,7 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('✅ لیست پخش رادیو: ساخته شد');
     }
   }
-   // ============================================================
+  
+  // ============================================================
   // ۲. بارگذاری تلویزیون (ویدیوها در پلیر اصلی + لیست پخش)
   // ============================================================
   const tvPlayer = document.getElementById('tvPlayer');
@@ -72,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
     tvPlayer.load();
     console.log('✅ تلویزیون: ویدیوها بارگذاری شدند');
     
-    // ساخت لیست پخش
     if (tvPlaylist) {
       tvPlaylist.innerHTML = videos.map((video, index) => `
         <div class="playlist-item" style="
@@ -95,12 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // ============================================================
-  // ۳. بارگذاری آرشیو (با لینک و زیباسازی)
+  // ۳. بارگذاری آرشیو
   // ============================================================
   const archiveList = document.getElementById('archiveList');
   if (archiveList && window.APP_CONFIG.archive) {
     const programs = window.APP_CONFIG.archive.programs;
-    archiveList.innerHTML = programs.map((program, index) => `
+    archiveList.innerHTML = programs.map((program) => `
       <div class="archive-item" style="
         display: flex;
         justify-content: space-between;
@@ -122,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // ============================================================
-  // ۴. بارگذاری تبلیغات دو طرف (با باکس و زیباسازی کامل)
+  // ۴. بارگذاری تبلیغات دو طرف
   // ============================================================
   const adLeftList = document.getElementById('adLeftList');
   const adRightList = document.getElementById('adRightList');
@@ -200,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // ============================================================
-  // ۵. بارگذاری تبلیغات موبایل (خطی با زیباسازی)
+  // ۵. بارگذاری تبلیغات موبایل
   // ============================================================
   const adMobileList = document.getElementById('adMobileList');
   if (adMobileList && window.APP_CONFIG.ads) {
@@ -239,7 +237,85 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // ============================================================
-  // ۶. راه‌اندازی پاسخگوی هوشمند (تعامل)
+  // ۶. ماژول شب/روز
+  // ============================================================
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+      document.body.classList.toggle('dark-mode');
+      const icon = this.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-moon');
+        icon.classList.toggle('fa-sun');
+      }
+    });
+    console.log('✅ ماژول شب/روز: راه‌اندازی شد');
+  }
+  
+  // ============================================================
+  // ۷. ماژول اسکرول بالا/پایین
+  // ============================================================
+  const scrollTop = document.getElementById('scrollTop');
+  const scrollBottom = document.getElementById('scrollBottom');
+  
+  if (scrollTop) {
+    scrollTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+  
+  if (scrollBottom) {
+    scrollBottom.addEventListener('click', function() {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+  }
+  console.log('✅ ماژول اسکرول: راه‌اندازی شد');
+  
+  // ============================================================
+  // ۸. ماژول تغییر اندازه فونت
+  // ============================================================
+  const fontSizeBtn = document.getElementById('fontSizeBtn');
+  let fontSizeLevel = 0;
+  const fontSizes = ['16px', '18px', '20px', '22px', '24px'];
+  
+  if (fontSizeBtn) {
+    fontSizeBtn.addEventListener('click', function() {
+      fontSizeLevel = (fontSizeLevel + 1) % fontSizes.length;
+      document.body.style.fontSize = fontSizes[fontSizeLevel];
+    });
+    console.log('✅ ماژول فونت: راه‌اندازی شد');
+  }
+  
+  // ============================================================
+  // ۹. ماژول ریست چیدمان
+  // ============================================================
+  const resetLayout = document.getElementById('resetLayout');
+  if (resetLayout) {
+    resetLayout.addEventListener('click', function() {
+      location.reload();
+    });
+    console.log('✅ ماژول ریست: راه‌اندازی شد');
+  }
+  
+  // ============================================================
+  // ۱۰. ماژول نمایش/مخفی کردن تبلیغات
+  // ============================================================
+  const toggleAds = document.getElementById('toggleAds');
+  let adsVisible = true;
+  
+  if (toggleAds) {
+    toggleAds.addEventListener('click', function() {
+      const ads = document.querySelectorAll('.ad-side, .ad-inline, .ad-item');
+      adsVisible = !adsVisible;
+      ads.forEach(ad => {
+        ad.style.display = adsVisible ? '' : 'none';
+      });
+    });
+    console.log('✅ ماژول نمایش تبلیغات: راه‌اندازی شد');
+  }
+  
+  // ============================================================
+  // ۱۱. تعامل هوشمند (چت‌بات)
   // ============================================================
   const chatInput = document.getElementById('chatInput');
   const chatMessages = document.getElementById('chatMessages');
