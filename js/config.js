@@ -48,7 +48,7 @@ window.APP_CONFIG = {
     ]
   },
   
-  // تبلیغات دو طرف صفحه
+  // تبلیغات
   ads: {
     slides: [
       { id: 1, title: 'چاپ و تبلیغات آریا', link: '#', image: 'images/logo.jpg' },
@@ -56,5 +56,5 @@ window.APP_CONFIG = {
     ]
   }
 };
-export default APP_CONFIG;
+
 console.log('✅ Config: بارگذاری شد');
