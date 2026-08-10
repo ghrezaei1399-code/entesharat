@@ -8,15 +8,13 @@ window.APP_CONFIG = {
   brand: 'انتشارات کیمیا',
   
   // داده‌های رادیو (ویس‌ها)
-  radio: {
-    tracks: [
-      { id: 1, title: 'آهنگ اول - Ayrilik', file: 'images/Ayrilik_aleftab.ir.mp3', date: '۱۴۰۵/۵/۱۹' },
-      { id: 2, title: 'آهنگ دوم - Careless Whisper', file: 'images/Careless Whisper2.mp3', date: '۱۴۰۵/۵/۱۹' }
-    ]
-  },
-  
-  // داده‌های تلویزیون (ویدیوها)
-  tv: {
+ radio: {
+  tracks: [
+    { id: 1, title: 'آهنگ اول - Ayrilik', file: 'images/song1.mp3', date: '۱۴۰۵/۵/۱۹' },
+    { id: 2, title: 'آهنگ دوم - Careless Whisper', file: 'images/song2.mp3', date: '۱۴۰۵/۵/۱۹' }
+  ]
+},
+tv: {
   videos: [
     { id: 1, title: 'ویدئوی طرح همگام‌سازی خدمات', file: 'images/video1.mp4' },
     { id: 2, title: 'ویدئوی کتاب هنر هوشمند نگاری ۲', file: 'images/video2.mp4' }
