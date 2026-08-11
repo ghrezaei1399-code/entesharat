@@ -130,68 +130,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (ads.chap && ads.chap.length > 0) {
       adLeftList.innerHTML = ads.chap.map(ad => `
-        <div class="ad-item" style="
-          background: #fff;
-          border-radius: 12px;
-          padding: 12px;
-          margin-bottom: 10px;
-          border: 1px solid #e8ddd0;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-          text-align: center;
-          transition: all 0.2s;
-        ">
-          <div style="font-size: 2rem; display: block; margin-bottom: 6px;">${ad.logo || '📢'}</div>
-          <div style="font-weight: 700; color: #2d1b4e; font-size: 0.9rem; margin-bottom: 4px;">${ad.name}</div>
-          <a href="${ad.link || '#'}" target="_blank" style="
-            display: inline-block;
-            background: #6C5CE7;
-            color: #fff;
-            padding: 4px 16px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: 0.2s;
-          " onmouseover="this.style.background='#5a4bd1'" onmouseout="this.style.background='#6C5CE7'">
-            مشاهده سایت
-          </a>
+        <div class="ad-box">
+          <span class="ad-logo">${ad.logo || '📢'}</span>
+          <div class="ad-name">${ad.name}</div>
+          <div class="ad-desc">${ad.desc || ''}</div>
+          <a href="${ad.link || '#'}" target="_blank" class="ad-link">مشاهده</a>
         </div>
       `).join('');
     } else {
-      adLeftList.innerHTML = '<p style="color:#999;font-size:.7rem;text-align:center;padding:10px;">تبلیغی ثبت نشده</p>';
+      adLeftList.innerHTML = '<p style="color:#999;font-size:.7rem;text-align:center;padding:5px;">تبلیغی ثبت نشده</p>';
     }
     
     if (ads.nashr && ads.nashr.length > 0) {
       adRightList.innerHTML = ads.nashr.map(ad => `
-        <div class="ad-item" style="
-          background: #fff;
-          border-radius: 12px;
-          padding: 12px;
-          margin-bottom: 10px;
-          border: 1px solid #e8ddd0;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-          text-align: center;
-          transition: all 0.2s;
-        ">
-          <div style="font-size: 2rem; display: block; margin-bottom: 6px;">${ad.logo || '📢'}</div>
-          <div style="font-weight: 700; color: #2d1b4e; font-size: 0.9rem; margin-bottom: 4px;">${ad.name}</div>
-          <a href="${ad.link || '#'}" target="_blank" style="
-            display: inline-block;
-            background: #6C5CE7;
-            color: #fff;
-            padding: 4px 16px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: 0.2s;
-          " onmouseover="this.style.background='#5a4bd1'" onmouseout="this.style.background='#6C5CE7'">
-            مشاهده سایت
-          </a>
+        <div class="ad-box">
+          <span class="ad-logo">${ad.logo || '📢'}</span>
+          <div class="ad-name">${ad.name}</div>
+          <div class="ad-desc">${ad.desc || ''}</div>
+          <a href="${ad.link || '#'}" target="_blank" class="ad-link">مشاهده</a>
         </div>
       `).join('');
     } else {
-      adRightList.innerHTML = '<p style="color:#999;font-size:.7rem;text-align:center;padding:10px;">تبلیغی ثبت نشده</p>';
+      adRightList.innerHTML = '<p style="color:#999;font-size:.7rem;text-align:center;padding:5px;">تبلیغی ثبت نشده</p>';
     }
     
     console.log('✅ تبلیغات دو طرف: بارگذاری شد');
@@ -205,33 +165,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const allAds = [...(window.APP_CONFIG.ads.chap || []), ...(window.APP_CONFIG.ads.nashr || [])];
     if (allAds.length > 0) {
       adMobileList.innerHTML = allAds.slice(0, 4).map(ad => `
-        <div class="ad-item" style="
-          background: #fff;
-          border-radius: 12px;
-          padding: 12px;
-          border: 1px solid #e8ddd0;
-          text-align: center;
-          flex: 1;
-          min-width: 100px;
-        ">
-          <div style="font-size: 1.8rem; display: block; margin-bottom: 4px;">${ad.logo || '📢'}</div>
-          <div style="font-weight: 700; color: #2d1b4e; font-size: 0.75rem; margin-bottom: 4px;">${ad.name}</div>
-          <a href="${ad.link || '#'}" target="_blank" style="
-            display: inline-block;
-            background: #6C5CE7;
-            color: #fff;
-            padding: 2px 12px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 0.65rem;
-            font-weight: 600;
-          ">
-            مشاهده
-          </a>
+        <div class="ad-item">
+          <span class="ad-logo">${ad.logo || '📢'}</span>
+          <div class="ad-name">${ad.name}</div>
+          <a href="${ad.link || '#'}" target="_blank" class="ad-link">مشاهده</a>
         </div>
       `).join('');
     } else {
-      adMobileList.innerHTML = '<div style="color:#7f8c8d;font-size:.7rem;text-align:center;padding:10px;">تبلیغاتی ثبت نشده است.</div>';
+      adMobileList.innerHTML = '<div style="color:#7f8c8d;font-size:.7rem;text-align:center;padding:5px;">تبلیغاتی ثبت نشده است.</div>';
     }
     console.log('✅ تبلیغات موبایل: بارگذاری شد');
   }
@@ -297,10 +238,8 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ ماژول ریست: راه‌اندازی شد');
   }
   
-
-  
   // ============================================================
-  // ۱۱. تعامل هوشمند (چت‌بات)
+  // ۱۰. تعامل هوشمند (چت‌بات)
   // ============================================================
   const chatInput = document.getElementById('chatInput');
   const chatMessages = document.getElementById('chatMessages');
