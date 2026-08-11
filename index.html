@@ -70,94 +70,116 @@
             margin-top: 6px !important;
         }
 
-        /* ===== تبلیغات موبایل (فقط یک بار در پایین) ===== */
-        .ad-inline {
-            display: none;
-            background: #f8f4f0;
-            border-radius: 14px;
-            padding: 12px;
-            margin: 15px 0;
-            border: 2px solid #d4a373;
+        /* ===== تبلیغات واکنش‌گرا ===== */
+        .ad-inline{
+            display:none;
+            background:linear-gradient(135deg,#fffdf9,#f5efff);
+            border:1px solid rgba(108,92,231,.25);
+            border-radius:22px;
+            padding:16px;
+            margin:18px 0 26px;
+            box-shadow:0 12px 30px rgba(45,27,78,.08);
         }
-        .ad-inline .ad-title {
-            font-weight: 700;
-            color: #6C5CE7;
-            font-size: .8rem;
-            text-align: center;
-            margin-bottom: 8px;
+        .ad-inline .ad-title{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            color:#2d1b4e;
+            font-weight:900;
+            font-size:.95rem;
+            margin-bottom:12px;
         }
-        .ad-inline .ad-items {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
+        .ad-inline .ad-items{
+            display:flex;
+            gap:12px;
+            overflow-x:auto;
+            overscroll-behavior-x:contain;
+            scroll-snap-type:x mandatory;
+            scrollbar-width:none;
+            padding:2px 2px 6px;
         }
-        .ad-inline .ad-items .ad-item {
-            background: #fff;
-            border-radius: 10px;
-            padding: 8px;
-            flex: 1;
-            min-width: 100px;
-            border: 1px solid #e8ddd0;
-            text-align: center;
+        .ad-inline .ad-items::-webkit-scrollbar{display:none}
+        .ad-inline .ad-items .ad-item{
+            flex:0 0 min(82%,300px);
+            scroll-snap-align:center;
+            background:#fff;
+            border:1px solid #eadff8;
+            border-radius:18px;
+            padding:14px;
+            text-align:center;
+            box-shadow:0 7px 18px rgba(45,27,78,.07);
         }
-        .ad-inline .ad-items .ad-item .ad-logo {
-            font-size: 1.2rem;
-            display: block;
+        .ad-inline .ad-items .ad-item .ad-logo{
+            width:46px;
+            height:46px;
+            margin:0 auto 8px;
+            border-radius:14px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:1.45rem;
+            background:linear-gradient(135deg,#f0ecff,#fff1d6);
         }
-        .ad-inline .ad-items .ad-item .ad-name {
-            font-size: .65rem;
-            font-weight: 700;
-            color: #2d1b4e;
+        .ad-inline .ad-items .ad-item .ad-name{
+            font-size:.8rem;
+            font-weight:900;
+            color:#2d1b4e;
         }
-        .ad-inline .ad-items .ad-item .ad-link {
-            font-size: .55rem;
-            color: #6C5CE7;
-            text-decoration: none;
+        .ad-inline .ad-items .ad-item .ad-desc{
+            color:#7f8c8d;
+            font-size:.7rem;
+            line-height:1.6;
+            margin:5px 0 10px;
+        }
+        .ad-inline .ad-items .ad-item .ad-link{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            min-height:34px;
+            padding:6px 14px;
+            border-radius:999px;
+            background:#6C5CE7;
+            color:#fff;
+            font-size:.68rem;
+            font-weight:700;
+            text-decoration:none;
         }
 
-        @media (max-width: 768px) {
-            .ad-inline {
-                display: block !important;
-            }
-            .ad-side {
-                display: none !important;
-            }
+        @media (max-width: 1599px){
+            .ad-side{display:none!important}
+            .ad-inline{display:block!important}
         }
     </style>
 </head>
 <body>
 
-<!-- ===== تبلیغات دو طرف (فقط دسکتاپ) ===== -->
-<div class="ad-side left" id="adLeft">
-    <div class="ad-header">📢 تبلیغات همکاران حوزه چاپ</div>
-    <div id="adLeftList"></div>
-    <div class="ad-upload">
-        <input type="text" id="adLeftInput" placeholder="نام تبلیغ...">
-        <input type="text" id="adLeftLink" placeholder="لینک...">
-        <button onclick="AdsModule.addAd('left')">➕ افزودن</button>
+<!-- ===== تبلیغات کناری دسکتاپ ===== -->
+<aside class="ad-side left" id="adLeft" aria-label="تبلیغات همکاران حوزه چاپ">
+    <div class="ad-header">
+        <span>🖨️</span>
+        <span>همکاران حوزه چاپ</span>
     </div>
+    <div class="ad-list" id="adLeftList"></div>
     <div class="ad-pagination" id="adLeftPagination">
-        <button onclick="AdsModule.changePage('left',-1)">‹</button>
-        <span class="active" id="adLeftPageNum">1</span>
-        <button onclick="AdsModule.changePage('left',1)">›</button>
+        <button type="button" aria-label="تبلیغات قبلی" onclick="AdsModule.changePage('left',-1)">‹</button>
+        <span id="adLeftPageNum">1</span>
+        <button type="button" aria-label="تبلیغات بعدی" onclick="AdsModule.changePage('left',1)">›</button>
     </div>
-</div>
+</aside>
 
-<div class="ad-side right" id="adRight">
-    <div class="ad-header">📢 تبلیغات همکاران نشر</div>
-    <div id="adRightList"></div>
-    <div class="ad-upload">
-        <input type="text" id="adRightInput" placeholder="نام تبلیغ...">
-        <input type="text" id="adRightLink" placeholder="لینک...">
-        <button onclick="AdsModule.addAd('right')">➕ افزودن</button>
+<aside class="ad-side right" id="adRight" aria-label="تبلیغات همکاران نشر">
+    <div class="ad-header">
+        <span>📚</span>
+        <span>همکاران حوزه نشر</span>
     </div>
+    <div class="ad-list" id="adRightList"></div>
     <div class="ad-pagination" id="adRightPagination">
-        <button onclick="AdsModule.changePage('right',-1)">‹</button>
-        <span class="active" id="adRightPageNum">1</span>
-        <button onclick="AdsModule.changePage('right',1)">›</button>
+        <button type="button" aria-label="تبلیغات قبلی" onclick="AdsModule.changePage('right',-1)">‹</button>
+        <span id="adRightPageNum">1</span>
+        <button type="button" aria-label="تبلیغات بعدی" onclick="AdsModule.changePage('right',1)">›</button>
     </div>
-</div>
+</aside>
 
 <!-- ===== دکمه‌های شناور ===== -->
 <div class="floating-toolbar">
@@ -503,7 +525,7 @@
         </div>
     </div>
 
-    <!-- ===== تبلیغات موبایل (فقط یک بار در پایین) ===== -->
+    <!-- ===== ویترین تبلیغات واکنش‌گرا برای تبلت و موبایل ===== -->
     <div class="ad-inline" id="adInline">
         <div class="ad-title">📢 تبلیغات همکاران</div>
         <div class="ad-items" id="adMobileList"></div>
