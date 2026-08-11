@@ -254,3 +254,418 @@ body.dark-mode .publish-card{background:#1a1a2e!important;border-color:#0f3460}
 
 @keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
 @keyframes popIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}
+/* =========================================================
+   ADS STEP 2 - FINAL RESPONSIVE LAYOUT
+   ========================================================= */
+
+/* ---------- Desktop side advertisements ---------- */
+
+.ad-side{
+    position:fixed !important;
+    top:110px !important;
+
+    width:190px !important;
+    max-height:calc(100vh - 140px) !important;
+
+    overflow:hidden !important;
+
+    border:1px solid rgba(108,92,231,.22) !important;
+    border-radius:18px !important;
+
+    background:rgba(255,255,255,.97) !important;
+
+    box-shadow:
+        0 12px 35px rgba(45,27,78,.14) !important;
+
+    z-index:900 !important;
+}
+
+.ad-side.left{
+    left:max(10px,calc(50% - 805px)) !important;
+}
+
+.ad-side.right{
+    right:max(10px,calc(50% - 805px)) !important;
+}
+
+.ad-side .ad-header{
+    min-height:46px !important;
+    padding:9px 10px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6C5CE7,
+            #8e7cf2
+        ) !important;
+
+    color:#fff !important;
+
+    font-size:.72rem !important;
+    font-weight:900 !important;
+}
+
+.ad-side .ad-list{
+    max-height:calc(100vh - 235px) !important;
+    overflow-y:auto !important;
+}
+
+.ad-side .ad-box{
+    padding:14px 11px !important;
+    background:#fff !important;
+    border-bottom:1px solid #eee8f7 !important;
+}
+
+.ad-side .ad-box:last-child{
+    border-bottom:0 !important;
+}
+
+.ad-side .ad-logo{
+    width:44px !important;
+    height:44px !important;
+
+    margin:0 auto 8px !important;
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    border-radius:13px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0ecff,
+            #fff1d2
+        ) !important;
+
+    font-size:1.35rem !important;
+}
+
+.ad-side .ad-name{
+    color:#2d1b4e !important;
+
+    font-size:.78rem !important;
+    line-height:1.55 !important;
+
+    font-weight:900 !important;
+}
+
+.ad-side .ad-desc{
+    margin-top:5px !important;
+
+    color:#777 !important;
+
+    font-size:.66rem !important;
+    line-height:1.65 !important;
+}
+
+.ad-side .ad-link{
+    margin-top:10px !important;
+
+    min-height:31px !important;
+
+    display:inline-flex !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+    gap:5px !important;
+
+    padding:5px 12px !important;
+
+    border-radius:999px !important;
+
+    background:#6C5CE7 !important;
+    color:#fff !important;
+
+    text-decoration:none !important;
+
+    font-size:.63rem !important;
+    font-weight:800 !important;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease !important;
+}
+
+.ad-side .ad-link:hover{
+    transform:translateY(-2px) !important;
+
+    box-shadow:
+        0 7px 18px rgba(108,92,231,.25) !important;
+}
+
+.ad-link-disabled{
+    opacity:.55 !important;
+    cursor:default !important;
+}
+
+.ad-empty{
+    padding:20px 10px !important;
+
+    text-align:center !important;
+
+    color:#888 !important;
+
+    font-size:.7rem !important;
+}
+
+
+/* =========================================================
+   Mobile / Tablet advertisement strip
+   ========================================================= */
+
+.ad-inline{
+    display:none !important;
+
+    width:100% !important;
+
+    margin:18px 0 22px !important;
+    padding:13px !important;
+
+    border:
+        1px solid rgba(108,92,231,.20) !important;
+
+    border-radius:18px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffdf9,
+            #f5efff
+        ) !important;
+
+    box-shadow:
+        0 8px 24px rgba(45,27,78,.08) !important;
+}
+
+.ad-inline .ad-title{
+    display:flex !important;
+
+    justify-content:center !important;
+    align-items:center !important;
+
+    gap:7px !important;
+
+    margin-bottom:10px !important;
+
+    color:#2d1b4e !important;
+
+    font-size:.85rem !important;
+    font-weight:900 !important;
+}
+
+.ad-inline .ad-items{
+    display:flex !important;
+
+    gap:10px !important;
+
+    width:100% !important;
+
+    overflow-x:auto !important;
+
+    padding:2px 2px 7px !important;
+
+    scrollbar-width:none !important;
+
+    scroll-snap-type:x mandatory !important;
+
+    -webkit-overflow-scrolling:touch !important;
+}
+
+.ad-inline .ad-items::-webkit-scrollbar{
+    display:none !important;
+}
+
+.ad-inline .ad-item{
+    flex:
+        0 0
+        min(82vw,280px) !important;
+
+    scroll-snap-align:center !important;
+
+    padding:13px !important;
+
+    border:
+        1px solid #eadff8 !important;
+
+    border-radius:16px !important;
+
+    background:#fff !important;
+
+    text-align:center !important;
+
+    box-shadow:
+        0 5px 15px rgba(45,27,78,.07) !important;
+}
+
+.ad-inline .ad-item .ad-logo{
+    width:43px !important;
+    height:43px !important;
+
+    margin:0 auto 7px !important;
+
+    display:flex !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    border-radius:12px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0ecff,
+            #fff1d2
+        ) !important;
+
+    font-size:1.3rem !important;
+}
+
+.ad-inline .ad-item .ad-name{
+    color:#2d1b4e !important;
+
+    font-size:.78rem !important;
+    font-weight:900 !important;
+}
+
+.ad-inline .ad-item .ad-desc{
+    margin:5px 0 9px !important;
+
+    color:#777 !important;
+
+    font-size:.66rem !important;
+    line-height:1.6 !important;
+}
+
+.ad-inline .ad-item .ad-link{
+    display:inline-flex !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    gap:5px !important;
+
+    min-height:32px !important;
+
+    padding:6px 13px !important;
+
+    border-radius:999px !important;
+
+    background:#6C5CE7 !important;
+    color:#fff !important;
+
+    text-decoration:none !important;
+
+    font-size:.65rem !important;
+    font-weight:800 !important;
+}
+
+.ad-inline .ad-item .ad-link-disabled{
+    background:#aaa !important;
+}
+
+
+/* =========================================================
+   Breakpoints
+   ========================================================= */
+
+/* نمایش تبلیغات کناری فقط روی صفحه‌های واقعاً عریض */
+@media (min-width:1600px){
+
+    .ad-side{
+        display:block !important;
+    }
+
+    .ad-inline{
+        display:none !important;
+    }
+}
+
+
+/* تبلت و موبایل */
+@media (max-width:1599px){
+
+    .ad-side{
+        display:none !important;
+    }
+
+    .ad-inline{
+        display:block !important;
+    }
+}
+
+
+/* موبایل */
+@media (max-width:768px){
+
+    body{
+        padding-left:8px !important;
+        padding-right:8px !important;
+    }
+
+    .container{
+        width:100% !important;
+        max-width:none !important;
+        padding:0 !important;
+    }
+
+    .ad-inline{
+        margin:
+            12px 0 18px !important;
+
+        padding:11px !important;
+
+        border-radius:16px !important;
+    }
+
+    .ad-inline .ad-item{
+        flex-basis:82vw !important;
+    }
+}
+
+
+/* تبلت */
+@media (min-width:769px) and (max-width:1599px){
+
+    .ad-inline{
+        width:min(100%,900px) !important;
+
+        margin:
+            18px auto 24px !important;
+    }
+
+    .ad-inline .ad-item{
+        flex-basis:270px !important;
+    }
+}
+
+
+/* Dark mode */
+body.dark-mode .ad-inline{
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #16213e
+        ) !important;
+
+    border-color:#25365a !important;
+}
+
+body.dark-mode .ad-inline .ad-title{
+    color:#eee !important;
+}
+
+body.dark-mode .ad-inline .ad-item{
+    background:#16213e !important;
+    border-color:#25365a !important;
+}
+
+body.dark-mode .ad-inline .ad-name{
+    color:#eee !important;
+}
+
+body.dark-mode .ad-inline .ad-desc{
+    color:#b8b8b8 !important;
+}
