@@ -5,91 +5,67 @@ body{background:linear-gradient(135deg,#e8f0fe,#d4e4f7,#c8d6e5);font-family:taho
 .container{max-width:1200px;margin:0 auto;position:relative}
 
 /* ===== تبلیغات ===== */
-/* ===== تبلیغات دو طرف (وب) ===== */
 .ad-side {
-    position: relative;
-    width: 100%;
-    max-width: 280px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background: transparent;
+    position: fixed;
+    top: 10%;
+    width: 220px;  /* ← بزرگ‌تر */
+    z-index: 100;
+    max-height: 85vh;
+    overflow-y: auto;
 }
-
+.ad-side::-webkit-scrollbar{width:4px}
+.ad-side::-webkit-scrollbar-thumb{background:#6C5CE7;border-radius:10px}
+.ad-side.left{left:10px}
+.ad-side.right{right:10px}
 .ad-side .ad-header {
     background: linear-gradient(135deg, #6C5CE7, #a29bfe);
     color: #fff;
-    padding: 12px 18px;
+    padding: 12px 16px;  /* ← بزرگ‌تر */
     border-radius: 16px 16px 0 0;
-    font-size: 0.9rem;
+    font-size: .85rem;   /* ← بزرگ‌تر */
     font-weight: 700;
     text-align: center;
-    letter-spacing: 0.5px;
 }
-
-.ad-side #adLeftList,
-.ad-side #adRightList {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.ad-side .ad-box {
     background: #fff;
-    padding: 14px;
-    border-left: 2px solid #d4a373;
-    border-right: 2px solid #d4a373;
-    border-bottom: 2px solid #d4a373;
+    padding: 14px 16px;  /* ← بزرگ‌تر */
+    border: 1px solid #d4a373;
+    border-top: none;
+    text-align: center;
+}
+.ad-side .ad-box:last-child {
     border-radius: 0 0 16px 16px;
 }
-
-.ad-side .ad-item {
-    background: linear-gradient(145deg, #ffffff, #f8f4f0);
-    border-radius: 14px;
-    padding: 16px;
-    border: 1px solid #e8ddd0;
-    text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-
-.ad-side .ad-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.15);
-    border-color: #6C5CE7;
-}
-
-.ad-side .ad-item .ad-logo {
-    font-size: 2.2rem;
+.ad-side .ad-box .ad-logo {
+    font-size: 1.8rem;   /* ← بزرگ‌تر */
     display: block;
-    margin-bottom: 4px;
 }
-
-.ad-side .ad-item .ad-name {
-    font-size: 1rem;
-    font-weight: 800;
+.ad-side .ad-box .ad-name {
+    font-size: .85rem;   /* ← بزرگ‌تر */
+    font-weight: 700;
     color: #2d1b4e;
-    background: linear-gradient(135deg, #6C5CE7, #fdcb6e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
-
-.ad-side .ad-item .ad-link {
+.ad-side .ad-box .ad-desc {
+    font-size: .7rem;    /* ← بزرگ‌تر */
+    color: #7f8c8d;
+    line-height: 1.4;
+}
+.ad-side .ad-box .ad-link {
     display: inline-block;
     margin-top: 6px;
-    padding: 6px 20px;
-    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    padding: 4px 14px;
+    background: #6C5CE7;
     color: #fff;
-    border-radius: 50px;
+    border-radius: 20px;
+    font-size: .65rem;
     text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
-
-.ad-side .ad-item .ad-link:hover {
-    background: linear-gradient(135deg, #5a4bd1, #8c7cf5);
+.ad-side .ad-box .ad-link:hover {
+    background: #5a4bd1;
     transform: scale(1.05);
 }
+
 /* ===== هدر ===== */
 .header{background:linear-gradient(135deg,#4a90d9,#6C5CE7,#fdcb6e,#55efc4);background-size:400% 400%;animation:gradientBG 12s ease infinite;border-radius:30px;padding:25px;text-align:center;margin-bottom:25px;border:3px solid #fdcb6e}
 @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
@@ -277,5 +253,4 @@ body.dark-mode .publish-card{background:#1a1a2e!important;border-color:#0f3460}
 @media(min-width:769px){.ad-side-mobile{display:none!important}}
 
 @keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
-@keyframes popIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
-Revert style.css to the working version from Aug 9
+@keyframes popIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}
