@@ -297,22 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ ماژول ریست: راه‌اندازی شد');
   }
   
-  // ============================================================
-  // ۱۰. ماژول نمایش/مخفی کردن تبلیغات
-  // ============================================================
-  const toggleAds = document.getElementById('toggleAds');
-  let adsVisible = true;
-  
-  if (toggleAds) {
-    toggleAds.addEventListener('click', function() {
-      const ads = document.querySelectorAll('.ad-side, .ad-inline, .ad-item');
-      adsVisible = !adsVisible;
-      ads.forEach(ad => {
-        ad.style.display = adsVisible ? '' : 'none';
-      });
-    });
-    console.log('✅ ماژول نمایش تبلیغات: راه‌اندازی شد');
-  }
+
   
   // ============================================================
   // ۱۱. تعامل هوشمند (چت‌بات)
