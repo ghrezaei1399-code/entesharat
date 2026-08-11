@@ -5,65 +5,130 @@ body{background:linear-gradient(135deg,#e8f0fe,#d4e4f7,#c8d6e5);font-family:taho
 .container{max-width:1200px;margin:0 auto;position:relative}
 
 /* ===== تبلیغات ===== */
-.ad-side {
-    position: fixed;
-    top: 10%;
-    width: 220px;  /* ← بزرگ‌تر */
-    z-index: 100;
-    max-height: 85vh;
-    overflow-y: auto;
+.ad-side{
+    position:fixed;
+    top:clamp(92px,12vh,125px);
+    width:180px;
+    z-index:100;
+    max-height:calc(100vh - 150px);
+    overflow:hidden;
+    border:1px solid rgba(108,92,231,.24);
+    border-radius:20px;
+    background:rgba(255,255,255,.94);
+    box-shadow:0 16px 40px rgba(45,27,78,.14);
+    backdrop-filter:blur(10px);
 }
-.ad-side::-webkit-scrollbar{width:4px}
-.ad-side::-webkit-scrollbar-thumb{background:#6C5CE7;border-radius:10px}
-.ad-side.left{left:10px}
-.ad-side.right{right:10px}
-.ad-side .ad-header {
-    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
-    color: #fff;
-    padding: 12px 16px;  /* ← بزرگ‌تر */
-    border-radius: 16px 16px 0 0;
-    font-size: .85rem;   /* ← بزرگ‌تر */
-    font-weight: 700;
-    text-align: center;
+.ad-side.left{
+    left:max(12px,calc(50% - 800px));
 }
-.ad-side .ad-box {
-    background: #fff;
-    padding: 14px 16px;  /* ← بزرگ‌تر */
-    border: 1px solid #d4a373;
-    border-top: none;
-    text-align: center;
+.ad-side.right{
+    right:max(12px,calc(50% - 800px));
 }
-.ad-side .ad-box:last-child {
-    border-radius: 0 0 16px 16px;
+.ad-side .ad-header{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    min-height:48px;
+    padding:10px 12px;
+    background:linear-gradient(135deg,#6C5CE7,#8e7cf2);
+    color:#fff;
+    font-size:.74rem;
+    font-weight:900;
+    text-align:center;
 }
-.ad-side .ad-box .ad-logo {
-    font-size: 1.8rem;   /* ← بزرگ‌تر */
-    display: block;
+.ad-side .ad-list{
+    max-height:calc(100vh - 245px);
+    overflow-y:auto;
+    scrollbar-width:thin;
+    scrollbar-color:#a29bfe transparent;
 }
-.ad-side .ad-box .ad-name {
-    font-size: .85rem;   /* ← بزرگ‌تر */
-    font-weight: 700;
-    color: #2d1b4e;
+.ad-side .ad-list::-webkit-scrollbar{width:4px}
+.ad-side .ad-list::-webkit-scrollbar-thumb{background:#a29bfe;border-radius:10px}
+.ad-side .ad-box{
+    position:relative;
+    padding:14px 12px;
+    text-align:center;
+    background:linear-gradient(180deg,#fff,#fbf9ff);
+    border-bottom:1px solid #eee7f7;
 }
-.ad-side .ad-box .ad-desc {
-    font-size: .7rem;    /* ← بزرگ‌تر */
-    color: #7f8c8d;
-    line-height: 1.4;
+.ad-side .ad-box:last-child{border-bottom:none}
+.ad-side .ad-box .ad-logo{
+    width:42px;
+    height:42px;
+    margin:0 auto 8px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.35rem;
+    background:linear-gradient(135deg,#f0ecff,#fff0d2);
+    box-shadow:0 5px 14px rgba(108,92,231,.12);
 }
-.ad-side .ad-box .ad-link {
-    display: inline-block;
-    margin-top: 6px;
-    padding: 4px 14px;
-    background: #6C5CE7;
-    color: #fff;
-    border-radius: 20px;
-    font-size: .65rem;
-    text-decoration: none;
-    transition: 0.3s;
+.ad-side .ad-box .ad-name{
+    font-size:.76rem;
+    font-weight:900;
+    color:#2d1b4e;
+    line-height:1.5;
 }
-.ad-side .ad-box .ad-link:hover {
-    background: #5a4bd1;
-    transform: scale(1.05);
+.ad-side .ad-box .ad-desc{
+    margin-top:4px;
+    font-size:.65rem;
+    color:#7f8c8d;
+    line-height:1.65;
+}
+.ad-side .ad-box .ad-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    margin-top:9px;
+    min-height:30px;
+    padding:5px 11px;
+    background:#6C5CE7;
+    color:#fff;
+    border-radius:999px;
+    font-size:.62rem;
+    font-weight:700;
+    text-decoration:none;
+    transition:.25s ease;
+}
+.ad-side .ad-box .ad-link:hover{
+    background:#5142c6;
+    transform:translateY(-2px);
+    box-shadow:0 6px 14px rgba(108,92,231,.25);
+}
+.ad-side .ad-pagination{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:8px;
+    border-top:1px solid #eee7f7;
+    background:#faf8ff;
+}
+.ad-side .ad-pagination button{
+    width:28px;
+    height:28px;
+    border:0;
+    border-radius:50%;
+    background:#6C5CE7;
+    color:#fff;
+    cursor:pointer;
+    font-size:1.1rem;
+    line-height:1;
+    transition:.2s ease;
+}
+.ad-side .ad-pagination button:hover{
+    transform:scale(1.08);
+    background:#5142c6;
+}
+.ad-side .ad-pagination span{
+    min-width:42px;
+    text-align:center;
+    color:#5b4d72;
+    font-size:.65rem;
+    font-weight:700;
 }
 
 /* ===== هدر ===== */
@@ -226,20 +291,24 @@ body.dark-mode .playlist-item.active{background:#6C5CE7!important}
 body.dark-mode .interact-box textarea{background:#1a1a2e;color:#e0e0e0;border-color:#0f3460}
 body.dark-mode .ad-side .ad-box{background:#16213e!important;border-color:#0f3460}
 body.dark-mode .ad-side .ad-header{background:#0f3460!important}
+body.dark-mode .ad-side{background:#111827;border-color:#25365a}
+body.dark-mode .ad-side .ad-box{background:#16213e;border-color:#25365a}
+body.dark-mode .ad-side .ad-pagination{background:#101a2d;border-color:#25365a}
 body.dark-mode .radio-nava-section{background:linear-gradient(135deg,#0f0f23,#1a1a2e,#0f3460)!important}
 body.dark-mode .publish-card{background:#1a1a2e!important;border-color:#0f3460}
 
 /* ===== ریسپانسیو ===== */
+@media(max-width:1599px){
+    .ad-side{display:none!important}
+}
 @media(max-width:768px){
-    .container{padding:8px}
-    body{padding:10px}
+    .container{padding:4px}
+    body{padding:8px 8px 80px}
     .header h1{font-size:1.5rem}
     .header{padding:18px}
     .menu a{padding:5px 10px;font-size:.65rem}
     .works-container{grid-template-columns:1fr}
     .poster-form{grid-template-columns:1fr}
-    .ad-side{display:none}
-    .ad-side-mobile{display:block!important}
     .footer .posters-row .poster-box{max-width:120px}
     .radio-tv-icons .icon-box{width:45px;height:45px}
     .radio-tv-icons .icon-box img{width:28px;height:28px}
@@ -249,8 +318,15 @@ body.dark-mode .publish-card{background:#1a1a2e!important;border-color:#0f3460}
     .floating-toolbar button{width:30px;height:30px;font-size:.75rem}
     .section{padding:15px}
     .footer .designer-info h2{font-size:1.1rem}
+    .ad-inline{margin-left:0;margin-right:0}
 }
-@media(min-width:769px){.ad-side-mobile{display:none!important}}
+@media(min-width:769px) and (max-width:1599px){
+    .ad-inline{
+        max-width:760px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+}
 
 @keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
 @keyframes popIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}
