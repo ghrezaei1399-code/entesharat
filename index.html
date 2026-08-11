@@ -165,7 +165,7 @@
     <button id="scrollTop" title="رفتن به بالای صفحه"><i class="fas fa-arrow-up"></i><span class="tooltip">بالا</span></button>
     <button id="scrollBottom" title="رفتن به پایین صفحه"><i class="fas fa-arrow-down"></i><span class="tooltip">پایین</span></button>
     <button id="resetLayout" title="بازگشت به چیدمان پیش‌فرض"><i class="fas fa-undo-alt"></i><span class="tooltip">ریست</span></button>
-        <button id="fontSizeBtn" title="تغییر اندازه فونت"><i class="fas fa-font"></i><span class="tooltip">فونت</span></button>
+    <button id="fontSizeBtn" title="تغییر اندازه فونت"><i class="fas fa-font"></i><span class="tooltip">فونت</span></button>
 </div>
 
 <div class="container">
@@ -186,17 +186,27 @@
 
     <!-- ===== MENU ===== -->
     <nav class="menu">
-        <!-- ===== تبلیغات دو طرف (فقط دسکتاپ) ===== -->
-<div class="ad-side left" id="adLeft">...</div>
-<div class="ad-side right" id="adRight">...</div>
-
+        <a href="#radio"><i class="fas fa-radio"></i> رادیو</a>
+        <a href="#tv"><i class="fas fa-tv"></i> تلویزیون</a>
+        <a href="#archive"><i class="fas fa-archive"></i> آرشیو</a>
+        <a href="#gallery"><i class="fas fa-images"></i> گالری پوستر</a>
+        <a href="#radionava"><i class="fas fa-radio"></i> رادیو نوای چاپ</a>
+        <a href="#interact"><i class="fas fa-comment-dots"></i> تعامل</a>
+        <a href="#publish"><i class="fas fa-building"></i> انتشارات</a>
+        <a href="#smart-select"><i class="fas fa-robot"></i> هوشمند گزینی</a>
+        <a href="#reading-growth"><i class="fas fa-chart-line"></i> رشد سرانه مطالعه</a>
+        <a href="#book-narrators"><i class="fas fa-users"></i> راویان</a>
+        <a href="#media-helpers"><i class="fas fa-hand-holding-heart"></i> یاوران</a>
+        <a href="#footer-mini"><i class="fas fa-crown"></i> طراحی و توسعه</a>
+    </nav>
 
     <!-- ===== رادیو ===== -->
     <div class="section draggable-section" id="radio">
         <div class="section-title"><i class="fas fa-radio"></i> رادیو هوشمند <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
         <div class="player-box">
-          <audio id="radioPlayer" controls>
+           <audio id="radioPlayer" controls>
     <source src="images/song1.mp3" type="audio/mpeg">
+    <source src="images/song2.mp3" type="audio/mpeg">
 </audio>
         </div>
         <div class="controls">
@@ -519,61 +529,28 @@
     </div>
 
 </div>
+
 <!-- ===== اسکریپت‌ها ===== -->
 <script src="js/config.js"></script>
 <script src="js/core.js"></script>
-<!-- ===== ماژول‌های اضافی (شب/روز، بالا/پایین، فیلتر، فونت) ===== -->
-<script src="js/modules/personalize.js"></script>
-<script src="js/modules/ads.js"></script>
-<script src="js/modules/interact.js"></script>
+<script src="js/modules/radio.js"></script>
+<script src="js/modules/tv.js"></script>
+<script src="js/modules/archive.js"></script>
+<script src="js/modules/gallery.js"></script>
+<script src="js/modules/poster.js"></script>
 <script src="js/modules/smart.js"></script>
-<script>
-    // ===== پر کردن تبلیغات موبایل =====
-    document.addEventListener('DOMContentLoaded', function() {
-        function renderMobileAds(containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            
-            // استفاده از داده‌های APP_CONFIG
-            if (typeof window.APP_CONFIG !== 'undefined' && window.APP_CONFIG.ads) {
-                const all = [...(window.APP_CONFIG.ads.chap || []), ...(window.APP_CONFIG.ads.nashr || [])];
-                if (all.length > 0) {
-                    container.innerHTML = all.slice(0, 4).map(ad => `
-                        <div class="ad-item" style="
-                            background: #fff;
-                            border-radius: 12px;
-                            padding: 12px;
-                            border: 1px solid #e8ddd0;
-                            text-align: center;
-                            flex: 1;
-                            min-width: 100px;
-                        ">
-                            <div style="font-size: 1.8rem; display: block; margin-bottom: 4px;">${ad.logo || '📢'}</div>
-                            <div style="font-weight: 700; color: #2d1b4e; font-size: 0.75rem; margin-bottom: 4px;">${ad.name}</div>
-                            <a href="${ad.link || '#'}" target="_blank" style="
-                                display: inline-block;
-                                background: #6C5CE7;
-                                color: #fff;
-                                padding: 2px 12px;
-                                border-radius: 50px;
-                                text-decoration: none;
-                                font-size: 0.65rem;
-                                font-weight: 600;
-                            ">
-                                مشاهده
-                            </a>
-                        </div>
-                    `).join('');
-                    return;
-                }
-            }
-            
-            container.innerHTML = '<div style="color:#7f8c8d;font-size:.7rem;text-align:center;padding:10px;">تبلیغاتی ثبت نشده است.</div>';
-        }
-        renderMobileAds('adMobileList');
-    });
-</script>
+<script src="js/modules/personalize.js"></script>
+<script src="js/modules/interact.js"></script>
+<script src="js/modules/ads.js"></script>
+<script src="js/modules/header.js"></script>
+<script src="js/modules/menu.js"></script>
+<script src="js/services/ai.js"></script>
+<script src="js/services/email.js"></script>
+<script src="js/services/fileReader.js"></script>
+<script src="js/services/storage.js"></script>
+<script src="js/app.js"></script>
+<script src="js/brain.js"></script>
+<script src="js/env.js"></script>
+
 </body>
 </html>
-fix: add second source for radio and tv players.
-fix: add missing modules (theme, scroll, ads filter, font)
