@@ -13,40 +13,63 @@ body{background:linear-gradient(135deg,#e8f0fe,#d4e4f7,#c8d6e5);font-family:taho
     margin: 20px auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
 }
 
-.ad-side .ad-box {
-    background: linear-gradient(145deg, #ffffff, #f5f0ff);
-    border-radius: 20px;
-    padding: 20px 18px;
-    border: 2px solid #d4a373;
+.ad-side .ad-header {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 16px 16px 0 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
+}
+
+.ad-side #adLeftList,
+.ad-side #adRightList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fff;
+    padding: 12px;
+    border-left: 2px solid #d4a373;
+    border-right: 2px solid #d4a373;
+}
+
+.ad-side .ad-item {
+    background: linear-gradient(145deg, #ffffff, #f8f4f0);
+    border-radius: 14px;
+    padding: 14px 16px;
+    border: 1px solid #e8ddd0;
     text-align: center;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     cursor: default;
 }
 
-.ad-side .ad-box:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.20);
+.ad-side .ad-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.15);
     border-color: #6C5CE7;
 }
 
-.ad-side .ad-box .ad-logo {
-    font-size: 2.5rem;
+.ad-side .ad-item .ad-logo {
+    font-size: 2.2rem;
     display: block;
-    margin-bottom: 6px;
-    animation: pulseLogo 2s infinite ease-in-out;
+    margin-bottom: 4px;
+    animation: pulseLogo 2.5s infinite ease-in-out;
 }
 
 @keyframes pulseLogo {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    50% { transform: scale(1.08); }
 }
 
-.ad-side .ad-box .ad-name {
-    font-size: 1.1rem;
+.ad-side .ad-item .ad-name {
+    font-size: 1rem;
     font-weight: 800;
     color: #2d1b4e;
     background: linear-gradient(135deg, #6C5CE7, #fdcb6e);
@@ -55,29 +78,112 @@ body{background:linear-gradient(135deg,#e8f0fe,#d4e4f7,#c8d6e5);font-family:taho
     background-clip: text;
 }
 
-.ad-side .ad-box .ad-desc {
-    font-size: 0.85rem;
-    color: #555;
-    margin: 8px 0 12px;
-}
-
-.ad-side .ad-box .ad-link {
+.ad-side .ad-item .ad-link {
     display: inline-block;
-    padding: 8px 24px;
+    margin-top: 6px;
+    padding: 6px 20px;
     background: linear-gradient(135deg, #6C5CE7, #a29bfe);
     color: #fff;
     border-radius: 50px;
     text-decoration: none;
-    font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
     transition: all 0.3s ease;
 }
 
-.ad-side .ad-box .ad-link:hover {
+.ad-side .ad-item .ad-link:hover {
     background: linear-gradient(135deg, #5a4bd1, #8c7cf5);
     transform: scale(1.05);
 }
 
+.ad-side .ad-upload {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: #f5f0ff;
+    padding: 12px;
+    border-radius: 0 0 16px 16px;
+    border: 2px solid #d4a373;
+    border-top: none;
+}
+
+.ad-side .ad-upload input {
+    flex: 1;
+    min-width: 100px;
+    padding: 8px 12px;
+    border: 1px solid #d4a373;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    background: #fff;
+}
+
+.ad-side .ad-upload input:focus {
+    outline: none;
+    border-color: #6C5CE7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+}
+
+.ad-side .ad-upload button {
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ad-side .ad-upload button:hover {
+    transform: scale(1.04);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.ad-side .ad-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    padding: 8px;
+    border-radius: 0 0 16px 16px;
+    border-left: 2px solid #d4a373;
+    border-right: 2px solid #d4a373;
+    border-bottom: 2px solid #d4a373;
+}
+
+.ad-side .ad-pagination button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #d4a373;
+    border-radius: 50%;
+    background: #fff;
+    color: #2d1b4e;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ad-side .ad-pagination button:hover {
+    background: #6C5CE7;
+    color: #fff;
+    border-color: #6C5CE7;
+}
+
+.ad-side .ad-pagination .active {
+    background: #6C5CE7;
+    color: #fff;
+    border-color: #6C5CE7;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
 /* ===== هدر ===== */
 .header{background:linear-gradient(135deg,#4a90d9,#6C5CE7,#fdcb6e,#55efc4);background-size:400% 400%;animation:gradientBG 12s ease infinite;border-radius:30px;padding:25px;text-align:center;margin-bottom:25px;border:3px solid #fdcb6e}
 @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
