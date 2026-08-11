@@ -1,293 +1,256 @@
-/* ===== فونت و رنگ‌بندی اصلی ===== */
-body {
-    font-family: 'Tahoma', 'Arial', sans-serif;
-    background: #f8f4f0;
-    color: #2d1b4e;
-    line-height: 1.6;
-    padding: 10px;
-    font-size: 16px;
-}
+/* ===== فایل استایل یکپارچه ===== */
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: #ffffff;
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(135deg,#e8f0fe,#d4e4f7,#c8d6e5);font-family:tahoma,sans-serif;padding:20px;transition:background 0.4s;padding-bottom:80px}
+.container{max-width:1200px;margin:0 auto;position:relative}
+
+/* ===== تبلیغات ===== */
+.ad-side {
+    position: fixed;
+    top: 10%;
+    width: 220px;  /* ← بزرگ‌تر */
+    z-index: 100;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.ad-side::-webkit-scrollbar{width:4px}
+.ad-side::-webkit-scrollbar-thumb{background:#6C5CE7;border-radius:10px}
+.ad-side.left{left:10px}
+.ad-side.right{right:10px}
+.ad-side .ad-header {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    padding: 12px 16px;  /* ← بزرگ‌تر */
+    border-radius: 16px 16px 0 0;
+    font-size: .85rem;   /* ← بزرگ‌تر */
+    font-weight: 700;
+    text-align: center;
+}
+.ad-side .ad-box {
+    background: #fff;
+    padding: 14px 16px;  /* ← بزرگ‌تر */
+    border: 1px solid #d4a373;
+    border-top: none;
+    text-align: center;
+}
+.ad-side .ad-box:last-child {
+    border-radius: 0 0 16px 16px;
+}
+.ad-side .ad-box .ad-logo {
+    font-size: 1.8rem;   /* ← بزرگ‌تر */
+    display: block;
+}
+.ad-side .ad-box .ad-name {
+    font-size: .85rem;   /* ← بزرگ‌تر */
+    font-weight: 700;
+    color: #2d1b4e;
+}
+.ad-side .ad-box .ad-desc {
+    font-size: .7rem;    /* ← بزرگ‌تر */
+    color: #7f8c8d;
+    line-height: 1.4;
+}
+.ad-side .ad-box .ad-link {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 4px 14px;
+    background: #6C5CE7;
+    color: #fff;
     border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    font-size: .65rem;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.ad-side .ad-box .ad-link:hover {
+    background: #5a4bd1;
+    transform: scale(1.05);
 }
 
 /* ===== هدر ===== */
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    border-bottom: 3px solid #6C5CE7;
-    padding-bottom: 15px;
-    margin-bottom: 25px;
-}
-.header h1 {
-    font-size: 28px;
-    color: #2d1b4e;
-}
-.header h1 span {
-    color: #6C5CE7;
-}
-.header p {
-    color: #7f8c8d;
-    font-size: 14px;
-}
+.header{background:linear-gradient(135deg,#4a90d9,#6C5CE7,#fdcb6e,#55efc4);background-size:400% 400%;animation:gradientBG 12s ease infinite;border-radius:30px;padding:25px;text-align:center;margin-bottom:25px;border:3px solid #fdcb6e}
+@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.logo-wrapper{width:100px;height:100px;border-radius:50%;overflow:hidden;border:4px solid #fdcb6e;margin:0 auto 12px;box-shadow:0 0 30px rgba(253,203,110,0.3)}
+.logo-wrapper img{width:100%;height:100%;object-fit:cover}
+.radio-tv-icons{display:flex;justify-content:center;align-items:center;gap:15px;margin:8px 0}
+.radio-tv-icons .icon-box{width:55px;height:55px;border-radius:50%;border:3px solid #fdcb6e;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.15)}
+.radio-tv-icons .icon-box img{width:35px;height:35px;object-fit:contain}
+.radio-tv-icons .plus{color:#fdcb6e;font-size:1.5rem;font-weight:700}
+.header h1{color:#fff;font-size:2rem;text-shadow:0 4px 20px rgba(0,0,0,0.2)}
+.header h1 span{color:#fdcb6e}
+.header p{color:rgba(255,255,255,0.9);font-size:.95rem}
+
+/* ===== منو ===== */
+.menu{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;background:#fff;padding:10px 15px;border-radius:50px;margin-bottom:25px;border:2px solid #d4a373}
+.menu a{padding:6px 14px;border-radius:50px;color:#fff;text-decoration:none;font-weight:700;transition:.3s;font-size:.75rem}
+.menu a:nth-child(1){background:#4a90d9}
+.menu a:nth-child(2){background:#6C5CE7}
+.menu a:nth-child(3){background:#fdcb6e;color:#2d1b4e}
+.menu a:nth-child(4){background:#55efc4;color:#2d1b4e}
+.menu a:nth-child(5){background:#4a90d9}
+.menu a:nth-child(6){background:#6C5CE7}
+.menu a:nth-child(7){background:#fdcb6e;color:#2d1b4e}
+.menu a:nth-child(8){background:#55efc4;color:#2d1b4e}
+.menu a:nth-child(9){background:#4a90d9}
+.menu a:nth-child(10){background:#6C5CE7}
+.menu a:nth-child(11){background:#fdcb6e;color:#2d1b4e}
+.menu a:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.15)}
 
 /* ===== بخش‌ها ===== */
-.section {
-    background: #faf8f6;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 25px;
-    border: 1px solid #e8ddd0;
-}
-.section-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #2d1b4e;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.section-title i {
-    color: #6C5CE7;
-}
-.section-title .drag-hint {
-    font-size: 12px;
-    color: #aaa;
-    font-weight: normal;
-}
+.section{background:#fff;border-radius:20px;padding:20px;margin-bottom:25px;border:2px solid #d4a373;transition:all 0.3s ease;cursor:default}
+.section-title{font-size:1.3rem;font-weight:900;padding-bottom:12px;margin-bottom:15px;border-bottom:3px solid #fdcb6e;color:#2d1b4e;display:flex;align-items:center;gap:10px;cursor:grab;user-select:none}
+.section-title:active{cursor:grabbing}
+.section-title i{color:#6C5CE7;font-size:1.5rem}
+.section-title .drag-hint{font-size:.6rem;color:#7f8c8d;font-weight:400}
 
-/* ===== رادیو و تلویزیون ===== */
-.player-box {
-    background: #1a1a2e;
-    border-radius: 14px;
-    padding: 12px;
-    margin-bottom: 15px;
-}
-.player-box audio,
-.player-box video {
-    width: 100%;
-    border-radius: 10px;
-    display: block;
-}
+/* ===== حالت تمام‌صفحه و مخفی ===== */
+.section.fullscreen{position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:9998!important;border-radius:0!important;margin:0!important;overflow-y:auto!important;background:#fff!important;padding:25px!important}
+.section.hidden-section{display:none!important}
+
+/* ===== پلیر ===== */
+.player-box{background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:14px;padding:15px;text-align:center;margin:12px 0}
+.player-box audio,.player-box video{width:100%;border-radius:10px}
 
 /* ===== کنترل‌ها ===== */
-.controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
-}
-.controls button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 50px;
-    background: #6C5CE7;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.controls button:hover {
-    background: #5a4bd1;
-    transform: translateY(-2px);
-}
-.controls button i {
-    font-size: 16px;
-}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+.controls button{padding:8px 16px;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:6px;font-size:.8rem}
+.controls button:hover{transform:scale(1.05)}
+.btn-play{background:#55efc4;color:#2d1b4e}
+.btn-stop{background:#fd79a8;color:#fff}
+.btn-next{background:#6C5CE7}
+.btn-prev{background:#fdcb6e;color:#2d1b4e}
+.btn-add{background:#4a90d9}
 
-/* ===== لیست پخش ===== */
-.playlist-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 16px;
-    margin-bottom: 6px;
-    background: #ffffff;
-    border-radius: 10px;
-    border: 1px solid #e8ddd0;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.playlist-item:hover {
-    border-color: #6C5CE7;
-    background: #f5f0ff;
-}
-.playlist-item .play-btn {
-    color: #6C5CE7;
-    font-weight: bold;
-}
-
-/* ===== آرشیو ===== */
-.archive-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    margin-bottom: 8px;
-    background: #ffffff;
-    border-radius: 10px;
-    border: 1px solid #e8ddd0;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.archive-item:hover {
-    border-color: #6C5CE7;
-    background: #f5f0ff;
-}
-.archive-item .date {
-    font-size: 12px;
-    color: #999;
-}
+/* ===== پلی‌لیست ===== */
+.playlist-item{display:flex;justify-content:space-between;padding:10px 14px;background:#fef9f0;border-radius:10px;margin:5px 0;border:1px solid #e8ddd0;transition:.3s;cursor:pointer;font-size:.9rem}
+.playlist-item:hover{background:#f5ede5}
+.playlist-item.active{background:#6C5CE7;color:#fff;border-color:#6C5CE7}
 
 /* ===== گالری ===== */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 16px;
-    margin-top: 10px;
-}
-.gallery-item {
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #e8ddd0;
-    text-align: center;
-    padding: 10px;
-    transition: all 0.2s;
-}
-.gallery-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(108,92,231,0.12);
-}
-.gallery-item img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-.gallery-item .info h4 {
-    font-size: 14px;
-    margin: 8px 0 4px;
-    color: #2d1b4e;
-}
-.gallery-item .info p {
-    font-size: 12px;
-    color: #999;
-}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px}
+.gallery-item{background:#fef9f0;border-radius:14px;overflow:hidden;border:2px solid #d4a373;transition:.3s;cursor:pointer}
+.gallery-item:hover{transform:scale(1.03);border-color:#6C5CE7}
+.gallery-item img{width:100%;height:150px;object-fit:cover}
+.gallery-item .info{padding:10px;background:#fff}
+.gallery-item .info h4{color:#2d1b4e;font-size:.9rem}
+.gallery-item .info p{color:#7f8c8d;font-size:.75rem}
 
-/* ===== تبلیغات دو طرف ===== */
-.ad-side {
-    display: flex;
-    gap: 20px;
-    margin: 20px 0;
-}
-.ad-left, .ad-right {
-    flex: 1;
-    background: #fcf9f6;
-    border-radius: 16px;
-    padding: 18px;
-    border: 1px solid #e8ddd0;
-}
-.ad-header {
-    font-weight: bold;
-    color: #2d1b4e;
-    text-align: center;
-    margin-bottom: 12px;
-    font-size: 16px;
-}
-.ad-item {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid #e8ddd0;
-    text-align: center;
-    transition: all 0.2s;
-}
-.ad-item:hover {
-    border-color: #6C5CE7;
-}
-.ad-item .ad-link {
-    display: inline-block;
-    background: #6C5CE7;
-    color: #fff;
-    padding: 6px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    transition: all 0.2s;
-}
-.ad-item .ad-link:hover {
-    background: #5a4bd1;
-    transform: scale(1.02);
-}
+/* ===== تعامل ===== */
+.interact-box textarea{width:100%;padding:10px;border:2px solid #d4a373;border-radius:10px;min-height:60px;font-family:inherit;font-size:.9rem}
+.interact-box textarea:focus{outline:none;border-color:#6C5CE7}
+.interact-tools{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.interact-tools button{padding:8px 16px;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:6px;font-size:.8rem}
+.interact-tools button:hover{transform:scale(1.05)}
+.btn-text{background:#6C5CE7}
+.btn-audio{background:#fd79a8}
+.btn-video{background:#55efc4;color:#2d1b4e}
+.response-box{margin-top:12px;padding:12px;background:#fef9f0;border-radius:14px;border-right:4px solid #6C5CE7;min-height:50px;max-height:250px;overflow-y:auto}
+.response-box .response-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid #e8ddd0}
+.response-box .response-item:last-child{border-bottom:none}
+.response-box .response-item .type-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:700;flex-shrink:0}
+.response-box .response-item .type-icon.text{background:#6C5CE7}
+.response-box .response-item .type-icon.audio{background:#fd79a8}
+.response-box .response-item .type-icon.video{background:#55efc4;color:#2d1b4e}
+.response-box .response-item .ai-response{background:#f0ecff;padding:6px 12px;border-radius:10px;margin-top:3px;color:#2d1b4e;font-size:.85rem}
 
-/* ===== ریسپانسیو موبایل ===== */
-@media (max-width: 768px) {
-    .container {
-        padding: 12px;
-    }
-    .header h1 {
-        font-size: 22px;
-    }
-    .header p {
-        font-size: 13px;
-    }
-    .section {
-        padding: 14px;
-    }
-    .section-title {
-        font-size: 17px;
-    }
-    .ad-side {
-        flex-direction: column;
-    }
-    .ad-left, .ad-right {
-        width: 100%;
-    }
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    }
-    .controls button {
-        padding: 8px 14px;
-        font-size: 13px;
-    }
-    .playlist-item, .archive-item {
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-}
+/* ===== گنجینه ===== */
+.works-container{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.works-container .latest-work{background:linear-gradient(135deg,#f0ecff,#e8dff5);border-radius:20px;padding:20px;border:3px solid #6C5CE7;box-shadow:0 8px 30px rgba(108,92,231,0.15)}
+.works-container .latest-work .badge{display:inline-block;background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#fff;padding:3px 14px;border-radius:50px;font-size:.7rem;font-weight:700;margin-bottom:10px}
+.works-container .archive-list{background:#fff;border-radius:20px;padding:18px;border:2px solid #d4a373;max-height:450px;overflow-y:auto}
+.works-container .archive-list .archive-item{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e8ddd0;cursor:pointer;transition:.3s;border-radius:6px;font-size:.85rem}
+.works-container .archive-list .archive-item:hover{background:#f0ecff}
+.works-container .archive-list .archive-item .num{color:#6C5CE7;font-weight:700;font-size:.8rem}
+.works-container .archive-list .archive-item .title{color:#2d1b4e}
+.works-container .archive-list .archive-item .date{color:#7f8c8d;font-size:.7rem}
 
-@media (max-width: 480px) {
-    .header h1 {
-        font-size: 18px;
-    }
-    .section-title {
-        font-size: 15px;
-    }
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    }
-    .gallery-item img {
-        height: 100px;
-    }
-    .controls button {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
+/* ===== پوستر ===== */
+.poster-section{background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:20px;padding:20px;margin-bottom:25px;border:2px solid #6C5CE7}
+.poster-form{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
+.poster-form input,.poster-form textarea{width:100%;padding:10px;border:2px solid #d4a373;border-radius:10px;font-family:inherit;font-size:.9rem}
+.poster-form input:focus,.poster-form textarea:focus{outline:none;border-color:#6C5CE7}
+.poster-form .full-width{grid-column:1/-1}
+
+/* ===== رادیو نوای چاپ ===== */
+.radio-nava-section{background:linear-gradient(135deg,#2d1b4e,#4a2c7a,#6C5CE7);border-radius:20px;padding:20px;margin-bottom:25px;border:3px solid #fdcb6e;text-align:center;color:#fff}
+.radio-nava-section h2{font-size:1.6rem;margin-bottom:8px}
+.radio-nava-section h2 span{color:#fdcb6e}
+.radio-nava-section .poster-img{max-width:100%;max-height:300px;border-radius:14px;margin:12px auto;display:block;border:3px solid rgba(255,255,255,0.2)}
+.radio-nava-section .btn-radio{display:inline-block;padding:10px 25px;background:#fdcb6e;color:#2d1b4e;border:none;border-radius:50px;font-weight:700;font-size:.95rem;cursor:pointer;transition:.3s;text-decoration:none;margin:4px}
+.radio-nava-section .btn-radio:hover{transform:scale(1.05)}
+
+/* ===== انتشارات ===== */
+.publish-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:15px}
+.publish-card{background:linear-gradient(145deg,#fef9f0,#f5ede5);border-radius:16px;padding:16px;border:2px solid #d4a373;transition:.3s}
+.publish-card:hover{transform:translateY(-3px);border-color:#6C5CE7}
+.publish-card i{font-size:1.8rem;color:#6C5CE7;margin-bottom:8px;display:block}
+
+/* ===== فوتر ===== */
+.footer{text-align:center;padding:15px 20px;background:linear-gradient(135deg,#2d1b4e,#4a2c7a);border-radius:16px;margin-top:15px;color:#fff}
+.footer .designer-info{display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px}
+.footer .designer-info h3{color:#fdcb6e;font-size:1rem}
+.footer .designer-info h2{color:#fdcb6e;font-size:1.2rem}
+.footer .designer-info p{color:rgba(255,255,255,0.8);font-size:.8rem;margin:0}
+.footer .posters-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:10px 0}
+.footer .posters-row .poster-box{max-width:150px;border-radius:10px;overflow:hidden;border:2px solid #fdcb6e;transition:.3s}
+.footer .posters-row .poster-box:hover{transform:scale(1.04);border-color:#6C5CE7}
+.footer .posters-row .poster-box img{width:100%;height:auto;display:block}
+.footer .copyright{color:rgba(255,255,255,0.6);font-size:.7rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;margin-top:10px}
+
+/* ===== شناور ===== */
+.floating-toolbar{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:999;background:rgba(255,255,255,0.95);padding:6px 14px;border-radius:50px;box-shadow:0 4px 25px rgba(0,0,0,0.2)}
+.floating-toolbar button{width:36px;height:36px;border:none;border-radius:50%;font-size:.9rem;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;position:relative}
+.floating-toolbar button:hover{transform:scale(1.1)}
+.floating-toolbar button .tooltip{display:none;position:absolute;bottom:45px;background:#2d1b4e;color:#fff;padding:4px 10px;border-radius:8px;font-size:.6rem;white-space:nowrap}
+.floating-toolbar button:hover .tooltip{display:block}
+#themeToggle{background:#fdcb6e;color:#2d1b4e}
+#scrollTop,#scrollBottom{background:#6C5CE7;color:#fff}
+#resetLayout{background:#e17055;color:#fff}
+#toggleAds{background:#00cec9;color:#fff}
+#fontSizeBtn{background:#4a90d9;color:#fff}
+
+/* ===== دارک مود ===== */
+body.dark-mode{background:#1a1a2e!important;color:#e0e0e0!important}
+body.dark-mode .section{background:#16213e!important;border-color:#0f3460!important}
+body.dark-mode .section.fullscreen{background:#16213e!important}
+body.dark-mode .header{background:linear-gradient(135deg,#0f0f23,#1a1a2e,#0f3460)!important}
+body.dark-mode .menu{background:#1a1a2e!important}
+body.dark-mode .menu a{background:#0f3460!important;color:#e0e0e0!important}
+body.dark-mode .player-box{background:#1a1a2e!important}
+body.dark-mode .poster-section{background:#16213e!important}
+body.dark-mode .works-container .archive-list{background:#16213e!important;border-color:#0f3460}
+body.dark-mode .works-container .latest-work{background:#1a1a2e!important}
+body.dark-mode .footer{background:linear-gradient(135deg,#0f0f23,#1a1a2e)!important}
+body.dark-mode .response-box{background:#1a1a2e!important}
+body.dark-mode .playlist-item{background:#1a1a2e!important;color:#e0e0e0!important}
+body.dark-mode .playlist-item.active{background:#6C5CE7!important}
+body.dark-mode .interact-box textarea{background:#1a1a2e;color:#e0e0e0;border-color:#0f3460}
+body.dark-mode .ad-side .ad-box{background:#16213e!important;border-color:#0f3460}
+body.dark-mode .ad-side .ad-header{background:#0f3460!important}
+body.dark-mode .radio-nava-section{background:linear-gradient(135deg,#0f0f23,#1a1a2e,#0f3460)!important}
+body.dark-mode .publish-card{background:#1a1a2e!important;border-color:#0f3460}
+
+/* ===== ریسپانسیو ===== */
+@media(max-width:768px){
+    .container{padding:8px}
+    body{padding:10px}
+    .header h1{font-size:1.5rem}
+    .header{padding:18px}
+    .menu a{padding:5px 10px;font-size:.65rem}
+    .works-container{grid-template-columns:1fr}
+    .poster-form{grid-template-columns:1fr}
+    .ad-side{display:none}
+    .ad-side-mobile{display:block!important}
+    .footer .posters-row .poster-box{max-width:120px}
+    .radio-tv-icons .icon-box{width:45px;height:45px}
+    .radio-tv-icons .icon-box img{width:28px;height:28px}
+    .section-title{font-size:1.1rem}
+    .controls button{padding:6px 12px;font-size:.7rem}
+    .floating-toolbar{bottom:15px;padding:5px 10px;gap:4px}
+    .floating-toolbar button{width:30px;height:30px;font-size:.75rem}
+    .section{padding:15px}
+    .footer .designer-info h2{font-size:1.1rem}
 }
+@media(min-width:769px){.ad-side-mobile{display:none!important}}
+
+@keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes popIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
