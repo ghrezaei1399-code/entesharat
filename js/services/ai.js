@@ -1,168 +1,120 @@
-// ===== سرویس هوش مصنوعی =====
+// ============================================================
+// AI SERVICE - ENTESHARAT SMART ASSISTANT
+// ============================================================
+
 const AI = {
+
     getApiKey() {
-        const key = window.CONFIG?.OPENAI_API_KEY || window.ENV?.OPENAI_API_KEY || '';
-        return key.trim();
+        return (
+            window.ENV?.OPENAI_API_KEY ||
+            window.CONFIG?.OPENAI_API_KEY ||
+            ''
+        ).trim();
     },
 
-    async respond(message) {
-        const apiKey = this.getApiKey();
+    conversation: [],
 
-        console.log('📤 ارسال به OpenAI...');
-        console.log('🔑 کلید:', apiKey ? '✅ موجود' : '❌ موجود نیست');
-        console.log('📝 پیام:', message);
+    async respond(message, source = 'text') {
 
-        if (!apiKey) {
-            console.warn('⚠️ کلید API یافت نشد');
-            return '⚠️ کلید هوش مصنوعی تنظیم نشده است. لطفاً با مدیر سیستم تماس بگیرید.';
-        }
-
-        try {
-            const encodedKey = encodeURIComponent(apiKey).replace(/%20/g, '');
-
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + encodedKey
-                },
-                body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: 'شما یک دستیار هوشمند برای پاسخ به سوالات کاربران درباره موسیقی، رادیو و تلویزیون هستید. پاسخ‌ها را محترمانه، مفید و مختصر بنویسید.'
-                        },
-                        {
-                            role: 'user',
-                            content: message
-                        }
-                    ],
-                    max_tokens: 200,
-                    temperature: 0.7
-                })
-            });
-
-            const data = await response.json();
-            console.log('📥 پاسخ از OpenAI:', data);
-
-            if (data.error) {
-                throw new Error(data.error.message);
-            }
-            return data.choices[0].message.content;
-
-        } catch (error) {
-            console.error('❌ خطا در پاسخگویی:', error);
-            return '❌ خطا در ارتباط با هوش مصنوعی. لطفاً دوباره تلاش کنید.';
-        }
-    },
-
-    async summarize(text) {
         const apiKey = this.getApiKey();
 
         if (!apiKey) {
-            console.warn('⚠️ کلید API یافت نشد');
-            return this.fallbackSummary(text);
+            throw new Error('کلید هوش مصنوعی پیدا نشد.');
         }
 
-        try {
-            const encodedKey = encodeURIComponent(apiKey).replace(/%20/g, '');
+        const cleanMessage = String(message || '').trim();
 
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + encodedKey
-                },
-                body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: `شما یک دستیار هوشمند برای خلاصه‌سازی کتاب و مقاله هستید. 
-                            لطفاً متن را با ۵ ویژگی زیر خلاصه کنید:
-                            ۱. موضوع اصلی
-                            ۲. ایده‌های کلیدی - حداقل ۳ مورد
-                            ۳. نتیجه‌گیری
-                            ۴. نکات کاربردی - حداقل ۲ مورد
-                            ۵. ارزش مطالعه`
-                        },
-                        {
-                            role: 'user',
-                            content: `لطفاً متن زیر را خلاصه کن:\n\n${text.substring(0, 15000)}`
-                        }
-                    ],
-                    max_tokens: 800,
-                    temperature: 0.7
-                })
-            });
+        if (!cleanMessage) {
+            throw new Error('پیام خالی است.');
+        }
+
+        this.conversation.push({
+            role: 'user',
+            content: cleanMessage
+        });
+
+        if (this.conversation.length > 12) {
+            this.conversation =
+                this.conversation.slice(-12);
+        }
+
+        const systemPrompt = `
+شما دستیار هوشمند «رادیو تلویزیون هوشمند انتشارات کیمیا» هستید.
+
+وظایف شما:
+- پاسخ به پرسش‌های کاربران درباره کتاب، نشر، چاپ، مطالعه، رادیو و تلویزیون.
+- کمک به انتخاب و معرفی کتاب.
+- پاسخ فارسی روان و محترمانه.
+- اگر کاربر درخواست انجام کاری دارد، دقیقاً بگویید چه اقدامی می‌توانید انجام دهید.
+- پاسخ‌ها کاربردی و مستقیم باشند.
+- اگر اطلاعات کافی ندارید، صادقانه بگویید.
+- منبع یا لینک ساختگی تولید نکنید.
+- نوع پیام کاربر: ${source}
+`;
+
+        try {
+
+            const response = await fetch(
+                'https://api.openai.com/v1/chat/completions',
+                {
+                    method: 'POST',
+
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+
+                    body: JSON.stringify({
+                        model: 'gpt-4o-mini',
+
+                        messages: [
+                            {
+                                role: 'system',
+                                content: systemPrompt
+                            },
+                            ...this.conversation
+                        ],
+
+                        temperature: 0.5,
+                        max_tokens: 700
+                    })
+                }
+            );
 
             const data = await response.json();
-            if (data.error) {
-                throw new Error(data.error.message);
+
+            if (!response.ok || data.error) {
+                throw new Error(
+                    data?.error?.message ||
+                    `خطای API: ${response.status}`
+                );
             }
-            return data.choices[0].message.content;
+
+            const answer =
+                data?.choices?.[0]?.message?.content?.trim();
+
+            if (!answer) {
+                throw new Error('پاسخ خالی از هوش مصنوعی دریافت شد.');
+            }
+
+            this.conversation.push({
+                role: 'assistant',
+                content: answer
+            });
+
+            return answer;
 
         } catch (error) {
-            console.error('❌ خطا در خلاصه‌سازی:', error);
-            return this.fallbackSummary(text);
+
+            console.error('AI Error:', error);
+
+            throw error;
         }
     },
 
-    fallbackSummary(text) {
-        const sentences = text.split(/[.。!！?？\n]/).filter(s => s.trim().length > 10);
-        return `📚 **خلاصه هوشمند (نسخه جایگزین)**
-
-🔹 **موضوع اصلی:** 
-${sentences[0] || 'متن برای تحلیل کافی نیست'}
-
-🔹 **ایده‌های کلیدی:**
-• ${sentences[1] || 'ایده اول'}
-• ${sentences[2] || 'ایده دوم'}
-• ${sentences[3] || 'ایده سوم'}
-
-🔹 **نتیجه‌گیری:**
-${sentences[sentences.length - 1] || 'نتیجه‌گیری'}`;
-    },
-
-    async generatePoster(description) {
-        const apiKey = this.getApiKey();
-
-        if (!apiKey) {
-            console.warn('⚠️ کلید API برای ساخت پوستر یافت نشد');
-            return null;
-        }
-
-        try {
-            const encodedKey = encodeURIComponent(apiKey).replace(/%20/g, '');
-
-            const response = await fetch('https://api.openai.com/v1/images/generations', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + encodedKey
-                },
-                body: JSON.stringify({
-                    model: 'dall-e-2',
-                    prompt: `یک پوستر حرفه‌ای و زیبا برای: ${description}`,
-                    n: 1,
-                    size: '512x512'
-                })
-            });
-
-            const data = await response.json();
-            if (data.error) {
-                throw new Error(data.error.message);
-            }
-            return data.data[0].url;
-
-        } catch (error) {
-            console.error('❌ خطا در ساخت پوستر:', error);
-            return null;
-        }
+    clearConversation() {
+        this.conversation = [];
     }
 };
 
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = AI;
-}
+window.AI = AI;
