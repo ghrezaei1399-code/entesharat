@@ -1,14 +1,10 @@
 const AI = {
-
-    endpoint:
-        'https://entesharat-ai.ghrezaei1399.workers.dev',
+    endpoint: 'https://entesharat-ai.ghrezaei1399.workers.dev',
 
     conversation: [],
 
     async respond(message, source = 'text') {
-
-        const cleanMessage =
-            String(message || '').trim();
+        const cleanMessage = String(message || '').trim();
 
         if (!cleanMessage) {
             throw new Error('پیام خالی است.');
@@ -20,8 +16,7 @@ const AI = {
         });
 
         if (this.conversation.length > 12) {
-            this.conversation =
-                this.conversation.slice(-12);
+            this.conversation = this.conversation.slice(-12);
         }
 
         const systemPrompt = `
@@ -37,7 +32,6 @@ const AI = {
 `;
 
         const response = await fetch(this.endpoint, {
-
             method: 'POST',
 
             headers: {
