@@ -1,7 +1,7 @@
 const AI = {
 
     endpoint:
-        'https://YOUR-WORKER.workers.dev',
+        'https://entesharat-ai.ghrezaei1399.workers.dev',
 
     conversation: [],
 
@@ -55,8 +55,15 @@ const AI = {
             })
         });
 
-        const data =
-            await response.json();
+        let data;
+
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error(
+                'پاسخ نامعتبر از سرور هوش مصنوعی دریافت شد.'
+            );
+        }
 
         if (!response.ok) {
             throw new Error(
@@ -69,7 +76,9 @@ const AI = {
             data?.choices?.[0]?.message?.content?.trim();
 
         if (!answer) {
-            throw new Error('پاسخ خالی دریافت شد.');
+            throw new Error(
+                'پاسخ خالی از هوش مصنوعی دریافت شد.'
+            );
         }
 
         this.conversation.push({
