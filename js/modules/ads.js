@@ -1,235 +1,188 @@
-// ===== ماژول تبلیغات =====
+/* =========================================================
+   ENTESHARAT - ADS MODULE
+   ========================================================= */
+
 const AdsModule = {
-    data: {
-        left: [
-            {
-                name: 'چاپ و تبلیغات آریا',
-                desc: 'برترین کانون تبلیغاتی با سابقه درخشان در حوزه چاپ و بسته‌بندی',
-                link: 'https://aria-print.com',
-                logo: '🖨️'
-            },
-            {
-                name: 'چاپ دیجیتال سروش',
-                desc: 'مرجع تخصصی چاپ دیجیتال، چاپ بنر و کاتالوگ',
-                link: 'https://soroush-print.ir',
-                logo: '📇'
-            },
-            {
-                name: 'انتشارات کتابچین',
-                desc: 'پیشرو در چاپ و نشر کتاب‌های آموزشی و دانشگاهی',
-                link: 'https://ketabchin.ir',
-                logo: '📘'
-            }
-        ],
-        right: [
-            {
-                name: 'نشر چشمه',
-                desc: 'پیشرو در ادبیات معاصر و شعر نو با بیش از سه دهه فعالیت',
-                link: 'https://cheshmeh.ir',
-                logo: '📖'
-            },
-            {
-                name: 'نشر ققنوس',
-                desc: 'قدیمی‌ترین ناشر ادبیات، فلسفه و تاریخ ایران با بیش از نیم قرن سابقه',
-                link: 'https://ghoghnoospub.ir',
-                logo: '📚'
-            },
-            {
-                name: 'نشر نی',
-                desc: 'برجسته در فلسفه، علوم اجتماعی و تاریخ با انتشار آثار کلاسیک',
-                link: 'https://ney-pub.ir',
-                logo: '📘'
-            },
-            {
-                name: 'نشر ثالث',
-                desc: 'ناشر برتر ادبیات داستانی و ترجمه با آثاری از نویسندگان مطرح جهان',
-                link: 'https://salespub.ir',
-                logo: '📕'
-            }
-        ]
+
+    page: {
+        left: 0,
+        right: 0
     },
 
-    page: {left: 0, right: 0},
     perPage: 2,
 
-    escapeHtml(value) {
+    escape(value) {
         return String(value ?? '').replace(/[&<>"']/g, char => ({
-            '&':'&amp;',
-            '<':'&lt;',
-            '>':'&gt;',
-            '"':'&quot;',
-            "'":'&#039;'
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
         }[char]));
     },
 
+    getAds(side) {
+        const source =
+            window.APP_CONFIG?.advertisements?.[side] ||
+            window.APP_CONFIG?.ads?.[side] ||
+            [];
+
+        return Array.isArray(source) ? source : [];
+    },
+
     safeUrl(value) {
-        const url = String(value ?? '').trim();
-        if (!url || url === '#') return '#';
+        if (!value) return '';
 
         try {
-            const parsed = new URL(url, window.location.href);
+            const url = new URL(value, window.location.href);
 
-            return ['http:', 'https:'].includes(parsed.protocol)
-                ? parsed.href
-                : '#';
+            if (
+                url.protocol === 'http:' ||
+                url.protocol === 'https:'
+            ) {
+                return url.href;
+            }
+
+            return '';
         } catch {
-            return '#';
+            return '';
         }
     },
 
-    card(ad) {
-        const name = this.escapeHtml(ad.name || 'تبلیغ');
-        const desc = this.escapeHtml(ad.desc || '');
-        const logo = this.escapeHtml(ad.logo || '📢');
-        const link = this.safeUrl(ad.link);
+    createCard(ad, mobile = false) {
+
+        const name = this.escape(ad.name || ad.title || 'تبلیغ');
+        const desc = this.escape(ad.desc || ad.description || '');
+        const logo = this.escape(ad.logo || ad.icon || '📢');
+        const url = this.safeUrl(ad.link || ad.url || '');
 
         return `
-            <article class="ad-box">
-                <span class="ad-logo" aria-hidden="true">${logo}</span>
+            <article class="${mobile ? 'ad-item' : 'ad-box'}">
 
-                <div class="ad-name">${name}</div>
+                <div class="ad-logo" aria-hidden="true">
+                    ${logo}
+                </div>
 
-                ${desc ? `<div class="ad-desc">${desc}</div>` : ''}
+                <div class="ad-name">
+                    ${name}
+                </div>
 
-                <a href="${this.escapeHtml(link)}"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="ad-link"
-                   aria-label="مشاهده ${name}">
-                    <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-                    مشاهده و ارتباط
-                </a>
+                ${
+                    desc
+                        ? `<div class="ad-desc">${desc}</div>`
+                        : ''
+                }
+
+                ${
+                    url
+                        ? `
+                            <a
+                                class="ad-link"
+                                href="${this.escape(url)}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                مشاهده سایت
+                            </a>
+                          `
+                        : ''
+                }
+
             </article>
         `;
     },
 
-    render(side) {
-        const prefix = side.charAt(0).toUpperCase() + side.slice(1);
-        const container = document.getElementById(`ad${prefix}List`);
+    renderSide(side) {
+
+        const prefix =
+            side.charAt(0).toUpperCase() + side.slice(1);
+
+        const container =
+            document.getElementById(`ad${prefix}List`);
 
         if (!container) return;
 
-        const ads = this.data[side] || [];
-        const total = Math.max(1, Math.ceil(ads.length / this.perPage));
+        const ads = this.getAds(side);
 
-        this.page[side] = Math.max(
-            0,
-            Math.min(total - 1, this.page[side])
-        );
+        const total =
+            Math.max(1, Math.ceil(ads.length / this.perPage));
 
-        const start = this.page[side] * this.perPage;
-        const pageAds = ads.slice(start, start + this.perPage);
+        this.page[side] =
+            Math.max(
+                0,
+                Math.min(this.page[side], total - 1)
+            );
 
-        container.innerHTML = pageAds.length
-            ? pageAds.map(ad => this.card(ad)).join('')
-            : `
-                <div class="ad-box">
-                    <div class="ad-desc">
-                        هنوز تبلیغی ثبت نشده است.
-                    </div>
-                </div>
-            `;
+        const start =
+            this.page[side] * this.perPage;
 
-        const pageNum = document.getElementById(`ad${prefix}PageNum`);
+        const visible =
+            ads.slice(start, start + this.perPage);
 
-        if (pageNum) {
-            pageNum.textContent = `${this.page[side] + 1} از ${total}`;
-        }
-    },
-
-    changePage(side, delta) {
-        const total = Math.max(
-            1,
-            Math.ceil((this.data[side] || []).length / this.perPage)
-        );
-
-        this.page[side] = Math.max(
-            0,
-            Math.min(total - 1, this.page[side] + delta)
-        );
-
-        this.render(side);
-        this.renderMobile();
-    },
-
-    addAd(side) {
-        const prefix = side.charAt(0).toUpperCase() + side.slice(1);
-
-        const input = document.getElementById(`ad${prefix}Input`);
-        const link = document.getElementById(`ad${prefix}Link`);
-
-        if (!input || !input.value.trim()) {
-            alert('لطفاً نام تبلیغ را وارد کنید.');
-            return;
-        }
-
-        this.data[side].push({
-            name: input.value.trim(),
-            desc: 'تبلیغ جدید',
-            link: link?.value.trim() || '#',
-            logo: '📢'
-        });
-
-        input.value = '';
-
-        if (link) {
-            link.value = '';
-        }
-
-        this.page[side] = Math.max(
-            0,
-            Math.ceil(this.data[side].length / this.perPage) - 1
-        );
-
-        this.render(side);
-        this.renderMobile();
-
-        alert('✅ تبلیغ با موفقیت اضافه شد!');
+        container.innerHTML =
+            visible.length
+                ? visible
+                    .map(ad => this.createCard(ad))
+                    .join('')
+                : '';
     },
 
     renderMobile() {
-        const container = document.getElementById('adMobileList');
+
+        const container =
+            document.getElementById('adMobileList');
 
         if (!container) return;
 
-        const all = [
-            ...this.data.left,
-            ...this.data.right
+        const ads = [
+            ...this.getAds('left'),
+            ...this.getAds('right')
         ];
 
-        if (!all.length) {
-            container.innerHTML = `
-                <div class="ad-item">
-                    <div class="ad-desc">
-                        هنوز تبلیغی ثبت نشده است.
-                    </div>
-                </div>
-            `;
+        container.innerHTML =
+            ads
+                .map(ad => this.createCard(ad, true))
+                .join('');
+    },
 
-            return;
+    changePage(side, direction) {
+
+        const ads = this.getAds(side);
+
+        const total =
+            Math.max(1, Math.ceil(ads.length / this.perPage));
+
+        this.page[side] += direction;
+
+        if (this.page[side] < 0) {
+            this.page[side] = total - 1;
         }
 
-        container.innerHTML = all
-            .slice(0, 8)
-            .map(ad =>
-                this.card(ad)
-                    .replace(
-                        'class="ad-box"',
-                        'class="ad-item"'
-                    )
-            )
-            .join('');
+        if (this.page[side] >= total) {
+            this.page[side] = 0;
+        }
+
+        this.renderSide(side);
     },
 
     init() {
-        this.render('left');
-        this.render('right');
+
+        this.renderSide('left');
+        this.renderSide('right');
         this.renderMobile();
 
-        console.log('✅ AdsModule فعال شد');
+        console.log('AdsModule initialized');
     }
 };
 
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = AdsModule;
+window.AdsModule = AdsModule;
+
+if (document.readyState === 'loading') {
+    document.addEventListener(
+        'DOMContentLoaded',
+        () => AdsModule.init(),
+        { once: true }
+    );
+} else {
+    AdsModule.init();
 }
