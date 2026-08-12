@@ -1,4 +1,3 @@
-// Entesharat AI Worker
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 
 export default {
@@ -46,14 +45,27 @@ export default {
         );
       }
 
+      if (!env.OPENAI_API_KEY) {
+        return new Response(
+          JSON.stringify({
+            error: "OPENAI_API_KEY در Worker تنظیم نشده است."
+          }),
+          {
+            status: 500,
+            headers: {
+              ...cors,
+              "Content-Type": "application/json"
+            }
+          }
+        );
+      }
+
       const response = await fetch(OPENAI_URL, {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${env.OPENAI_API_KEY}`
         },
-
         body: JSON.stringify({
           model: "gpt-4o-mini",
           messages,
@@ -76,7 +88,6 @@ export default {
       );
 
     } catch (error) {
-
       return new Response(
         JSON.stringify({
           error: "خطا در ارتباط با سرویس هوش مصنوعی."
