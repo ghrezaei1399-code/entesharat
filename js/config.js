@@ -46,16 +46,15 @@ tv: {
   },
   
   // داده‌های تبلیغات دو طرف (چپ و راست)
-  ads: {
+   ads: {
     chap: [
-      { id: 1, name: 'چاپ و تبلیغات آریا', logo: '🖨️', link: '#' },
-      { id: 2, name: 'چاپ دیجیتال سروش', logo: '📇', link: '#' }
+      { id: 1, name: 'چاپ و تبلیغات آریا', logo: '🖨️', link: 'https://ariaprint.com' },
+      { id: 2, name: 'چاپ دیجیتال سروش', logo: '📇', link: 'https://sorushprint.com' }
     ],
     nashr: [
-      { id: 1, name: 'نشر چشمه', logo: '📖', link: '#' },
-      { id: 2, name: 'نشر ققنوس', logo: '📚', link: '#' }
+      { id: 1, name: 'نشر چشمه', logo: '📖', link: 'https://cheshmeh.ir' },
+      { id: 2, name: 'نشر ققنوس', logo: '📚', link: 'https://qoqnoos.ir' }
     ]
   }
 };
-
 console.log('✅ Config: بارگذاری شد');
