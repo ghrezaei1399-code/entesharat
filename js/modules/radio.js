@@ -2,8 +2,6 @@
 // ماژول رادیو - مدیریت پخش‌کننده و لیست آهنگ‌ها
 // ============================================================
 
-import APP_CONFIG from '../config.js';
-
 class RadioModule {
   constructor() {
     this.tracks = APP_CONFIG.radio.tracks;
