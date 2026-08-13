@@ -280,6 +280,333 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('✅ تعامل هوشمند: راه‌اندازی شد');
   }
-  
+ // ============================================================
+// بخش جدید: فردا را از امروز بسازیم
+// ============================================================
+
+const toolsNew = [
+    { name: 'ChatGPT', url: 'https://chat.openai.com', icon: 'fa-comment', purpose: 'تولید و ویرایش متن' },
+    { name: 'Claude', url: 'https://claude.ai', icon: 'fa-comment-dots', purpose: 'تحلیل و تولید متن حرفه‌ای' },
+    { name: 'Gemini', url: 'https://gemini.google.com', icon: 'fa-robot', purpose: 'تحلیل و تولید محتوا' },
+    { name: 'Jasper', url: 'https://www.jasper.ai', icon: 'fa-pen-fancy', purpose: 'تولید محتوای بازاریابی' },
+    { name: 'Copy.ai', url: 'https://www.copy.ai', icon: 'fa-copy', purpose: 'کپی‌رایتینگ' },
+    { name: 'ElevenLabs', url: 'https://elevenlabs.io', icon: 'fa-microphone', purpose: 'گوینده‌های طبیعی' },
+    { name: 'Midjourney', url: 'https://www.midjourney.com', icon: 'fa-palette', purpose: 'تصاویر هنری' },
+    { name: 'Runway Gen-4', url: 'https://runwayml.com', icon: 'fa-video', purpose: 'ویدیوی سینمایی' },
+    { name: 'HeyGen', url: 'https://heygen.com', icon: 'fa-user-tie', purpose: 'ویدیو با آواتار' },
+    { name: 'Descript', url: 'https://www.descript.com', icon: 'fa-edit', purpose: 'ویرایش صدا و پادکست' },
+    { name: 'Adobe Firefly', url: 'https://firefly.adobe.com', icon: 'fa-fire', purpose: 'تصاویر تجاری' },
+    { name: 'Canva Magic Studio', url: 'https://www.canva.com', icon: 'fa-magic', purpose: 'طراحی سریع گرافیک' },
+    { name: 'Stable Diffusion', url: 'https://stability.ai', icon: 'fa-image', purpose: 'تصاویر سفارشی' },
+    { name: 'Suno AI', url: 'https://suno.com', icon: 'fa-music', purpose: 'ساخت موسیقی با آواز' },
+    { name: 'D-ID', url: 'https://www.d-id.com', icon: 'fa-user-astronaut', purpose: 'آواتار تعاملی' }
+];
+
+const booksNew = [{
+    id: 1,
+    title: 'هنر هوشمندنگاری',
+    cover: 'images/bestclasick.png',
+    media: ['متن', 'صوت', 'انیمیشن', 'پادکست'],
+    status: 'مرحله ۳ از ۵',
+    contributors: 'غلامرضا رضائی، سارا محمدی، علی کریمی',
+    approvedContent: 'متن (تأیید شده)، صوت (در حال بررسی)، انیمیشن (ارسال شده)',
+    estimatedPrice: '۱۴۵,۰۰۰ - ۱۸۰,۰۰۰ تومان',
+    stage: 'تألیف و تدوین'
+}, {
+    id: 2,
+    title: 'رادیو و انقلاب دیجیتال',
+    cover: 'images/bestbooks.png',
+    media: ['متن', 'ویدئو', 'پادکست', 'تصویر'],
+    status: 'مرحله ۲ از ۵',
+    contributors: 'احمد نوری، مریم حسینی',
+    approvedContent: 'متن (تأیید شده)، ویدئو (در حال تولید)',
+    estimatedPrice: '۱۱۰,۰۰۰ - ۱۳۰,۰۰۰ تومان',
+    stage: 'جمع‌آوری محتوا'
+}, {
+    id: 3,
+    title: 'کتاب‌های هوشمند',
+    cover: 'images/rezaeibooks.png',
+    media: ['متن', 'تصویر', 'انیمیشن', 'صوت'],
+    status: 'مرحله ۴ از ۵',
+    contributors: 'فاطمه زهرایی، علی کریمی',
+    approvedContent: 'متن (تأیید شده)، تصویر (تأیید شده)، انیمیشن (در حال بررسی)',
+    estimatedPrice: '۱۶۰,۰۰۰ - ۱۹۰,۰۰۰ تومان',
+    stage: 'ویرایش نهایی'
+}];
+
+function renderToolsNew() {
+    const container = document.getElementById('toolsContainerNew');
+    if (!container) return;
+    container.innerHTML = toolsNew.map(t => `
+        <div style="display:flex;align-items:center;gap:8px;padding:5px 10px;border-bottom:1px solid rgba(0,0,0,0.03);font-size:13px;border-radius:10px;transition:all 0.3s;color:#2d1b4e;">
+            <a href="${t.url}" target="_blank" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:8px;flex:1;">
+                <i class="fas ${t.icon}" style="color:#6C5CE7;font-size:14px;width:22px;text-align:center;"></i>
+                ${t.name}
+            </a>
+            <span style="font-size:10px;color:rgba(45,27,78,0.3);background:rgba(255,255,255,0.3);padding:2px 12px;border-radius:50px;">${t.purpose}</span>
+        </div>
+    `).join('');
+}
+
+function renderBooksNew() {
+    const container = document.getElementById('bookshelfNew');
+    if (!container) return;
+    container.innerHTML = booksNew.map(book => `
+        <div onclick="showBookDetailNew(${book.id})" style="background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);border-radius:18px;padding:12px;border:2px solid rgba(253,203,110,0.10);text-align:center;cursor:pointer;transition:all 0.4s;box-shadow:0 4px 20px rgba(0,0,0,0.02);">
+            <img src="${book.cover}" alt="${book.title}" style="width:100%;height:120px;object-fit:cover;border-radius:12px;background:rgba(255,255,255,0.3);" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect width=%22200%22 height=%22120%22 fill=%22rgba(255,255,255,0.3)%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Tahoma%22 font-size=%2214%22 fill=%22rgba(45,27,78,0.2)%22%3Eبدون جلد%3C/text%3E%3C/svg%3E'">
+            <h4 style="font-size:14px;font-weight:700;color:#2d1b4e;margin:8px 0 4px;">${book.title}</h4>
+            <span style="font-size:10px;background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#2d1b4e;padding:3px 12px;border-radius:50px;display:inline-block;font-weight:700;">${book.status}</span>
+        </div>
+    `).join('');
+}
+
+function showBookDetailNew(id) {
+    const book = booksNew.find(b => b.id === id);
+    if (!book) return;
+    const detailBox = document.getElementById('bookDetailNew');
+    detailBox.style.display = 'block';
+    detailBox.innerHTML = `
+        <h4 style="color:#2d1b4e;margin-bottom:8px;">📖 ${book.title}</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.03);">
+            <span style="font-weight:600;color:rgba(45,27,78,0.5);min-width:110px;">مشارکت‌کنندگان:</span>
+            <span style="color:#2d1b4e;">${book.contributors}</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.03);">
+            <span style="font-weight:600;color:rgba(45,27,78,0.5);min-width:110px;">رسانه‌های کتاب:</span>
+            <span style="color:#2d1b4e;">${book.media.join(' · ')}</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.03);">
+            <span style="font-weight:600;color:rgba(45,27,78,0.5);min-width:110px;">محتوای تأییدشده:</span>
+            <span style="color:#2d1b4e;">${book.approvedContent}</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.03);">
+            <span style="font-weight:600;color:rgba(45,27,78,0.5);min-width:110px;">مرحله فعلی:</span>
+            <span style="color:#2d1b4e;">${book.stage}</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;padding:4px 0;">
+            <span style="font-weight:600;color:rgba(45,27,78,0.5);min-width:110px;">تخمین قیمت:</span>
+            <span style="color:#2d1b4e;">${book.estimatedPrice}</span>
+        </div>
+        <button onclick="alert('به زودی پس از تکمیل کتاب، امکان خرید فراهم می‌شود.')" style="margin-top:12px;padding:8px 24px;background:linear-gradient(135deg,#39FF14,#00b894);color:#2d1b4e;border:2px solid rgba(57,255,20,0.15);border-radius:60px;font-weight:700;font-size:14px;cursor:pointer;transition:all 0.3s;">
+            <i class="fas fa-shopping-cart"></i> خرید کتاب
+        </button>
+        <p style="font-size:12px;color:rgba(45,27,78,0.3);margin-top:8px;">پس از پرداخت، کتاب کامل دیجیتال هوشمند (متن + صوت + انیمیشن + پادکست) در اختیار شما قرار می‌گیرد.</p>
+    `;
+    detailBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function toggleUploadNew() {
+    const area = document.getElementById('uploadAreaNew');
+    area.style.display = area.style.display === 'block' ? 'none' : 'block';
+    if (area.style.display === 'block') {
+        area.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function submitContentNew() {
+    const title = document.getElementById('uploadTitleNew').value.trim();
+    const author = document.getElementById('uploadAuthorNew').value.trim();
+    const email = document.getElementById('uploadEmailNew').value.trim();
+    const desc = document.getElementById('uploadDescNew').value.trim();
+
+    if (!title || !author || !email || !desc) {
+        alert('❌ لطفاً عنوان، نام، ایمیل و توضیحات را کامل کنید.');
+        return;
+    }
+    if (!email.includes('@') || !email.includes('.')) {
+        alert('❌ لطفاً یک ایمیل معتبر وارد کنید.');
+        return;
+    }
+
+    const selectedAge = document.querySelector('.tag-new[data-type="age"].active');
+    const selectedArea = document.querySelector('.tag-new[data-type="area"].active');
+    const age = selectedAge ? selectedAge.dataset.value : 'انتخاب نشده';
+    const area = selectedArea ? selectedArea.dataset.value : 'انتخاب نشده';
+
+    const code = 'BK-' + Date.now().toString().slice(-6);
+
+    const submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
+    submissions.push({
+        code: code,
+        title: title,
+        author: author,
+        email: email,
+        desc: desc,
+        age: age,
+        area: area,
+        status: 'در انتظار بررسی',
+        date: new Date().toLocaleDateString('fa-IR')
+    });
+    localStorage.setItem('submissions', JSON.stringify(submissions));
+
+    console.log('📧 ایمیل به مدیر ارسال شد:', {
+        to: 'admin@kimiaandisheh.com',
+        subject: `اثر جدید: ${title}`,
+        body: `عنوان: ${title}\nنویسنده: ${author}\nایمیل: ${email}\nگروه سنی: ${age}\nحوزه محتوا: ${area}\nتوضیحات: ${desc}\nکد رهگیری: ${code}`
+    });
+
+    alert('✅ اثر شما با موفقیت ارسال شد. کد رهگیری به ایمیل شما ارسال خواهد شد.');
+
+    document.getElementById('uploadTitleNew').value = '';
+    document.getElementById('uploadAuthorNew').value = '';
+    document.getElementById('uploadEmailNew').value = '';
+    document.getElementById('uploadDescNew').value = '';
+    document.getElementById('uploadFileNew').value = '';
+    document.getElementById('uploadAreaNew').style.display = 'none';
+}
+
+function trackContentNew() {
+    const code = document.getElementById('trackCodeNew').value.trim();
+    const resultBox = document.getElementById('trackResultNew');
+
+    if (!code) {
+        alert('لطفاً کد رهگیری را وارد کنید.');
+        return;
+    }
+
+    const submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
+    const found = submissions.find(s => s.code === code);
+
+    if (found) {
+        resultBox.innerHTML = `✅ وضعیت پرونده شما: <strong>${found.status}</strong><br> عنوان: ${found.title} | نویسنده: ${found.author} | تاریخ ارسال: ${found.date}`;
+    } else {
+        resultBox.innerHTML = '❌ کد رهگیری نامعتبر است. لطفاً دوباره بررسی کنید.';
+    }
+    resultBox.style.display = 'block';
+}
+
+function initFutureToday() {
+    document.querySelectorAll('.tag-new').forEach(tag => {
+        tag.addEventListener('click', function() {
+            const type = this.dataset.type;
+            document.querySelectorAll(`.tag-new[data-type="${type}"]`).forEach(t => {
+                t.classList.remove('active');
+                t.style.background = 'rgba(255,255,255,0.6)';
+                t.style.borderColor = 'rgba(0,0,0,0.04)';
+                t.style.color = 'rgba(45,27,78,0.6)';
+                t.style.transform = 'scale(1)';
+            });
+            this.classList.add('active');
+            this.style.background = 'linear-gradient(135deg, rgba(108,92,231,0.12), rgba(162,155,254,0.08))';
+            this.style.borderColor = 'rgba(108,92,231,0.3)';
+            this.style.color = '#2d1b4e';
+            this.style.transform = 'translateY(-2px) scale(1.03)';
+        });
+    });
+    renderToolsNew();
+    renderBooksNew();
+}
+
+// ============================================================
+// بخش جدید: تخفیف شو
+// ============================================================
+
+let ideasTakhfif = JSON.parse(localStorage.getItem('ideas_takhfif') || '[]');
+
+function updateStatsTakhfif() {
+    const total = ideasTakhfif.length;
+    document.getElementById('ideasCountTakhfif').textContent = total;
+    document.getElementById('totalIdeasTakhfif').textContent = total;
+
+    const counts = [0, 0, 0, 0];
+    ideasTakhfif.forEach(item => {
+        const idx = parseInt(item.discount) - 1;
+        if (idx >= 0 && idx < 4) counts[idx]++;
+    });
+
+    document.getElementById('count1Takhfif').textContent = counts[0];
+    document.getElementById('count2Takhfif').textContent = counts[1];
+    document.getElementById('count3Takhfif').textContent = counts[2];
+    document.getElementById('count4Takhfif').textContent = counts[3];
+}
+
+function scrollToFormTakhfif() {
+    const area = document.getElementById('submitAreaTakhfif');
+    area.classList.toggle('show');
+    if (area.classList.contains('show')) {
+        setTimeout(() => {
+            area.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
+}
+
+function submitIdeaTakhfif() {
+    const title = document.getElementById('ideaTitleTakhfif').value.trim();
+    const author = document.getElementById('ideaAuthorTakhfif').value.trim();
+    const email = document.getElementById('ideaEmailTakhfif').value.trim();
+    const discount = document.getElementById('ideaDiscountTakhfif').value;
+    const desc = document.getElementById('ideaDescTakhfif').value.trim();
+    const fileInput = document.getElementById('ideaFileTakhfif');
+    const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'بدون فایل';
+
+    if (!title || !author || !email || !desc) {
+        alert('❌ لطفاً تمام فیلدها را پر کنید.');
+        return;
+    }
+    if (!email.includes('@') || !email.includes('.')) {
+        alert('❌ لطفاً یک ایمیل معتبر وارد کنید.');
+        return;
+    }
+
+    const code = 'TK-' + Date.now().toString().slice(-6);
+
+    ideasTakhfif.push({
+        code: code,
+        title: title,
+        author: author,
+        email: email,
+        discount: discount,
+        desc: desc,
+        fileName: fileName,
+        status: 'در انتظار بررسی',
+        date: new Date().toLocaleDateString('fa-IR')
+    });
+
+    localStorage.setItem('ideas_takhfif', JSON.stringify(ideasTakhfif));
+    updateStatsTakhfif();
+
+    console.log('📧 ایمیل به مدیر ارسال شد:', {
+        to: 'admin@kimiaandisheh.com',
+        subject: `ایده جدید: ${title}`,
+        body: `عنوان: ${title}\nنویسنده: ${author}\nایمیل: ${email}\nنوع تخفیف: ${document.getElementById('ideaDiscountTakhfif').options[document.getElementById('ideaDiscountTakhfif').selectedIndex].text}\nتوضیحات: ${desc}\nفایل: ${fileName}\nکد رهگیری: ${code}`
+    });
+
+    alert(`✅ ایده شما با موفقیت ارسال شد.\nکد رهگیری: ${code}\nکد رهگیری به ایمیل شما ارسال خواهد شد.`);
+
+    document.getElementById('ideaTitleTakhfif').value = '';
+    document.getElementById('ideaAuthorTakhfif').value = '';
+    document.getElementById('ideaEmailTakhfif').value = '';
+    document.getElementById('ideaDescTakhfif').value = '';
+    document.getElementById('ideaFileTakhfif').value = '';
+    document.getElementById('submitAreaTakhfif').classList.remove('show');
+}
+
+function trackContentTakhfif() {
+    const code = document.getElementById('trackCodeTakhfif').value.trim();
+    const resultBox = document.getElementById('trackResultTakhfif');
+
+    if (!code) {
+        alert('لطفاً کد رهگیری را وارد کنید.');
+        return;
+    }
+
+    const found = ideasTakhfif.find(item => item.code === code);
+
+    if (found) {
+        const discountNames = ['نوآوری اثر', 'حل مشکل اجتماعی', 'جذاب برای جوانان', 'هوش مصنوعی'];
+        const dIdx = parseInt(found.discount) - 1;
+        resultBox.innerHTML = `✅ وضعیت: <strong>${found.status}</strong><br> عنوان: ${found.title} | نویسنده: ${found.author}<br> نوع تخفیف: ${discountNames[dIdx] || 'نامشخص'}<br> تاریخ ارسال: ${found.date}`;
+    } else {
+        resultBox.innerHTML = '❌ کد رهگیری نامعتبر است. لطفاً دوباره بررسی کنید.';
+    }
+    resultBox.style.display = 'block';
+}
+
+// ============================================================
+// فراخوانی در رویداد بارگذاری
+// ============================================================
+// این خط را به انتهای رویداد DOMContentLoaded اضافه کنید
+initFutureToday();
+updateStatsTakhfif(); 
   console.log('✅ Core: راه‌اندازی کامل شد');
 });
