@@ -492,14 +492,170 @@
         </div>
     </div>
 
-    <!-- ===== رشد سرانه مطالعه ===== -->
-    <div class="section draggable-section" id="reading-growth" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
-        <div class="section-title"><i class="fas fa-chart-line"></i> رشد سرانه مطالعه <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
-        <div style="text-align:center;padding:30px 15px;color:#7f8c8d">
-            <i class="fas fa-book" style="font-size:2.5rem;color:#d4a373;display:block;margin-bottom:10px"></i>
-            <p style="font-size:.9rem">این بخش به زودی با آمار و تحلیل‌های مربوط به سرانه مطالعه پر می‌شود.</p>
-        </div>
+  <!-- ===== تخفیف شو ===== -->
+<div class="section draggable-section discount-show-section" id="reading-growth">
+
+    <div class="section-title discount-show-title">
+        <i class="fas fa-gift"></i>
+        تخفیف شو
+        <span class="drag-hint">(کشیدن برای جابه‌جایی)</span>
     </div>
+
+    <div class="discount-show-intro">
+        <h3>اثر متفاوتت را به یک فرصت تبدیل کن</h3>
+        <p>
+            اگر اثرت نوآورانه، مسئله‌محور، جوان‌پسند یا فناورانه است،
+            می‌توانی برای دریافت تخفیف ویژه آن را معرفی کنی.
+        </p>
+    </div>
+
+    <div class="discount-offers">
+
+        <div class="discount-card">
+            <div class="discount-icon">💡</div>
+            <h3>نوآوری اثر</h3>
+            <strong>۱۰٪ تخفیف</strong>
+            <p>در هزینه مجوز</p>
+            <button type="button" onclick="DiscountShow.openForm('innovation')">
+                ارسال اثر
+            </button>
+        </div>
+
+        <div class="discount-card">
+            <div class="discount-icon">🌍</div>
+            <h3>حل مشکل اجتماعی، فردی و کشوری</h3>
+            <strong>۱۰٪ تخفیف</strong>
+            <p>در هزینه چاپ به هر تعداد</p>
+            <button type="button" onclick="DiscountShow.openForm('social')">
+                ارسال اثر
+            </button>
+        </div>
+
+        <div class="discount-card">
+            <div class="discount-icon">🚀</div>
+            <h3>جذاب برای جوانان</h3>
+            <strong>۱۰٪ تخفیف</strong>
+            <p>در چاپ تا حداقل ۱۰۰ نسخه فیزیکی</p>
+            <button type="button" onclick="DiscountShow.openForm('youth')">
+                ارسال اثر
+            </button>
+        </div>
+
+        <div class="discount-card">
+            <div class="discount-icon">🤖</div>
+            <h3>فناوری و هوش مصنوعی</h3>
+            <strong>۲۰٪ تخفیف</strong>
+            <p>در هزینه مجوز</p>
+            <button type="button" onclick="DiscountShow.openForm('technology')">
+                ارسال اثر
+            </button>
+        </div>
+
+    </div>
+
+    <div class="tracking-box">
+
+        <div class="tracking-icon">🎫</div>
+
+        <h3>پیگیری درخواست تخفیف</h3>
+
+        <p>
+            اگر کد رهگیری دارید، آن را وارد کنید تا وضعیت درخواست خود را ببینید.
+        </p>
+
+        <div class="tracking-form">
+            <input
+                type="text"
+                id="discountTrackingCode"
+                placeholder="مثلاً DS-123456"
+                autocomplete="off"
+            >
+
+            <button type="button" onclick="DiscountShow.checkTracking()">
+                پیگیری
+            </button>
+        </div>
+
+        <div id="discountTrackingResult" class="discount-tracking-result"></div>
+
+    </div>
+
+    <div id="discountFormModal" class="discount-modal" aria-hidden="true">
+
+        <div class="discount-modal-content">
+
+            <button
+                type="button"
+                class="discount-modal-close"
+                onclick="DiscountShow.closeForm()"
+                aria-label="بستن"
+            >
+                ×
+            </button>
+
+            <div class="discount-form-header">
+                <span>📨</span>
+                <h3 id="discountFormTitle">ارسال اثر</h3>
+                <p id="discountFormDescription"></p>
+            </div>
+
+            <form id="discountSubmissionForm">
+
+                <input type="hidden" id="discountType">
+
+                <label for="discountEmail">
+                    آدرس ایمیل
+                </label>
+
+                <input
+                    type="email"
+                    id="discountEmail"
+                    placeholder="example@email.com"
+                    required
+                >
+
+                <label for="discountAuthor">
+                    معرفی اثر
+                </label>
+
+                <textarea
+                    id="discountAuthor"
+                    rows="5"
+                    placeholder="عنوان اثر، نام مؤلف و معرفی کوتاه اثر را بنویسید..."
+                    required
+                ></textarea>
+
+                <label for="discountFile">
+                    فایل اثر
+                </label>
+
+                <input
+                    type="file"
+                    id="discountFile"
+                    accept=".pdf,.doc,.docx,.zip"
+                    required
+                >
+
+                <small>
+                    فرمت‌های مجاز: PDF، DOC، DOCX و ZIP
+                </small>
+
+                <button
+                    type="submit"
+                    class="discount-submit-button"
+                >
+                    ارسال درخواست
+                </button>
+
+                <div id="discountFormStatus"></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
 
     <!-- ===== راویان ===== -->
     <div class="section draggable-section" id="book-narrators" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
