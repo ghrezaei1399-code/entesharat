@@ -471,34 +471,246 @@
                 </div>
             </div>
         </div>
+    </div><!-- ===== تخفیف شو ===== -->
+<div class="section draggable-section" id="takhfif-show" style="background:linear-gradient(135deg,#f5f1eb,#fff);border:2px solid rgba(108,92,231,0.15);border-radius:24px;padding:20px;margin-bottom:25px;">
+    <div class="section-title" style="border-bottom-color:#6C5CE7;">
+        <i class="fas fa-tags" style="color:#6C5CE7;"></i> تخفیف شو
+        <span class="drag-hint">(کشیدن برای جابه‌جایی)</span>
     </div>
 
-    <!-- ===== رشد سرانه مطالعه ===== -->
-    <div class="section draggable-section" id="reading-growth" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
-        <div class="section-title"><i class="fas fa-chart-line"></i> رشد سرانه مطالعه <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
-        <div style="text-align:center;padding:30px 15px;color:#7f8c8d">
-            <i class="fas fa-book" style="font-size:2.5rem;color:#d4a373;display:block;margin-bottom:10px"></i>
-            <p style="font-size:.9rem">این بخش به زودی با آمار و تحلیل‌های مربوط به سرانه مطالعه پر می‌شود.</p>
+    <!-- شعار -->
+    <div style="background:linear-gradient(135deg,rgba(108,92,231,0.04),rgba(57,255,20,0.04));border-radius:16px;padding:12px 20px;margin-bottom:18px;border-right:4px solid #39FF14;text-align:center;color:#2d1b4e;font-size:14px;line-height:2;">
+        <strong>"تخفیف از ما، تولید اثر فاخر از شما"</strong><br>
+        <span style="color:#00b894;font-weight:700;">بیایید با هم آثار ادبی شایستهٔ این مردم فرهنگ‌دوست و فرهنگ‌پرور تولید کنیم</span>
+    </div>
+
+    <!-- ماژول ایده -->
+    <div onclick="scrollToFormTakhfif()" style="background:linear-gradient(135deg,rgba(108,92,231,0.04),rgba(57,255,20,0.04));border-radius:18px;padding:20px;border:2px solid rgba(108,92,231,0.08);margin-bottom:18px;text-align:center;cursor:pointer;transition:all 0.4s;">
+        <div style="font-size:42px;color:#6C5CE7;margin-bottom:6px;"><i class="fas fa-lightbulb"></i></div>
+        <h3 style="color:#2d1b4e;font-size:20px;margin-bottom:4px;">ایده‌ات را بفرست، تخفیف بگیر!</h3>
+        <p style="color:#7f8c8d;font-size:14px;margin-bottom:10px;">
+            ایده‌ای که به خواندن، افزایش آگاهی‌های جامعه و سرنوشت آیندگان وصل شود، فقط یک اثر نیست؛<br>
+            می‌تواند یک <strong>فرصت تازه برای آینده‌سازی</strong> باشد.
+        </p>
+        <button onclick="event.stopPropagation();scrollToFormTakhfif()" style="padding:8px 28px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;border:none;border-radius:60px;font-weight:700;font-size:14px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 20px rgba(108,92,231,0.10);">
+            <i class="fas fa-paper-plane"></i> ثبت ایده و دریافت تخفیف
+        </button>
+    </div>
+
+    <!-- فرم ارسال ایده -->
+    <div id="submitAreaTakhfif" style="display:none;background:rgba(255,255,255,0.6);border-radius:18px;padding:18px;border:2px solid rgba(108,92,231,0.08);margin-bottom:18px;animation:slideDown 0.4s ease;">
+        <div style="font-size:16px;font-weight:700;color:#2d1b4e;margin-bottom:4px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-pen-fancy" style="color:#fdcb6e;"></i> فرم ارسال ایده
+        </div>
+        <div style="font-size:13px;color:#7f8c8d;margin-bottom:12px;">اطلاعات خود را وارد کنید و خلاصه ایده‌تان را برای کارشناسان ارسال کنید.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <input type="text" id="ideaTitleTakhfif" placeholder="عنوان ایده..." style="padding:10px 14px;border:1px solid rgba(0,0,0,0.04);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;color:#2d1b4e;">
+            <input type="text" id="ideaAuthorTakhfif" placeholder="نام و نام خانوادگی..." style="padding:10px 14px;border:1px solid rgba(0,0,0,0.04);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;color:#2d1b4e;">
+            <input type="email" id="ideaEmailTakhfif" placeholder="ایمیل شما..." style="grid-column:1/-1;padding:10px 14px;border:1px solid rgba(0,0,0,0.04);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;color:#2d1b4e;">
+            <select id="ideaDiscountTakhfif" style="grid-column:1/-1;padding:10px 14px;border:1px solid rgba(0,0,0,0.04);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;color:#2d1b4e;">
+                <option value="1">نوآوری اثر - تخفیف مجوز</option>
+                <option value="2">حل مشکل اجتماعی - تخفیف چاپ</option>
+                <option value="3">جذاب برای جوانان - تخفیف چاپ</option>
+                <option value="4">رویکرد هوش مصنوعی - تخفیف مجوز</option>
+            </select>
+            <textarea id="ideaDescTakhfif" placeholder="خلاصه ایده خود را بنویسید..." style="grid-column:1/-1;padding:10px 14px;border:1px solid rgba(0,0,0,0.04);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;color:#2d1b4e;min-height:60px;resize:vertical;"></textarea>
+            <input type="file" id="ideaFileTakhfif" accept=".pdf,.doc,.docx,.txt,.zip" style="grid-column:1/-1;padding:8px 12px;border:1px solid rgba(0,0,0,0.04);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;color:#2d1b4e;">
+            <button onclick="submitIdeaTakhfif()" style="grid-column:1/-1;padding:10px 28px;background:linear-gradient(135deg,#39FF14,#00b894);color:#2d1b4e;border:2px solid rgba(57,255,20,0.15);border-radius:50px;font-weight:700;font-size:14px;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;justify-content:center;">
+                <i class="fas fa-paper-plane"></i> ارسال ایده
+            </button>
         </div>
     </div>
 
-    <!-- ===== راویان ===== -->
-    <div class="section draggable-section" id="book-narrators" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
-        <div class="section-title"><i class="fas fa-users"></i> راویان کتاب خوانی <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
-        <div style="text-align:center;padding:30px 15px;color:#7f8c8d">
-            <i class="fas fa-microphone-alt" style="font-size:2.5rem;color:#d4a373;display:block;margin-bottom:10px"></i>
-            <p style="font-size:.9rem">این بخش به زودی با معرفی راویان و داستان‌های کتابخوانی پر می‌شود.</p>
+    <!-- آمار -->
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;background:linear-gradient(135deg,rgba(108,92,231,0.04),rgba(57,255,20,0.04));border-radius:14px;padding:10px 18px;margin-bottom:18px;border:1px solid rgba(108,92,231,0.06);">
+        <span style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#2d1b4e;"><i class="fas fa-tag" style="color:#6C5CE7;"></i> <span style="color:#6C5CE7;font-size:18px;font-weight:900;">۴</span> مسیر تخفیف</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#2d1b4e;"><i class="fas fa-pen-fancy" style="color:#6C5CE7;"></i> <span id="totalIdeasTakhfif" style="color:#6C5CE7;font-size:18px;font-weight:900;">۰</span> ایده ارسال شده</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#2d1b4e;"><i class="fas fa-qrcode" style="color:#6C5CE7;"></i> <span style="color:#6C5CE7;font-size:18px;font-weight:900;">۱</span> کد رهگیری</span>
+    </div>
+
+    <!-- فرصت‌های ویژه -->
+    <div style="font-size:17px;font-weight:700;color:#2d1b4e;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+        <i class="fas fa-gift" style="color:#fdcb6e;"></i> فرصت‌های ویژه
+    </div>
+    <div style="font-size:13px;color:#7f8c8d;margin-bottom:12px;">کدام ایده شایسته یک قدم جلوتر است؟</div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-bottom:20px;">
+        <div style="background:#faf8f6;border-radius:16px;padding:16px;border:2px solid rgba(108,92,231,0.06);text-align:center;transition:all 0.4s;">
+            <span style="display:inline-block;background:rgba(108,92,231,0.06);color:#6C5CE7;font-size:11px;font-weight:700;padding:2px 12px;border-radius:50px;margin-bottom:4px;">۰۱</span>
+            <span style="font-size:28px;font-weight:900;background:linear-gradient(135deg,#6C5CE7,#fdcb6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;">تا ۲۰٪ تخفیف</span>
+            <h4 style="font-size:16px;color:#2d1b4e;">نوآوری اثر</h4>
+            <p style="font-size:12px;color:#7f8c8d;">۱۰٪ تخفیف در هزینه مجوز</p>
+        </div>
+        <div style="background:#faf8f6;border-radius:16px;padding:16px;border:2px solid rgba(108,92,231,0.06);text-align:center;transition:all 0.4s;">
+            <span style="display:inline-block;background:rgba(108,92,231,0.06);color:#6C5CE7;font-size:11px;font-weight:700;padding:2px 12px;border-radius:50px;margin-bottom:4px;">۰۲</span>
+            <span style="font-size:28px;font-weight:900;background:linear-gradient(135deg,#6C5CE7,#fdcb6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;">تا ۲۰٪ تخفیف</span>
+            <h4 style="font-size:16px;color:#2d1b4e;">حل مشکل اجتماعی</h4>
+            <p style="font-size:12px;color:#7f8c8d;">۱۰٪ تخفیف در هزینه چاپ به هر تعداد</p>
+        </div>
+        <div style="background:#faf8f6;border-radius:16px;padding:16px;border:2px solid rgba(108,92,231,0.06);text-align:center;transition:all 0.4s;">
+            <span style="display:inline-block;background:rgba(108,92,231,0.06);color:#6C5CE7;font-size:11px;font-weight:700;padding:2px 12px;border-radius:50px;margin-bottom:4px;">۰۳</span>
+            <span style="font-size:28px;font-weight:900;background:linear-gradient(135deg,#6C5CE7,#fdcb6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;">تا ۲۰٪ تخفیف</span>
+            <h4 style="font-size:16px;color:#2d1b4e;">جذاب برای جوانان</h4>
+            <p style="font-size:12px;color:#7f8c8d;">۱۰٪ تخفیف در چاپ تا حداقل ۱۰۰ نسخه فیزیکی</p>
+        </div>
+        <div style="background:#faf8f6;border-radius:16px;padding:16px;border:2px solid rgba(108,92,231,0.06);text-align:center;transition:all 0.4s;">
+            <span style="display:inline-block;background:rgba(108,92,231,0.06);color:#6C5CE7;font-size:11px;font-weight:700;padding:2px 12px;border-radius:50px;margin-bottom:4px;">۰۴</span>
+            <span style="font-size:28px;font-weight:900;background:linear-gradient(135deg,#6C5CE7,#fdcb6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;">تا ۲۰٪ تخفیف</span>
+            <h4 style="font-size:16px;color:#2d1b4e;">رویکرد هوش مصنوعی</h4>
+            <p style="font-size:12px;color:#7f8c8d;">۲۰٪ تخفیف در هزینه مجوز</p>
         </div>
     </div>
 
-    <!-- ===== یاوران ===== -->
-    <div class="section draggable-section" id="media-helpers" style="background:linear-gradient(135deg,#fef9f0,#f5ede5);border:2px dashed #6C5CE7">
-        <div class="section-title"><i class="fas fa-hand-holding-heart"></i> یاوران رسانه مکتوب <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
-        <div style="text-align:center;padding:30px 15px;color:#7f8c8d">
-            <i class="fas fa-newspaper" style="font-size:2.5rem;color:#d4a373;display:block;margin-bottom:10px"></i>
-            <p style="font-size:.9rem">این بخش به زودی با معرفی یاوران و حامیان رسانه‌های مکتوب پر می‌شود.</p>
+    <!-- ایده‌های رسیده -->
+    <div style="background:linear-gradient(135deg,rgba(57,255,20,0.04),rgba(108,92,231,0.04));border-radius:16px;padding:14px 18px;border:2px solid rgba(57,255,20,0.08);margin-bottom:18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span id="ideasCountTakhfif" style="font-size:28px;font-weight:900;color:#6C5CE7;">۰</span>
+            <span style="font-size:14px;color:#2d1b4e;font-weight:600;">ایده‌ی رسیده <span style="color:#6C5CE7;">تا امروز</span></span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:rgba(108,92,231,0.06);padding:3px 12px;border-radius:50px;font-size:11px;color:#2d1b4e;border:1px solid rgba(108,92,231,0.06);">نوآوری اثر: <span id="count1Takhfif" style="color:#6C5CE7;font-weight:700;">۰</span></span>
+            <span style="background:rgba(108,92,231,0.06);padding:3px 12px;border-radius:50px;font-size:11px;color:#2d1b4e;border:1px solid rgba(108,92,231,0.06);">حل مشکل: <span id="count2Takhfif" style="color:#6C5CE7;font-weight:700;">۰</span></span>
+            <span style="background:rgba(108,92,231,0.06);padding:3px 12px;border-radius:50px;font-size:11px;color:#2d1b4e;border:1px solid rgba(108,92,231,0.06);">جذاب برای جوانان: <span id="count3Takhfif" style="color:#6C5CE7;font-weight:700;">۰</span></span>
+            <span style="background:rgba(108,92,231,0.06);padding:3px 12px;border-radius:50px;font-size:11px;color:#2d1b4e;border:1px solid rgba(108,92,231,0.06);">هوش مصنوعی: <span id="count4Takhfif" style="color:#6C5CE7;font-weight:700;">۰</span></span>
         </div>
     </div>
+
+    <!-- پیگیری اثر -->
+    <div style="background:rgba(255,255,255,0.4);border-radius:16px;padding:16px 20px;border:2px solid rgba(108,92,231,0.06);">
+        <div style="font-size:16px;font-weight:700;color:#2d1b4e;margin-bottom:4px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-search" style="color:#6C5CE7;"></i> پیگیری اثر
+        </div>
+        <div style="font-size:12px;color:#7f8c8d;margin-bottom:10px;">کد رهگیری خود را وارد کنید تا وضعیت پرونده‌تان را ببینید.</div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:8px 14px;border:1px solid rgba(0,0,0,0.04);">
+            <input type="text" id="trackCodeTakhfif" placeholder="کد رهگیری خود را وارد کنید..." style="flex:1;padding:8px 12px;border:1px solid rgba(0,0,0,0.04);border-radius:8px;font-size:13px;font-family:inherit;background:#faf8f6;color:#2d1b4e;min-width:100px;">
+            <button onclick="trackContentTakhfif()" style="padding:8px 24px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;border:none;border-radius:50px;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;">
+                <i class="fas fa-search"></i> پیگیری
+            </button>
+            <div id="trackResultTakhfif" style="width:100%;margin-top:8px;padding:8px 12px;background:rgba(108,92,231,0.04);border-radius:10px;display:none;text-align:center;color:#2d1b4e;font-size:13px;border-right:3px solid #6C5CE7;">
+                نتیجه پیگیری اینجا نمایش داده می‌شود.
+            </div>
+        </div>
+    </div>
+</div>
+
+   <!-- ===== فردا را از امروز بسازیم ===== -->
+<div class="section draggable-section" id="future-today" style="background:linear-gradient(135deg,#f5f1eb,#fff);border:2px solid rgba(57,255,20,0.3);border-radius:24px;padding:20px;margin-bottom:25px;">
+    <div class="section-title" style="border-bottom-color:#39FF14;">
+        <i class="fas fa-rocket" style="color:#39FF14;"></i> فردا را از امروز بسازیم
+        <span class="drag-hint">(کشیدن برای جابه‌جایی)</span>
+    </div>
+
+    <div style="background:rgba(57,255,20,0.06);border-radius:16px;padding:14px 20px;margin-bottom:18px;border-right:4px solid #39FF14;text-align:center;color:#2d1b4e;font-size:14px;line-height:2;">
+        <strong>دوست فهیم و آینده‌ساز!</strong><br>
+        ابزارهای هوشمند خود را انتخاب و با مشخص کردن گروه سنی و حوزه‌ی محتواها، با همدیگر کتاب‌های
+        تمام‌رسانه‌ای می‌سازیم و به همه‌ی نسل‌ها هدیه می‌دهیم.<br>
+        گروه متخصصان ما، تولیدات شما را اخذ کرده، کارشناسی کرده و با هم ترکیب و بهترین کتاب‌های چندرسانه‌ای
+        را به نام خودتان می‌سازند و در همینجا عرضه می‌کنند.<br>
+        <strong style="color:#39FF14;">عواید حاصل از فروش نسخه‌ی دیجیتال به گروه سازنده‌ی محتواهای آن کتاب تعلق می‌گیرد.</strong>
+    </div>
+
+    <!-- ابزارهای هوشمند -->
+    <div style="background:#e8f4fd;border-radius:18px;padding:16px;margin-bottom:16px;border:2px solid rgba(108,92,231,0.10);">
+        <div style="font-size:17px;font-weight:700;color:#2d1b4e;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-microchip" style="color:#39FF14;"></i> ابزارهای هوشمند
+        </div>
+        <div style="max-height:180px;overflow-y:auto;background:rgba(255,255,255,0.5);border-radius:14px;padding:6px;border:2px solid rgba(253,203,110,0.15);">
+            <div id="toolsContainerNew">
+                <!-- توسط جاوااسکریپت پر می‌شود -->
+            </div>
+        </div>
+        <div style="font-size:11px;color:rgba(45,27,78,0.3);margin-top:8px;text-align:left;">
+            <i class="fas fa-info-circle"></i> برای دسترسی به هر ابزار، روی آن کلیک کنید.
+        </div>
+    </div>
+
+    <!-- گروه سنی و حوزه محتوا -->
+    <div style="background:#e8f4fd;border-radius:18px;padding:16px;margin-bottom:16px;border:2px solid rgba(108,92,231,0.10);">
+        <div style="font-size:17px;font-weight:700;color:#2d1b4e;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-sliders-h" style="color:#fdcb6e;"></i> گروه سنی و حوزه محتوا
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 8px;padding:10px 14px;background:rgba(255,255,255,0.4);border-radius:16px;border:2px solid rgba(253,203,110,0.10);">
+            <span style="font-size:12px;font-weight:700;color:rgba(45,27,78,0.5);display:flex;align-items:center;gap:6px;padding-left:10px;border-left:2px solid rgba(0,0,0,0.04);">
+                <i class="fas fa-users" style="color:#fdcb6e;"></i> سن:
+            </span>
+            <span class="tag-new" data-type="age" data-value="16-25" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">۱۶-۲۵</span>
+            <span class="tag-new" data-type="age" data-value="26-35" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">۲۶-۳۵</span>
+            <span class="tag-new" data-type="age" data-value="36-50" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">۳۶-۵۰</span>
+            <span class="tag-new" data-type="age" data-value="50+" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">۵۰+</span>
+
+            <span style="width:2px;height:24px;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.04),transparent);margin:0 4px;"></span>
+
+            <span style="font-size:12px;font-weight:700;color:rgba(45,27,78,0.5);display:flex;align-items:center;gap:6px;padding-left:10px;border-left:2px solid rgba(0,0,0,0.04);">
+                <i class="fas fa-pen-fancy" style="color:#6C5CE7;"></i> حوزه:
+            </span>
+            <span class="tag-new" data-type="area" data-value="educational" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">آموزشی</span>
+            <span class="tag-new" data-type="area" data-value="skill" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">مهارت‌آموزی</span>
+            <span class="tag-new" data-type="area" data-value="entertainment" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">سرگرمی</span>
+            <span class="tag-new" data-type="area" data-value="knowledge" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">دانستنی‌ها</span>
+            <span class="tag-new" data-type="area" data-value="art" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">هنری</span>
+            <span class="tag-new" data-type="area" data-value="science" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">علمی و فناوری</span>
+            <span class="tag-new" data-type="area" data-value="literature" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">ادبیات و شعر</span>
+            <span class="tag-new" data-type="area" data-value="history" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">تاریخ و فرهنگ</span>
+            <span class="tag-new" data-type="area" data-value="religion" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">مذهبی و معنوی</span>
+            <span class="tag-new" data-type="area" data-value="social" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">اجتماعی و روانشناسی</span>
+            <span class="tag-new" data-type="area" data-value="business" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">کسب‌وکار و کارآفرینی</span>
+            <span class="tag-new" data-type="area" data-value="health" style="background:rgba(255,255,255,0.6);border:2px solid rgba(0,0,0,0.04);border-radius:50px;padding:4px 14px;font-size:12px;cursor:pointer;transition:all 0.3s;">سلامت و ورزش</span>
+        </div>
+    </div>
+
+    <!-- کتاب‌های چندرسانه‌ای -->
+    <div style="background:#e8f4fd;border-radius:18px;padding:16px;margin-bottom:16px;border:2px solid rgba(108,92,231,0.10);">
+        <div style="font-size:17px;font-weight:700;color:#2d1b4e;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-book-open" style="color:#6C5CE7;"></i> کتاب‌های چندرسانه‌ای
+        </div>
+        <div style="font-size:13px;color:rgba(45,27,78,0.3);margin-bottom:10px;">
+            <i class="fas fa-hourglass-half"></i> کتاب‌هایی که در حال تولید هستند... به زودی با مشارکت شما کامل می‌شوند.
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;" id="bookshelfNew">
+            <!-- توسط جاوااسکریپت پر می‌شود -->
+        </div>
+        <div id="bookDetailNew" style="display:none;margin-top:14px;padding:16px 20px;background:rgba(255,255,255,0.5);border-radius:16px;border-right:4px solid #39FF14;border:2px solid rgba(57,255,20,0.10);">
+            <!-- جزئیات کتاب -->
+        </div>
+    </div>
+
+    <!-- ارسال اثر -->
+    <div style="text-align:center;margin:16px 0 10px 0;">
+        <button onclick="toggleUploadNew()" style="display:inline-flex;align-items:center;gap:8px;padding:10px 32px;background:linear-gradient(135deg,#39FF14,#00b894);color:#2d1b4e;border:2px solid rgba(57,255,20,0.2);border-radius:60px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 20px rgba(57,255,20,0.08);">
+            <i class="fas fa-plus-circle"></i> ارسال اثر جدید
+        </button>
+    </div>
+
+    <div id="uploadAreaNew" style="background:rgba(255,255,255,0.4);border-radius:18px;padding:18px;border:2px dashed rgba(57,255,20,0.12);display:none;">
+        <div style="font-size:17px;font-weight:700;color:#2d1b4e;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-upload" style="color:#39FF14;"></i> ارسال تولیدات شما
+        </div>
+        <input type="text" id="uploadTitleNew" placeholder="عنوان تولید خود را وارد کنید..." style="width:100%;padding:10px 14px;margin-bottom:10px;border:2px solid rgba(0,0,0,0.03);border-radius:14px;font-family:inherit;font-size:14px;background:rgba(255,255,255,0.6);color:#2d1b4e;">
+        <input type="text" id="uploadAuthorNew" placeholder="نام شما..." style="width:100%;padding:10px 14px;margin-bottom:10px;border:2px solid rgba(0,0,0,0.03);border-radius:14px;font-family:inherit;font-size:14px;background:rgba(255,255,255,0.6);color:#2d1b4e;">
+        <input type="email" id="uploadEmailNew" placeholder="ایمیل شما..." style="width:100%;padding:10px 14px;margin-bottom:10px;border:2px solid rgba(0,0,0,0.03);border-radius:14px;font-family:inherit;font-size:14px;background:rgba(255,255,255,0.6);color:#2d1b4e;">
+        <textarea id="uploadDescNew" placeholder="توضیحات و محتوای تولیدی خود را بنویسید..." style="width:100%;padding:10px 14px;margin-bottom:10px;border:2px solid rgba(0,0,0,0.03);border-radius:14px;font-family:inherit;font-size:14px;background:rgba(255,255,255,0.6);color:#2d1b4e;min-height:60px;resize:vertical;"></textarea>
+        <input type="file" id="uploadFileNew" accept=".pdf,.mp3,.mp4,.jpg,.png,.zip" style="width:100%;padding:8px 12px;margin-bottom:10px;border:2px solid rgba(0,0,0,0.03);border-radius:14px;font-family:inherit;font-size:14px;background:rgba(255,255,255,0.6);color:#2d1b4e;">
+        <button onclick="submitContentNew()" style="padding:10px 32px;background:linear-gradient(135deg,#39FF14,#00b894);color:#2d1b4e;border:2px solid rgba(57,255,20,0.15);border-radius:60px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;">
+            <i class="fas fa-paper-plane"></i> ارسال به انتشارات
+        </button>
+    </div>
+
+    <!-- پیگیری اثر -->
+    <div style="background:#e8f4fd;border-radius:18px;padding:16px;border:2px solid rgba(108,92,231,0.10);margin-top:16px;">
+        <div style="font-size:17px;font-weight:700;color:#2d1b4e;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-search" style="color:#6C5CE7;"></i> پیگیری اثر
+        </div>
+        <div style="background:rgba(255,255,255,0.4);border-radius:16px;padding:14px 18px;border:2px solid rgba(108,92,231,0.08);display:flex;flex-wrap:wrap;align-items:center;gap:12px;">
+            <input type="text" id="trackCodeNew" placeholder="کد رهگیری خود را وارد کنید..." style="flex:1;padding:10px 16px;border:2px solid rgba(0,0,0,0.03);border-radius:14px;font-size:14px;font-family:inherit;background:rgba(255,255,255,0.6);color:#2d1b4e;min-width:120px;">
+            <button onclick="trackContentNew()" style="padding:10px 28px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);color:#fff;border:none;border-radius:60px;font-weight:700;font-size:14px;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 20px rgba(108,92,231,0.06);">
+                <i class="fas fa-search"></i> پیگیری
+            </button>
+            <div id="trackResultNew" style="width:100%;margin-top:10px;padding:10px 14px;background:rgba(255,255,255,0.4);border-radius:12px;display:none;text-align:center;color:#2d1b4e;font-size:14px;border-right:3px solid #39FF14;">
+                وضعیت پرونده شما: <strong>در حال بررسی</strong>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- ===== انتشارات ===== -->
     <div class="section draggable-section" id="publish">
