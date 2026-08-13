@@ -2,8 +2,6 @@
 // ماژول گالری - مدیریت نمایش پوسترها
 // ============================================================
 
-import APP_CONFIG from '../config.js';
-
 class GalleryModule {
   constructor() {
     this.posters = APP_CONFIG.gallery.posters;
