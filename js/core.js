@@ -92,20 +92,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-// ============================================================
-// ۳. بارگذاری آرشیو (با داده‌های جدید)
-// ============================================================
-const archiveList = document.getElementById('archiveList');
-if (archiveList && window.APP_CONFIG.archive) {
-  const programs = window.APP_CONFIG.archive.programs;
-  archiveList.innerHTML = programs.map((program) => `
-    <div class="archive-item" onclick="window.location.href='#archive'">
-      <span>${program.title}</span>
-      <span class="date">${program.date}</span>
-    </div>
-  `).join('');
-  console.log('✅ آرشیو: بارگذاری شد');
-}
+  // ============================================================
+  // ۳. بارگذاری آرشیو
+  // ============================================================
+  const archiveList = document.getElementById('archiveList');
+  if (archiveList && window.APP_CONFIG.archive) {
+    const programs = window.APP_CONFIG.archive.programs;
+    archiveList.innerHTML = programs.map((program) => `
+      <div class="archive-item" style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        margin-bottom: 8px;
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #e8ddd0;
+        transition: all 0.2s;
+        cursor: pointer;
+      " onclick="window.location.href='#archive'">
+        <span style="font-weight: 500; color: #2d1b4e;">${program.title}</span>
+        <span style="font-size: 12px; color: #999;">${program.date}</span>
+        <span style="color: #6C5CE7; font-size: 14px;">🔗</span>
+      </div>
+    `).join('');
+    console.log('✅ آرشیو: بارگذاری شد');
+  }
   
   // ============================================================
   // ۴. بارگذاری تبلیغات دو طرف
