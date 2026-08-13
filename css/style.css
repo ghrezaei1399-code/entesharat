@@ -669,3 +669,62 @@ body.dark-mode .ad-inline .ad-name{
 body.dark-mode .ad-inline .ad-desc{
     color:#b8b8b8 !important;
 }
+/* ============================================================
+   استایل‌های بخش‌های جدید (فردا را از امروز بسازیم + تخفیف شو)
+   ============================================================ */
+
+/* استایل‌های بخش فردا را از امروز بسازیم */
+#future-today .tag-new.active {
+    background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(162,155,254,0.08)) !important;
+    color: #2d1b4e !important;
+    border-color: rgba(108,92,231,0.3) !important;
+    transform: translateY(-2px) scale(1.03) !important;
+    box-shadow: 0 4px 20px rgba(108,92,231,0.06) !important;
+}
+
+#future-today .tag-new:hover {
+    transform: translateY(-2px) scale(1.03) !important;
+    border-color: rgba(108,92,231,0.2) !important;
+    color: #2d1b4e !important;
+    background: rgba(108,92,231,0.04) !important;
+}
+
+#future-today .book-card-mini-new:hover {
+    transform: translateY(-6px) scale(1.02) !important;
+    border-color: rgba(108,92,231,0.15) !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.04) !important;
+}
+
+/* استایل‌های بخش تخفیف شو */
+#takhfif-show .discount-card:hover {
+    transform: translateY(-4px) scale(1.02) !important;
+    border-color: rgba(108,92,231,0.12) !important;
+    box-shadow: 0 12px 32px rgba(108,92,231,0.04) !important;
+}
+
+#takhfif-show .discount-card .percent {
+    font-size: 28px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #6C5CE7, #fdcb6e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    margin-bottom: 2px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#submitAreaTakhfif.show {
+    display: block !important;
+    animation: slideDown 0.4s ease;
+}
