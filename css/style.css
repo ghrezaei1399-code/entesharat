@@ -515,18 +515,34 @@ body {
    پلیر
    ============================================================ */
 .player-box {
-    background: rgba(108, 92, 231, 0.02);
+    background: linear-gradient(145deg, #2d1b4e, #4a2c7a);
     border-radius: 18px;
     padding: 14px;
     text-align: center;
     margin: 12px 0;
-    border: 1px solid rgba(108, 92, 231, 0.02);
+    border: 1px solid rgba(108, 92, 231, 0.04);
+    position: relative;
+    overflow: hidden;
 }
 
-.player-box audio,
+/* اضافه کردن یک تصویر پس‌زمینه برای زمانی که ویدیو پخش نمی‌شود */
+.player-box::before {
+    content: '🎬';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
 .player-box video {
     width: 100%;
     border-radius: 12px;
+    background: #1a1a2e;
+    position: relative;
+    z-index: 1;
 }
 
 /* ============================================================
