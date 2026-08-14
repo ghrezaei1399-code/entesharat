@@ -1111,6 +1111,6 @@ document.getElementById('generatePosterBtn').addEventListener('click', generateP
     }
 
     console.log('✅ دکمه ساخت پوستر: فعال شد');
-})();
-  console.log('✅ Core: راه‌اندازی کامل شد');
 });
+  console.log('✅ Core: راه‌اندازی کامل شد');
+
