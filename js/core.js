@@ -755,5 +755,86 @@ document.addEventListener('DOMContentLoaded', function() {
     // ... کدهای دیگر ...
     refreshMenu();
 });
+  // ============================================================
+// توابع کنترل تلویزیون (اضافه شده)
+// ============================================================
+
+let tvTracks = [];
+let tvCurrentIndex = 0;
+let tvPlayer = null;
+
+// بارگذاری لیست پخش تلویزیون
+function loadTvPlaylist() {
+    const playlistContainer = document.getElementById('tvPlaylist');
+    if (!playlistContainer) return;
+    
+    // دریافت ویدیوها از APP_CONFIG
+    if (window.APP_CONFIG && window.APP_CONFIG.tv) {
+        tvTracks = window.APP_CONFIG.tv.videos;
+    } else {
+        tvTracks = [
+            { id: 1, title: 'ویدئوی همگام‌سازی خدمات', file: 'images/video1.mp4' },
+            { id: 2, title: 'ویدئوی کتاب هنر هوشمند نگاری ۲', file: 'images/video2.mp4' }
+        ];
+    }
+    
+    playlistContainer.innerHTML = tvTracks.map((video, index) => `
+        <div class="playlist-item ${index === tvCurrentIndex ? 'active' : ''}" 
+             onclick="loadTvTrack(${index})">
+            <span>${video.title}</span>
+            <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
+        </div>
+    `).join('');
+}
+
+// بارگذاری یک ویدیو
+function loadTvTrack(index) {
+    tvPlayer = document.getElementById('tvPlayer');
+    if (!tvPlayer || index >= tvTracks.length) return;
+    tvCurrentIndex = index;
+    tvPlayer.src = tvTracks[index].file;
+    tvPlayer.load();
+    tvPlayer.play();
+    loadTvPlaylist();
+}
+
+// پخش
+function playTv() {
+    tvPlayer = document.getElementById('tvPlayer');
+    if (tvPlayer) tvPlayer.play();
+}
+
+// توقف
+function pauseTv() {
+    tvPlayer = document.getElementById('tvPlayer');
+    if (tvPlayer) tvPlayer.pause();
+}
+
+// بعدی
+function nextTv() {
+    const next = (tvCurrentIndex + 1) % tvTracks.length;
+    loadTvTrack(next);
+}
+
+// قبلی
+function prevTv() {
+    const prev = (tvCurrentIndex - 1 + tvTracks.length) % tvTracks.length;
+    loadTvTrack(prev);
+}
+
+// راه‌اندازی تلویزیون
+function initTv() {
+    tvPlayer = document.getElementById('tvPlayer');
+    loadTvPlaylist();
+    if (tvTracks.length > 0) {
+        loadTvTrack(0);
+    }
+}
+
+// فراخوانی در رویداد بارگذاری
+document.addEventListener('DOMContentLoaded', function() {
+    // ... کدهای دیگر ...
+    initTv();
+});
   console.log('✅ Core: راه‌اندازی کامل شد');
 });
