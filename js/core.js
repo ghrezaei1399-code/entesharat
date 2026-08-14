@@ -1020,7 +1020,7 @@ if (toggleAdsBtn && adMobileContainer) {
             }, 1500);
         }, 1500);
     }
-
+document.getElementById('generatePosterBtn').addEventListener('click', generatePoster);
     // ===== تابع پیگیری =====
     function trackPoster() {
         if (!trackingInput || !trackingResult) return;
