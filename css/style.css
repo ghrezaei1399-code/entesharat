@@ -29,6 +29,10 @@ body {
    HEADER - طراحی جدید
    ============================================================ */
 
+/* ============================================================
+   HEADER - با ویدیو به جای لوگو
+   ============================================================ */
+
 .header {
     background: linear-gradient(135deg, #fdcb6e 0%, #6C5CE7 40%, #a29bfe 70%, #55efc4 100%);
     background-size: 400% 400%;
@@ -75,14 +79,14 @@ body {
     z-index: 1;
 }
 
-/* ===== لوگو بزرگ‌تر ===== */
+/* ===== ویدیو ===== */
 .logo-wrapper {
     width: 130px;
     height: 130px;
     border-radius: 50%;
     overflow: hidden;
-    border: 4px solid #fff;
-    box-shadow: 0 0 40px rgba(255,255,255,0.2);
+    border: 3px solid #fff;
+    box-shadow: 0 0 40px rgba(255,255,255,0.15);
     flex-shrink: 0;
     transition: all 0.5s ease;
 }
@@ -92,10 +96,117 @@ body {
     box-shadow: 0 0 60px rgba(255,255,255,0.3);
 }
 
-.logo-wrapper img {
+.logo-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+/* ===== آیکون‌های رادیو و تلویزیون ===== */
+.radio-tv-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: all 0.4s ease;
+}
+
+.icon-box:hover {
+    transform: scale(1.05);
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 8px 30px rgba(255,255,255,0.1);
+}
+
+.icon-box img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.plus {
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-shadow: 0 0 30px rgba(255,255,255,0.2);
+}
+
+/* ===== عنوان ===== */
+.header h1 {
+    color: #fff;
+    font-size: 2.6rem;
+    font-weight: 900;
+    text-shadow: 0 4px 25px rgba(0,0,0,0.08);
+    margin: 5px 0;
+}
+
+.header h1 span {
+    color: #fdcb6e;
+}
+
+.header p {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.1rem;
+}
+
+/* ===== ریسپانسیو ===== */
+@media (max-width: 768px) {
+    .header-main {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .logo-wrapper {
+        width: 90px;
+        height: 90px;
+    }
+    .icon-box img {
+        width: 40px;
+        height: 40px;
+    }
+    .icon-box {
+        padding: 8px 14px;
+    }
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    .plus {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+    .icon-box img {
+        width: 30px;
+        height: 30px;
+    }
+    .icon-box {
+        padding: 5px 10px;
+    }
+    .header h1 {
+        font-size: 1.4rem;
+    }
+    .header p {
+        font-size: 0.85rem;
+    }
+    .plus {
+        font-size: 1.4rem;
+    }
 }
 
 /* ===== آیکون‌های رادیو و تلویزیون ===== */
