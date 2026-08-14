@@ -1889,3 +1889,277 @@ body.dark-mode .floating-toolbar {
         padding: 8px;
     }
 }
+/* ============================================================
+   زیباسازی بخش آرشیو هوشمند
+   ============================================================ */
+
+/* کانتینر اصلی آرشیو */
+.archive-smart-wrapper {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.7), rgba(248, 244, 240, 0.7));
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(108, 92, 231, 0.04);
+}
+
+/* کارت‌های آرشیو */
+.archive-card-modern {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(108, 92, 231, 0.03);
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+}
+
+.archive-card-modern:hover {
+    transform: translateY(-3px);
+    border-color: rgba(108, 92, 231, 0.08);
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.04);
+}
+
+.archive-card-modern .archive-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.archive-card-modern .archive-title {
+    font-weight: 700;
+    color: #2d1b4e;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.archive-card-modern .archive-date {
+    color: rgba(45, 27, 78, 0.4);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.archive-card-modern .archive-date i {
+    font-size: 0.7rem;
+}
+
+.archive-card-modern .archive-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.06), rgba(253, 203, 110, 0.06));
+    border-radius: 50%;
+    color: #6C5CE7;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    font-size: 0.9rem;
+}
+
+.archive-card-modern:hover .archive-link {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    transform: scale(1.04);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.12);
+}
+
+/* جستجو */
+.archive-search-modern {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.archive-search-modern input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 2px solid rgba(108, 92, 231, 0.06);
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.4s ease;
+    color: #2d1b4e;
+}
+
+.archive-search-modern input:focus {
+    outline: none;
+    border-color: rgba(108, 92, 231, 0.15);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.02);
+}
+
+.archive-search-modern input::placeholder {
+    color: rgba(45, 27, 78, 0.3);
+}
+
+.archive-search-modern .btn-search-modern {
+    padding: 10px 22px;
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.archive-search-modern .btn-search-modern:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.12);
+}
+
+/* پاسخ‌ها */
+.archive-response-modern {
+    margin-top: 15px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+    border-right: 4px solid #6C5CE7;
+    min-height: 50px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.archive-response-modern .response-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(108, 92, 231, 0.02);
+    font-size: 0.9rem;
+}
+
+.archive-response-modern .response-item:last-child {
+    border-bottom: none;
+}
+
+.archive-response-modern .response-item .type-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 700;
+}
+
+.archive-response-modern .response-item .type-icon.text {
+    background: #6C5CE7;
+}
+.archive-response-modern .response-item .type-icon.audio {
+    background: #fd79a8;
+}
+.archive-response-modern .response-item .type-icon.video {
+    background: #55efc4;
+    color: #2d1b4e;
+}
+
+/* دکمه‌های ارسال */
+.archive-actions-modern {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 6px;
+}
+
+.archive-actions-modern button {
+    padding: 6px 18px;
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.archive-actions-modern button:hover {
+    transform: scale(1.04) translateY(-2px);
+}
+
+.archive-actions-modern .btn-text {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+}
+.archive-actions-modern .btn-audio {
+    background: linear-gradient(135deg, #fd79a8, #e17055);
+}
+.archive-actions-modern .btn-video {
+    background: linear-gradient(135deg, #00b894, #55efc4);
+    color: #2d1b4e;
+}
+
+/* ===== دارک مود ===== */
+body.dark-mode .archive-card-modern {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .archive-card-modern .archive-title {
+    color: #e0e0e0;
+}
+body.dark-mode .archive-card-modern .archive-date {
+    color: rgba(255, 255, 255, 0.3);
+}
+body.dark-mode .archive-search-modern input {
+    background: rgba(255, 255, 255, 0.02);
+    color: #e0e0e0;
+    border-color: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .archive-response-modern {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .archive-smart-wrapper {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .archive-card-modern .archive-link {
+    background: rgba(255, 255, 255, 0.02);
+    color: #a29bfe;
+}
+body.dark-mode .archive-card-modern:hover .archive-link {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+}
+
+/* ===== ریسپانسیو ===== */
+@media (max-width: 480px) {
+    .archive-card-modern {
+        flex-wrap: wrap;
+        padding: 12px 14px;
+    }
+    .archive-card-modern .archive-link {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        font-size: 0.8rem;
+    }
+    .archive-search-modern {
+        flex-direction: column;
+    }
+    .archive-search-modern .btn-search-modern {
+        justify-content: center;
+        padding: 10px;
+    }
+    .archive-actions-modern button {
+        flex: 1;
+        justify-content: center;
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+}
