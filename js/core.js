@@ -609,46 +609,44 @@ document.addEventListener('DOMContentLoaded', function() {
   initFutureToday();
   updateStatsTakhfif();
 // ============================================================
-// قابلیت جابجایی بخش‌ها (Drag & Drop)
+// ============================================================
+// قابلیت جابجایی بخش‌ها (Drag & Drop) با هماهنگی منو
 // ============================================================
 
 function initDragAndDrop() {
     const container = document.querySelector('.container');
     if (!container) return;
 
-    // ذخیره ترتیب بخش‌ها در localStorage
-    function saveOrder() {
-        const sections = container.querySelectorAll('.draggable-section');
-        const order = Array.from(sections).map(el => el.id);
-        localStorage.setItem('sectionOrder', JSON.stringify(order));
-        updateMenuLinks();
-    }
-
-    // به‌روزرسانی لینک‌های منو بر اساس ترتیب جدید
-    function updateMenuLinks() {
+    // به‌روزرسانی لینک‌های منو بر اساس بخش‌های موجود
+    function updateMenuVisibility() {
         const menuLinks = document.querySelectorAll('.menu a');
         const sections = container.querySelectorAll('.draggable-section');
-        
+        const sectionIds = new Set();
+        sections.forEach(el => sectionIds.add(el.id));
+
         menuLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                const id = href.replace('#', '');
-                // بررسی اینکه آیا این بخش هنوز در صفحه وجود دارد
-                const exists = document.getElementById(id);
-                if (!exists) {
-                    link.style.display = 'none';
-                } else {
-                    link.style.display = '';
-                }
+            const target = link.getAttribute('data-target');
+            if (target && sectionIds.has(target)) {
+                link.style.display = '';
+            } else {
+                link.style.display = 'none';
             }
         });
     }
 
-    // بازیابی ترتیب ذخیره‌شده
+    // ذخیره ترتیب در localStorage
+    function saveOrder() {
+        const sections = container.querySelectorAll('.draggable-section');
+        const order = Array.from(sections).map(el => el.id);
+        localStorage.setItem('sectionOrder', JSON.stringify(order));
+        updateMenuVisibility();
+        showNotification('✅ ترتیب بخش‌ها ذخیره شد', 'success');
+    }
+
+    // بارگذاری ترتیب ذخیره‌شده
     function loadOrder() {
         const saved = localStorage.getItem('sectionOrder');
         if (!saved) return;
-        
         try {
             const order = JSON.parse(saved);
             const sections = container.querySelectorAll('.draggable-section');
@@ -660,6 +658,7 @@ function initDragAndDrop() {
                     container.appendChild(sectionMap[id]);
                 }
             });
+            updateMenuVisibility();
         } catch (e) {
             console.warn('خطا در بازیابی ترتیب:', e);
         }
@@ -676,8 +675,6 @@ function initDragAndDrop() {
             draggable: '.draggable-section',
             onEnd: function() {
                 saveOrder();
-                // نمایش پیام موفقیت
-                showNotification('✅ ترتیب بخش‌ها ذخیره شد', 'success');
             }
         });
         
@@ -703,7 +700,7 @@ function showNotification(message, type = 'info') {
         transform: translateX(-50%);
         background: ${colors[type] || '#6C5CE7'};
         color: #fff;
-        padding: 12px 28px;
+        padding: 10px 28px;
         border-radius: 60px;
         z-index: 9999;
         font-family: 'Tahoma', Arial, sans-serif;
@@ -716,10 +713,7 @@ function showNotification(message, type = 'info') {
     div.textContent = message;
     document.body.appendChild(div);
     
-    // نمایش با انیمیشن
     setTimeout(() => { div.style.opacity = '1'; }, 50);
-    
-    // مخفی کردن بعد از ۳ ثانیه
     setTimeout(() => {
         div.style.opacity = '0';
         setTimeout(() => { div.remove(); }, 400);
