@@ -860,6 +860,151 @@ if (toggleAdsBtn && adMobileContainer) {
     
     console.log('✅ دکمه تبلیغات موبایل: راه‌اندازی شد');
 }
+// ============================================================
+// فعال‌سازی دکمه ساخت پوستر
+// ============================================================
+(function() {
+    'use strict';
 
+    // پیدا کردن دکمه
+    const generateBtn = document.getElementById('generatePosterBtn');
+    const posterTitle = document.getElementById('posterTitle');
+    const posterEmail = document.getElementById('posterEmail');
+    const posterDesc = document.getElementById('posterDescription');
+    const posterStatus = document.getElementById('posterStatus');
+    const posterGallery = document.getElementById('posterGallery');
+
+    // اگر دکمه وجود نداشت، کار را متوقف کن
+    if (!generateBtn) {
+        console.warn('⚠️ دکمه ساخت پوستر پیدا نشد.');
+        return;
+    }
+
+    // تابع نمایش وضعیت
+    function showStatus(message, isSuccess = true) {
+        if (!posterStatus) return;
+        posterStatus.textContent = message;
+        posterStatus.className = 'poster-status-modern show';
+        posterStatus.style.color = isSuccess ? '#2d1b4e' : '#e17055';
+        posterStatus.style.background = isSuccess ? 'rgba(57, 255, 20, 0.04)' : 'rgba(225, 112, 85, 0.04)';
+        posterStatus.style.borderColor = isSuccess ? 'rgba(57, 255, 20, 0.04)' : 'rgba(225, 112, 85, 0.04)';
+        posterStatus.style.display = 'block';
+    }
+
+    // تابع ساخت پوستر
+    function generatePoster() {
+        // اگر فیلدها وجود نداشتند، خطا نده
+        if (!posterTitle || !posterEmail || !posterDesc) {
+            showStatus('❌ فرم ساخت پوستر کامل نیست.', false);
+            return;
+        }
+
+        const title = posterTitle.value.trim();
+        const email = posterEmail.value.trim();
+        const desc = posterDesc.value.trim();
+
+        // اعتبارسنجی
+        if (!title) {
+            showStatus('❌ لطفاً عنوان پوستر را وارد کنید.', false);
+            posterTitle.focus();
+            return;
+        }
+        if (!email) {
+            showStatus('❌ لطفاً ایمیل خود را وارد کنید.', false);
+            posterEmail.focus();
+            return;
+        }
+        if (!email.includes('@') || !email.includes('.')) {
+            showStatus('❌ لطفاً یک ایمیل معتبر وارد کنید.', false);
+            posterEmail.focus();
+            return;
+        }
+        if (!desc) {
+            showStatus('❌ لطفاً توضیحات پوستر را وارد کنید.', false);
+            posterDesc.focus();
+            return;
+        }
+
+        // شبیه‌سازی تولید پوستر
+        showStatus('⏳ در حال تولید پوستر با هوش مصنوعی... لطفاً صبر کنید.', true);
+
+        setTimeout(function() {
+            // تصویر پیش‌فرض
+            const imageUrl = 'images/bestclasick.png';
+
+            // ایجاد کارت پوستر جدید
+            if (posterGallery) {
+                const newPoster = document.createElement('div');
+                newPoster.className = 'gallery-card-modern';
+                newPoster.style.animation = 'fadeSlide 0.5s ease';
+                newPoster.innerHTML = `
+                    <img src="${imageUrl}" alt="${title}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22190%22%3E%3Crect width=%22200%22 height=%22190%22 fill=%22rgba(108,92,231,0.04)%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Tahoma%22 font-size=%2214%22 fill=%22rgba(45,27,78,0.2)%22%3E${title}%3C/text%3E%3C/svg%3E'">
+                    <div class="card-overlay">✨ جدید</div>
+                    <div class="card-info">
+                        <span class="badge-ai">🤖 تولید هوش مصنوعی</span>
+                        <h4>${title}</h4>
+                        <p>${desc.substring(0, 60)}${desc.length > 60 ? '...' : ''}</p>
+                        <div style="font-size:0.6rem;color:rgba(45,27,78,0.2);margin-top:4px;">
+                            <i class="fas fa-envelope"></i> ${email}
+                        </div>
+                    </div>
+                `;
+                posterGallery.insertBefore(newPoster, posterGallery.firstChild);
+            }
+
+            // نمایش پیام موفقیت
+            showStatus(`✅ پوستر "${title}" با موفقیت ساخته شد! یک کپی به ایمیل ${email} ارسال شد.`, true);
+
+            // ذخیره در localStorage
+            const posters = JSON.parse(localStorage.getItem('generatedPosters') || '[]');
+            posters.push({
+                id: Date.now(),
+                title: title,
+                email: email,
+                desc: desc,
+                date: new Date().toLocaleDateString('fa-IR')
+            });
+            localStorage.setItem('generatedPosters', JSON.stringify(posters));
+
+            // پاک کردن فرم
+            if (posterTitle) posterTitle.value = '';
+            if (posterEmail) posterEmail.value = '';
+            if (posterDesc) posterDesc.value = '';
+
+            // اسکرول به گالری
+            if (posterGallery) {
+                posterGallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            console.log('✅ پوستر جدید ساخته شد:', { title, email, desc });
+
+        }, 2000);
+    }
+
+    // اتصال رویداد کلیک به دکمه
+    generateBtn.addEventListener('click', generatePoster);
+
+    // ارسال با کلید Enter در فیلدها
+    if (posterTitle) {
+        posterTitle.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && posterEmail) posterEmail.focus();
+        });
+    }
+    if (posterEmail) {
+        posterEmail.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && posterDesc) posterDesc.focus();
+        });
+    }
+    if (posterDesc) {
+        posterDesc.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generateBtn.click();
+            }
+        });
+    }
+
+    console.log('✅ دکمه ساخت پوستر: فعال شد');
+})();
   console.log('✅ Core: راه‌اندازی کامل شد');
 });
