@@ -25,55 +25,247 @@ body {
     position: relative;
 }
 
-<!-- ===== HEADER ===== -->
-<header class="header">
-    <div class="header-main">
-        <!-- ویدیو به جای لوگو -->
-        <div class="logo-wrapper">
-            <video autoplay loop muted playsinline class="logo-video" poster="images/logo2.jpg">
-                <source src="images/LOGO.mp4" type="video/mp4">
-                <img src="images/logo2.jpg" alt="انتشارات کیمیا">
-            </video>
-        </div>
-        <div class="header-content">
-            <div class="radio-tv-icons">
-                <div class="icon-box radio-icon">
-                    <img src="images/oldrtv.jpg" alt="رادیو">
-                </div>
-                <span class="plus">+</span>
-                <div class="icon-box tv-icon">
-                    <img src="images/y4q0rneg.jpg" alt="تلویزیون">
-                </div>
-            </div>
-            <h1 class="animated-title">
-                <span class="word-1">رادیو</span>
-                <span class="word-2">تلویزیون</span>
-                <span class="word-3">هوشمند</span>
-            </h1>
-            <p class="animated-subtitle">
-                <span class="sub-1">انتشارات کیمیا</span>
-                <span class="sub-sep">|</span>
-                <span class="sub-2">رادیو نوای چاپ</span>
-            </p>
-        </div>
-    </div>
-</header>
+/* ============================================================
+   HEADER
+   ============================================================ */
 
-<!-- ===== MENU ===== -->
-<nav class="menu">
-    <a href="#radio" style="background:#4a90d9;color:#fff;">رادیو</a>
-    <a href="#tv" style="background:#6C5CE7;color:#fff;">تلویزیون</a>
-    <a href="#archive" style="background:#fdcb6e;color:#2d1b4e;">آرشیو</a>
-    <a href="#gallery" style="background:#55efc4;color:#2d1b4e;">گالری پوستر</a>
-    <a href="#radionava" style="background:#4a90d9;color:#fff;">رادیو نوای چاپ</a>
-    <a href="#interact" style="background:#6C5CE7;color:#fff;">تعامل</a>
-    <a href="#future-today" style="background:#fdcb6e;color:#2d1b4e;">فردا را از امروز</a>
-    <a href="#takhfif-show" style="background:#55efc4;color:#2d1b4e;">تخفیف شو</a>
-    <a href="#publish" style="background:#4a90d9;color:#fff;">انتشارات</a>
-    <a href="#smart-select" style="background:#6C5CE7;color:#fff;">هوشمند گزینی</a>
-    <a href="#footer-mini" style="background:#fdcb6e;color:#2d1b4e;">طراحی و توسعه</a>
-</nav>
+.header {
+    background: linear-gradient(135deg, #fdcb6e 0%, #6C5CE7 40%, #a29bfe 70%, #55efc4 100%);
+    background-size: 400% 400%;
+    animation: gradientMove 8s ease-in-out infinite;
+    border-radius: 30px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 15px 50px rgba(108, 92, 231, 0.15);
+    position: relative;
+    overflow: hidden;
+}
 
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== ویدیو ===== */
+.logo-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,0.3);
+    flex-shrink: 0;
+    box-shadow: 0 0 40px rgba(255,255,255,0.1);
+    transition: all 0.4s ease;
+}
+
+.logo-wrapper:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 60px rgba(255,255,255,0.2);
+}
+
+.logo-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===== محتوای هدر ===== */
+.header-content {
+    text-align: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.radio-tv-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+}
+
+.icon-box:hover {
+    transform: scale(1.04);
+    background: rgba(255,255,255,0.2);
+}
+
+.icon-box img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.plus {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 900;
+    animation: plusPulse 2s ease-in-out infinite;
+}
+
+@keyframes plusPulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* ===== عنوان ===== */
+.animated-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin: 4px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+}
+
+.animated-title .word-1 { color: #fdcb6e; }
+.animated-title .word-2 { color: #55efc4; }
+.animated-title .word-3 { color: #fff; }
+
+.animated-subtitle {
+    font-size: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.animated-subtitle .sub-1 { color: #fdcb6e; }
+.animated-subtitle .sub-sep { color: rgba(255,255,255,0.5); }
+.animated-subtitle .sub-2 { color: #55efc4; }
+
+/* ============================================================
+   MENU
+   ============================================================ */
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #55efc4, #00b894);
+    background-size: 200% 200%;
+    animation: menuMove 6s ease-in-out infinite;
+    border-radius: 60px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 30px rgba(0, 184, 148, 0.15);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+@keyframes menuMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.menu a {
+    padding: 6px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.8rem;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.menu a:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* ============================================================
+   ریسپانسیو
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .header-main {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .logo-wrapper {
+        width: 80px;
+        height: 80px;
+    }
+    .icon-box img {
+        width: 32px;
+        height: 32px;
+    }
+    .icon-box {
+        padding: 4px 12px;
+    }
+    .animated-title {
+        font-size: 1.6rem;
+    }
+    .animated-subtitle {
+        font-size: 0.85rem;
+    }
+    .plus {
+        font-size: 1.4rem;
+    }
+    .menu {
+        padding: 8px 12px;
+        gap: 4px;
+        border-radius: 40px;
+    }
+    .menu a {
+        padding: 4px 10px;
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+    .icon-box img {
+        width: 24px;
+        height: 24px;
+    }
+    .icon-box {
+        padding: 3px 8px;
+    }
+    .animated-title {
+        font-size: 1.2rem;
+        gap: 3px;
+    }
+    .animated-subtitle {
+        font-size: 0.7rem;
+    }
+    .plus {
+        font-size: 1.1rem;
+    }
+    .menu a {
+        padding: 3px 7px;
+        font-size: 0.55rem;
+    }
+}
 /* ============================================================
    بخش‌ها
    ============================================================ */
