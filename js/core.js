@@ -861,18 +861,21 @@ if (toggleAdsBtn && adMobileContainer) {
     console.log('✅ دکمه تبلیغات موبایل: راه‌اندازی شد');
 }
 // ============================================================
-// فعال‌سازی دکمه ساخت پوستر
+// ماژول ساخت پوستر با هوش مصنوعی (نسخه کامل با کد رهگیری)
 // ============================================================
 (function() {
     'use strict';
 
-    // پیدا کردن دکمه
+    // المان‌ها
     const generateBtn = document.getElementById('generatePosterBtn');
     const posterTitle = document.getElementById('posterTitle');
     const posterEmail = document.getElementById('posterEmail');
     const posterDesc = document.getElementById('posterDescription');
     const posterStatus = document.getElementById('posterStatus');
     const posterGallery = document.getElementById('posterGallery');
+    const trackingInput = document.getElementById('posterTrackingCode');
+    const trackingBtn = document.getElementById('posterTrackingBtn');
+    const trackingResult = document.getElementById('posterTrackingResult');
 
     // اگر دکمه وجود نداشت، کار را متوقف کن
     if (!generateBtn) {
@@ -880,22 +883,43 @@ if (toggleAdsBtn && adMobileContainer) {
         return;
     }
 
-    // تابع نمایش وضعیت
-    function showStatus(message, isSuccess = true) {
+    // ===== تابع نمایش وضعیت =====
+    function setStatus(message, type = 'info') {
         if (!posterStatus) return;
-        posterStatus.textContent = message;
-        posterStatus.className = 'poster-status-modern show';
-        posterStatus.style.color = isSuccess ? '#2d1b4e' : '#e17055';
-        posterStatus.style.background = isSuccess ? 'rgba(57, 255, 20, 0.04)' : 'rgba(225, 112, 85, 0.04)';
-        posterStatus.style.borderColor = isSuccess ? 'rgba(57, 255, 20, 0.04)' : 'rgba(225, 112, 85, 0.04)';
-        posterStatus.style.display = 'block';
+        const icon = posterStatus.querySelector('.poster-status-icon');
+        const text = posterStatus.querySelector('.poster-status-text');
+        
+        posterStatus.className = 'poster-status-box';
+        if (type === 'success') {
+            posterStatus.classList.add('success');
+            if (icon) icon.textContent = '✅';
+        } else if (type === 'error') {
+            posterStatus.classList.add('error');
+            if (icon) icon.textContent = '❌';
+        } else if (type === 'loading') {
+            posterStatus.classList.add('loading');
+            if (icon) icon.textContent = '⏳';
+        } else {
+            if (icon) icon.textContent = '💡';
+        }
+        if (text) text.textContent = message;
     }
 
-    // تابع ساخت پوستر
+    // ===== تابع تولید کد رهگیری =====
+    function generateTrackingCode() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = 'PS-';
+        for (let i = 0; i < 8; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+    }
+
+    // ===== تابع ساخت پوستر =====
     function generatePoster() {
         // اگر فیلدها وجود نداشتند، خطا نده
         if (!posterTitle || !posterEmail || !posterDesc) {
-            showStatus('❌ فرم ساخت پوستر کامل نیست.', false);
+            setStatus('فرم ساخت پوستر کامل نیست.', 'error');
             return;
         }
 
@@ -905,82 +929,164 @@ if (toggleAdsBtn && adMobileContainer) {
 
         // اعتبارسنجی
         if (!title) {
-            showStatus('❌ لطفاً عنوان پوستر را وارد کنید.', false);
+            setStatus('لطفاً عنوان پوستر را وارد کنید.', 'error');
             posterTitle.focus();
             return;
         }
         if (!email) {
-            showStatus('❌ لطفاً ایمیل خود را وارد کنید.', false);
+            setStatus('لطفاً ایمیل خود را وارد کنید.', 'error');
             posterEmail.focus();
             return;
         }
         if (!email.includes('@') || !email.includes('.')) {
-            showStatus('❌ لطفاً یک ایمیل معتبر وارد کنید.', false);
+            setStatus('لطفاً یک ایمیل معتبر وارد کنید.', 'error');
             posterEmail.focus();
             return;
         }
         if (!desc) {
-            showStatus('❌ لطفاً توضیحات پوستر را وارد کنید.', false);
+            setStatus('لطفاً توضیحات پوستر را وارد کنید.', 'error');
             posterDesc.focus();
             return;
         }
 
-        // شبیه‌سازی تولید پوستر
-        showStatus('⏳ در حال تولید پوستر با هوش مصنوعی... لطفاً صبر کنید.', true);
+        // تولید کد رهگیری
+        const trackingCode = generateTrackingCode();
+
+        // مرحله ۱: در حال پردازش
+        setStatus('مرحله ۱ از ۴: در حال بررسی اطلاعات...', 'loading');
 
         setTimeout(function() {
-            // تصویر پیش‌فرض
-            const imageUrl = 'images/bestclasick.png';
+            // مرحله ۲: تولید پوستر
+            setStatus('مرحله ۲ از ۴: در حال تولید پوستر با هوش مصنوعی...', 'loading');
 
-            // ایجاد کارت پوستر جدید
-            if (posterGallery) {
-                const newPoster = document.createElement('div');
-                newPoster.className = 'gallery-card-modern';
-                newPoster.style.animation = 'fadeSlide 0.5s ease';
-                newPoster.innerHTML = `
-                    <img src="${imageUrl}" alt="${title}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22190%22%3E%3Crect width=%22200%22 height=%22190%22 fill=%22rgba(108,92,231,0.04)%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Tahoma%22 font-size=%2214%22 fill=%22rgba(45,27,78,0.2)%22%3E${title}%3C/text%3E%3C/svg%3E'">
-                    <div class="card-overlay">✨ جدید</div>
-                    <div class="card-info">
-                        <span class="badge-ai">🤖 تولید هوش مصنوعی</span>
-                        <h4>${title}</h4>
-                        <p>${desc.substring(0, 60)}${desc.length > 60 ? '...' : ''}</p>
-                        <div style="font-size:0.6rem;color:rgba(45,27,78,0.2);margin-top:4px;">
-                            <i class="fas fa-envelope"></i> ${email}
-                        </div>
-                    </div>
-                `;
-                posterGallery.insertBefore(newPoster, posterGallery.firstChild);
-            }
+            setTimeout(function() {
+                // مرحله ۳: ارسال ایمیل
+                setStatus('مرحله ۳ از ۴: در حال ارسال پوستر به ایمیل شما...', 'loading');
 
-            // نمایش پیام موفقیت
-            showStatus(`✅ پوستر "${title}" با موفقیت ساخته شد! یک کپی به ایمیل ${email} ارسال شد.`, true);
+                setTimeout(function() {
+                    // تصویر پیش‌فرض
+                    const imageUrl = 'images/bestclasick.png';
 
-            // ذخیره در localStorage
-            const posters = JSON.parse(localStorage.getItem('generatedPosters') || '[]');
-            posters.push({
-                id: Date.now(),
-                title: title,
-                email: email,
-                desc: desc,
-                date: new Date().toLocaleDateString('fa-IR')
-            });
-            localStorage.setItem('generatedPosters', JSON.stringify(posters));
+                    // ایجاد کارت پوستر جدید
+                    if (posterGallery) {
+                        const newPoster = document.createElement('div');
+                        newPoster.className = 'gallery-card-modern';
+                        newPoster.style.animation = 'fadeSlide 0.5s ease';
+                        newPoster.dataset.code = trackingCode;
+                        newPoster.innerHTML = `
+                            <img src="${imageUrl}" alt="${title}" class="card-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22190%22%3E%3Crect width=%22200%22 height=%22190%22 fill=%22rgba(108,92,231,0.04)%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Tahoma%22 font-size=%2214%22 fill=%22rgba(45,27,78,0.2)%22%3E${title}%3C/text%3E%3C/svg%3E'">
+                            <div class="card-overlay">✨ جدید</div>
+                            <div class="card-info">
+                                <span class="badge-ai">🤖 تولید هوش مصنوعی</span>
+                                <h4>${title}</h4>
+                                <p>${desc.substring(0, 60)}${desc.length > 60 ? '...' : ''}</p>
+                                <div style="font-size:0.6rem;color:rgba(45,27,78,0.2);margin-top:4px;">
+                                    <i class="fas fa-envelope"></i> ${email} | 
+                                    <i class="fas fa-qrcode"></i> ${trackingCode}
+                                </div>
+                            </div>
+                        `;
+                        posterGallery.insertBefore(newPoster, posterGallery.firstChild);
+                    }
 
-            // پاک کردن فرم
-            if (posterTitle) posterTitle.value = '';
-            if (posterEmail) posterEmail.value = '';
-            if (posterDesc) posterDesc.value = '';
+                    // ذخیره در localStorage
+                    const posters = JSON.parse(localStorage.getItem('generatedPosters') || '[]');
+                    posters.push({
+                        code: trackingCode,
+                        title: title,
+                        email: email,
+                        desc: desc,
+                        status: 'تکمیل شده',
+                        date: new Date().toLocaleDateString('fa-IR')
+                    });
+                    localStorage.setItem('generatedPosters', JSON.stringify(posters));
 
-            // اسکرول به گالری
-            if (posterGallery) {
-                posterGallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+                    // مرحله ۴: موفقیت
+                    setStatus(`✅ پوستر "${title}" با موفقیت ساخته شد! کد رهگیری: ${trackingCode} - یک کپی به ایمیل ${email} ارسال شد.`, 'success');
 
-            console.log('✅ پوستر جدید ساخته شد:', { title, email, desc });
+                    // پاک کردن فرم
+                    if (posterTitle) posterTitle.value = '';
+                    if (posterEmail) posterEmail.value = '';
+                    if (posterDesc) posterDesc.value = '';
 
-        }, 2000);
+                    // اسکرول به گالری
+                    if (posterGallery) {
+                        posterGallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+
+                    console.log('✅ پوستر جدید ساخته شد:', { title, email, desc, code: trackingCode });
+
+                }, 1500);
+            }, 1500);
+        }, 1500);
     }
 
+    // ===== تابع پیگیری =====
+    function trackPoster() {
+        if (!trackingInput || !trackingResult) return;
+        
+        const code = trackingInput.value.trim().toUpperCase();
+        if (!code) {
+            trackingResult.innerHTML = '<span class="tracking-error">❌ لطفاً کد رهگیری را وارد کنید.</span>';
+            trackingResult.className = 'poster-tracking-result show';
+            return;
+        }
+
+        const posters = JSON.parse(localStorage.getItem('generatedPosters') || '[]');
+        const found = posters.find(p => p.code === code);
+
+        if (found) {
+            trackingResult.innerHTML = `
+                <span class="tracking-success">✅ وضعیت: ${found.status}</span><br>
+                <strong>عنوان:</strong> ${found.title}<br>
+                <strong>ایمیل:</strong> ${found.email}<br>
+                <strong>تاریخ ارسال:</strong> ${found.date}<br>
+                <strong>کد رهگیری:</strong> ${found.code}
+            `;
+            trackingResult.className = 'poster-tracking-result show';
+        } else {
+            trackingResult.innerHTML = '<span class="tracking-error">❌ کد رهگیری نامعتبر است. لطفاً دوباره بررسی کنید.</span>';
+            trackingResult.className = 'poster-tracking-result show';
+        }
+    }
+
+    // ===== اتصال رویدادها =====
+    generateBtn.addEventListener('click', generatePoster);
+
+    if (trackingBtn) {
+        trackingBtn.addEventListener('click', trackPoster);
+    }
+    if (trackingInput) {
+        trackingInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && trackingBtn) {
+                trackingBtn.click();
+            }
+        });
+    }
+
+    // ارسال با کلید Enter در فیلدها
+    if (posterTitle) {
+        posterTitle.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && posterEmail) posterEmail.focus();
+        });
+    }
+    if (posterEmail) {
+        posterEmail.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && posterDesc) posterDesc.focus();
+        });
+    }
+    if (posterDesc) {
+        posterDesc.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generateBtn.click();
+            }
+        });
+    }
+
+    console.log('✅ ماژول ساخت پوستر: راه‌اندازی شد (نسخه کامل)');
+})();
+  
     // اتصال رویداد کلیک به دکمه
     generateBtn.addEventListener('click', generatePoster);
 
