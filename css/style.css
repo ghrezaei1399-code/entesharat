@@ -3192,3 +3192,50 @@ body.dark-mode .publish-card-luxury .card-desc {
         font-size: 0.7rem;
     }
 }
+/* ============================================================
+   دکمه نمایش تبلیغات در موبایل
+   ============================================================ */
+
+#toggleAdsMobile {
+    display: none !important;
+}
+
+#toggleAdsMobile.show {
+    display: flex !important;
+    animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+#toggleAdsMobile:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.4);
+}
+
+#toggleAdsMobile:active {
+    transform: scale(0.92);
+}
+
+/* نمایش دکمه فقط در موبایل */
+@media (max-width: 1200px) {
+    #toggleAdsMobile {
+        display: none !important;
+    }
+    #toggleAdsMobile.show {
+        display: flex !important;
+    }
+}
+
+/* موقعیت دکمه در صفحات کوچک */
+@media (max-width: 480px) {
+    #toggleAdsMobile {
+        bottom: 90px;
+        right: 10px;
+        width: 48px;
+        height: 48px;
+        font-size: 1.1rem;
+    }
+}
