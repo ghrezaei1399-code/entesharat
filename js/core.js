@@ -861,7 +861,7 @@ if (toggleAdsBtn && adMobileContainer) {
     console.log('✅ دکمه تبلیغات موبایل: راه‌اندازی شد');
 }
 // ============================================================
-// ماژول ساخت پوستر با هوش مصنوعی (نسخه کامل با کد رهگیری)
+// ماژول ساخت پوستر با هوش مصنوعی (نسخه اصلاح‌شده)
 // ============================================================
 (function() {
     'use strict';
@@ -876,7 +876,7 @@ if (toggleAdsBtn && adMobileContainer) {
     const trackingInput = document.getElementById('posterTrackingCode');
     const trackingBtn = document.getElementById('posterTrackingBtn');
     const trackingResult = document.getElementById('posterTrackingResult');
-generateBtn.addEventListener('click', generatePoster);
+
     // اگر دکمه وجود نداشت، کار را متوقف کن
     if (!generateBtn) {
         console.warn('⚠️ دکمه ساخت پوستر پیدا نشد.');
@@ -917,7 +917,6 @@ generateBtn.addEventListener('click', generatePoster);
 
     // ===== تابع ساخت پوستر =====
     function generatePoster() {
-        // اگر فیلدها وجود نداشتند، خطا نده
         if (!posterTitle || !posterEmail || !posterDesc) {
             setStatus('فرم ساخت پوستر کامل نیست.', 'error');
             return;
@@ -927,7 +926,6 @@ generateBtn.addEventListener('click', generatePoster);
         const email = posterEmail.value.trim();
         const desc = posterDesc.value.trim();
 
-        // اعتبارسنجی
         if (!title) {
             setStatus('لطفاً عنوان پوستر را وارد کنید.', 'error');
             posterTitle.focus();
@@ -949,25 +947,19 @@ generateBtn.addEventListener('click', generatePoster);
             return;
         }
 
-        // تولید کد رهگیری
         const trackingCode = generateTrackingCode();
 
-        // مرحله ۱: در حال پردازش
         setStatus('مرحله ۱ از ۴: در حال بررسی اطلاعات...', 'loading');
 
         setTimeout(function() {
-            // مرحله ۲: تولید پوستر
             setStatus('مرحله ۲ از ۴: در حال تولید پوستر با هوش مصنوعی...', 'loading');
 
             setTimeout(function() {
-                // مرحله ۳: ارسال ایمیل
                 setStatus('مرحله ۳ از ۴: در حال ارسال پوستر به ایمیل شما...', 'loading');
 
                 setTimeout(function() {
-                    // تصویر پیش‌فرض
                     const imageUrl = 'images/bestclasick.png';
 
-                    // ایجاد کارت پوستر جدید
                     if (posterGallery) {
                         const newPoster = document.createElement('div');
                         newPoster.className = 'gallery-card-modern';
@@ -989,7 +981,6 @@ generateBtn.addEventListener('click', generatePoster);
                         posterGallery.insertBefore(newPoster, posterGallery.firstChild);
                     }
 
-                    // ذخیره در localStorage
                     const posters = JSON.parse(localStorage.getItem('generatedPosters') || '[]');
                     posters.push({
                         code: trackingCode,
@@ -1001,15 +992,12 @@ generateBtn.addEventListener('click', generatePoster);
                     });
                     localStorage.setItem('generatedPosters', JSON.stringify(posters));
 
-                    // مرحله ۴: موفقیت
                     setStatus(`✅ پوستر "${title}" با موفقیت ساخته شد! کد رهگیری: ${trackingCode} - یک کپی به ایمیل ${email} ارسال شد.`, 'success');
 
-                    // پاک کردن فرم
                     if (posterTitle) posterTitle.value = '';
                     if (posterEmail) posterEmail.value = '';
                     if (posterDesc) posterDesc.value = '';
 
-                    // اسکرول به گالری
                     if (posterGallery) {
                         posterGallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
@@ -1020,7 +1008,7 @@ generateBtn.addEventListener('click', generatePoster);
             }, 1500);
         }, 1500);
     }
-document.getElementById('generatePosterBtn').addEventListener('click', generatePoster);
+
     // ===== تابع پیگیری =====
     function trackPoster() {
         if (!trackingInput || !trackingResult) return;
@@ -1064,7 +1052,6 @@ document.getElementById('generatePosterBtn').addEventListener('click', generateP
         });
     }
 
-    // ارسال با کلید Enter در فیلدها
     if (posterTitle) {
         posterTitle.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && posterEmail) posterEmail.focus();
@@ -1084,9 +1071,8 @@ document.getElementById('generatePosterBtn').addEventListener('click', generateP
         });
     }
 
-    console.log('✅ ماژول ساخت پوستر: راه‌اندازی شد (نسخه کامل)');
+    console.log('✅ ماژول ساخت پوستر: راه‌اندازی شد (نسخه اصلاح‌شده)');
 })();
-  
     // اتصال رویداد کلیک به دکمه
     
 
