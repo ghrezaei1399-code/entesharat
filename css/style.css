@@ -1,705 +1,1182 @@
-/* ===== فایل استایل یکپارچه ===== */
+/* ============================================================
+   فایل استایل یکپارچه - نسخه نهایی با زیباسازی کامل (رنگ‌های روشن)
+   ============================================================ */
 
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:linear-gradient(135deg,#e8f0fe,#d4e4f7,#c8d6e5);font-family:tahoma,sans-serif;padding:20px;transition:background 0.4s;padding-bottom:80px}
-.container{max-width:1200px;margin:0 auto;position:relative}
+/* ===== Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* ===== تبلیغات ===== */
+body {
+    background: linear-gradient(145deg, #fefefe, #f5f0eb);
+    font-family: 'Segoe UI', 'Tahoma', Arial, sans-serif;
+    padding: 16px;
+    transition: background 0.4s;
+    padding-bottom: 80px;
+    color: #2d1b4e;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* ============================================================
+   هدر
+   ============================================================ */
+.header {
+    background: linear-gradient(145deg, #6C5CE7, #a29bfe, #fdcb6e);
+    border-radius: 30px;
+    padding: 25px 20px;
+    text-align: center;
+    margin-bottom: 25px;
+    border: none;
+    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: glowPulse 8s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(10%, 10%) scale(1.1);
+    }
+}
+
+.logo-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    margin: 0 auto 12px;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.logo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.radio-tv-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 8px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.radio-tv-icons .icon-box {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+}
+
+.radio-tv-icons .icon-box:hover {
+    transform: scale(1.08);
+    border-color: #fff;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+.radio-tv-icons .icon-box img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.radio-tv-icons .plus {
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.header h1 {
+    color: #fff;
+    font-size: 2.2rem;
+    font-weight: 900;
+    text-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.5px;
+}
+
+.header h1 span {
+    color: #fdcb6e;
+    position: relative;
+}
+
+.header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    position: relative;
+    z-index: 1;
+    font-weight: 400;
+}
+
+/* ============================================================
+   منو
+   ============================================================ */
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 10px 14px;
+    border-radius: 60px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 30px rgba(108, 92, 231, 0.06);
+}
+
+.menu a {
+    padding: 6px 16px;
+    border-radius: 50px;
+    color: #2d1b4e;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 0.78rem;
+    background: rgba(108, 92, 231, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid transparent;
+}
+
+.menu a:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.06);
+    background: rgba(108, 92, 231, 0.06);
+    border-color: rgba(108, 92, 231, 0.06);
+}
+
+.menu a i {
+    font-size: 0.85rem;
+}
+
+/* ============================================================
+   بخش‌ها
+   ============================================================ */
+.section {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 24px;
+    padding: 22px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(108, 92, 231, 0.04);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: default;
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.02);
+}
+
+.section:hover {
+    border-color: rgba(108, 92, 231, 0.08);
+    box-shadow: 0 8px 40px rgba(108, 92, 231, 0.03);
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 3px solid rgba(108, 92, 231, 0.06);
+    color: #2d1b4e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: grab;
+    user-select: none;
+}
+
+.section-title:active {
+    cursor: grabbing;
+}
+
+.section-title i {
+    color: #6C5CE7;
+    font-size: 1.4rem;
+}
+
+.section-title .drag-hint {
+    font-size: 0.6rem;
+    color: rgba(45, 27, 78, 0.25);
+    font-weight: 400;
+}
+
+/* ============================================================
+   تبلیغات دو طرف
+   ============================================================ */
 .ad-side {
     position: fixed;
-    top: 10%;
-    width: 220px;  /* ← بزرگ‌تر */
-    z-index: 100;
-    max-height: 85vh;
-    overflow-y: auto;
+    top: 110px;
+    width: 200px;
+    max-height: calc(100vh - 150px);
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.06);
+    z-index: 900;
+    border: 1px solid rgba(108, 92, 231, 0.04);
 }
-.ad-side::-webkit-scrollbar{width:4px}
-.ad-side::-webkit-scrollbar-thumb{background:#6C5CE7;border-radius:10px}
-.ad-side.left{left:10px}
-.ad-side.right{right:10px}
+
+.ad-side.left {
+    left: max(10px, calc(50% - 820px));
+}
+.ad-side.right {
+    right: max(10px, calc(50% - 820px));
+}
+
 .ad-side .ad-header {
     background: linear-gradient(135deg, #6C5CE7, #a29bfe);
     color: #fff;
-    padding: 12px 16px;  /* ← بزرگ‌تر */
-    border-radius: 16px 16px 0 0;
-    font-size: .85rem;   /* ← بزرگ‌تر */
-    font-weight: 700;
+    padding: 12px 14px;
+    font-size: 0.75rem;
+    font-weight: 800;
     text-align: center;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #fdcb6e;
 }
+
 .ad-side .ad-box {
+    padding: 14px 12px;
     background: #fff;
-    padding: 14px 16px;  /* ← بزرگ‌تر */
-    border: 1px solid #d4a373;
-    border-top: none;
+    border-bottom: 1px solid rgba(108, 92, 231, 0.02);
     text-align: center;
+    transition: all 0.3s ease;
 }
+
+.ad-side .ad-box:hover {
+    background: rgba(108, 92, 231, 0.02);
+}
+
 .ad-side .ad-box:last-child {
-    border-radius: 0 0 16px 16px;
+    border-bottom: none;
 }
-.ad-side .ad-box .ad-logo {
-    font-size: 1.8rem;   /* ← بزرگ‌تر */
-    display: block;
+
+.ad-side .ad-logo {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.06), rgba(253, 203, 110, 0.06));
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
 }
-.ad-side .ad-box .ad-name {
-    font-size: .85rem;   /* ← بزرگ‌تر */
-    font-weight: 700;
+
+.ad-side .ad-box:hover .ad-logo {
+    transform: scale(1.05) rotate(-3deg);
+}
+
+.ad-side .ad-name {
     color: #2d1b4e;
-}
-.ad-side .ad-box .ad-desc {
-    font-size: .7rem;    /* ← بزرگ‌تر */
-    color: #7f8c8d;
+    font-size: 0.8rem;
+    font-weight: 700;
     line-height: 1.4;
 }
-.ad-side .ad-box .ad-link {
+
+.ad-side .ad-desc {
+    margin-top: 4px;
+    color: rgba(45, 27, 78, 0.5);
+    font-size: 0.65rem;
+    line-height: 1.5;
+}
+
+.ad-side .ad-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    padding: 4px 16px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.6rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.ad-side .ad-link:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.15);
+}
+
+/* ===== تبلیغات موبایل ===== */
+.ad-inline {
+    display: none;
+    width: 100%;
+    margin: 18px 0 22px;
+    padding: 14px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(108, 92, 231, 0.04);
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.02);
+}
+
+.ad-inline .ad-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 10px;
+    color: #2d1b4e;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.ad-inline .ad-items {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    overflow-x: auto;
+    padding: 2px 2px 8px;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ad-inline .ad-items::-webkit-scrollbar {
+    display: none;
+}
+
+.ad-inline .ad-item {
+    flex: 0 0 min(82vw, 280px);
+    scroll-snap-align: center;
+    padding: 14px;
+    border-radius: 18px;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.02);
+    border: 1px solid rgba(108, 92, 231, 0.02);
+    transition: all 0.3s ease;
+}
+
+.ad-inline .ad-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.04);
+}
+
+.ad-inline .ad-item .ad-logo {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.06), rgba(253, 203, 110, 0.06));
+    font-size: 1.3rem;
+}
+
+.ad-inline .ad-item .ad-name {
+    color: #2d1b4e;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.ad-inline .ad-item .ad-desc {
+    margin: 4px 0 8px;
+    color: rgba(45, 27, 78, 0.5);
+    font-size: 0.65rem;
+}
+
+.ad-inline .ad-item .ad-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 16px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.6rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+/* ============================================================
+   پلیر
+   ============================================================ */
+.player-box {
+    background: rgba(108, 92, 231, 0.02);
+    border-radius: 18px;
+    padding: 14px;
+    text-align: center;
+    margin: 12px 0;
+    border: 1px solid rgba(108, 92, 231, 0.02);
+}
+
+.player-box audio,
+.player-box video {
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* ============================================================
+   کنترل‌ها
+   ============================================================ */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+.controls button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+}
+
+.controls button:hover {
+    transform: scale(1.05) translateY(-2px);
+}
+
+.btn-play {
+    background: linear-gradient(135deg, #00b894, #55efc4);
+    color: #2d1b4e;
+}
+.btn-stop {
+    background: linear-gradient(135deg, #fd79a8, #e17055);
+    color: #fff;
+}
+.btn-next {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+}
+.btn-prev {
+    background: linear-gradient(135deg, #fdcb6e, #f39c12);
+    color: #2d1b4e;
+}
+.btn-add {
+    background: linear-gradient(135deg, #4a90d9, #74b9ff);
+    color: #fff;
+}
+
+/* ============================================================
+   پلی‌لیست
+   ============================================================ */
+.playlist-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 14px;
+    margin: 5px 0;
+    border: 1px solid rgba(108, 92, 231, 0.02);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.playlist-item:hover {
+    background: rgba(108, 92, 231, 0.04);
+    border-color: rgba(108, 92, 231, 0.06);
+}
+
+.playlist-item.active {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    border-color: #6C5CE7;
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.08);
+}
+
+/* ============================================================
+   گالری
+   ============================================================ */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 16px;
+}
+
+.gallery-item {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(108, 92, 231, 0.02);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(108, 92, 231, 0.02);
+}
+
+.gallery-item:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(108, 92, 231, 0.06);
+    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.04);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    transition: all 0.4s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.03);
+}
+
+.gallery-item .info {
+    padding: 12px;
+    background: #fff;
+}
+
+.gallery-item .info h4 {
+    color: #2d1b4e;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.gallery-item .info p {
+    color: rgba(45, 27, 78, 0.5);
+    font-size: 0.75rem;
+}
+
+/* ============================================================
+   تعامل
+   ============================================================ */
+.interact-box textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(108, 92, 231, 0.02);
+    border-radius: 14px;
+    min-height: 60px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+}
+
+.interact-box textarea:focus {
+    outline: none;
+    border-color: rgba(108, 92, 231, 0.06);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.02);
+}
+
+.interact-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.interact-tools button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+}
+
+.interact-tools button:hover {
+    transform: scale(1.05) translateY(-2px);
+}
+
+.btn-text {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+}
+.btn-audio {
+    background: linear-gradient(135deg, #fd79a8, #e17055);
+}
+.btn-video {
+    background: linear-gradient(135deg, #00b894, #55efc4);
+    color: #2d1b4e;
+}
+
+.response-box {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    border-right: 4px solid #6C5CE7;
+    min-height: 50px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.response-box .response-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(108, 92, 231, 0.02);
+}
+
+.response-box .response-item:last-child {
+    border-bottom: none;
+}
+
+.response-box .response-item .type-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.response-box .response-item .type-icon.text {
+    background: #6C5CE7;
+}
+.response-box .response-item .type-icon.audio {
+    background: #fd79a8;
+}
+.response-box .response-item .type-icon.video {
+    background: #55efc4;
+    color: #2d1b4e;
+}
+
+.response-box .response-item .ai-response {
+    background: rgba(108, 92, 231, 0.04);
+    padding: 6px 14px;
+    border-radius: 12px;
+    margin-top: 2px;
+    color: #2d1b4e;
+    font-size: 0.85rem;
+}
+
+/* ============================================================
+   گنجینه
+   ============================================================ */
+.works-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.works-container .latest-work {
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.04), rgba(253, 203, 110, 0.04));
+    border-radius: 22px;
+    padding: 22px;
+    border: 1px solid rgba(108, 92, 231, 0.04);
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.02);
+}
+
+.works-container .latest-work .badge {
     display: inline-block;
-    margin-top: 6px;
-    padding: 4px 14px;
+    background: linear-gradient(135deg, #fdcb6e, #f39c12);
+    color: #2d1b4e;
+    padding: 2px 14px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.works-container .archive-list {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 22px;
+    padding: 18px;
+    border: 1px solid rgba(108, 92, 231, 0.02);
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.works-container .archive-list .archive-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(108, 92, 231, 0.02);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.works-container .archive-list .archive-item:hover {
+    background: rgba(108, 92, 231, 0.04);
+}
+
+.works-container .archive-list .archive-item .num {
+    color: #6C5CE7;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+.works-container .archive-list .archive-item .title {
+    color: #2d1b4e;
+}
+.works-container .archive-list .archive-item .date {
+    color: rgba(45, 27, 78, 0.4);
+    font-size: 0.7rem;
+}
+
+/* ============================================================
+   پوستر
+   ============================================================ */
+.poster-section {
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.02), rgba(253, 203, 110, 0.02));
+    border-radius: 22px;
+    padding: 22px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(108, 92, 231, 0.02);
+}
+
+.poster-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 15px 0;
+}
+
+.poster-form input,
+.poster-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid rgba(108, 92, 231, 0.02);
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+}
+
+.poster-form input:focus,
+.poster-form textarea:focus {
+    outline: none;
+    border-color: rgba(108, 92, 231, 0.04);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.02);
+}
+
+.poster-form .full-width {
+    grid-column: 1 / -1;
+}
+
+/* ============================================================
+   رادیو نوای چاپ
+   ============================================================ */
+.radio-nava-section {
+    background: linear-gradient(145deg, #6C5CE7, #a29bfe, #fdcb6e);
+    border-radius: 24px;
+    padding: 22px;
+    margin-bottom: 25px;
+    border: none;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.radio-nava-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+    animation: glowPulse 10s ease-in-out infinite;
+}
+
+.radio-nava-section h2 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.radio-nava-section h2 span {
+    color: #fdcb6e;
+}
+
+.radio-nava-section .poster-img {
+    max-width: 100%;
+    max-height: 280px;
+    border-radius: 16px;
+    margin: 12px auto;
+    display: block;
+    border: 2px solid rgba(255, 255, 255, 0.04);
+    position: relative;
+    z-index: 1;
+}
+
+.radio-nava-section .btn-radio {
+    display: inline-block;
+    padding: 8px 24px;
+    background: linear-gradient(135deg, #fdcb6e, #f39c12);
+    color: #2d1b4e;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin: 4px;
+    position: relative;
+    z-index: 1;
+}
+
+.radio-nava-section .btn-radio:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 30px rgba(253, 203, 110, 0.15);
+}
+
+/* ============================================================
+   انتشارات
+   ============================================================ */
+.publish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.publish-card {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 18px;
+    padding: 18px;
+    border: 1px solid rgba(108, 92, 231, 0.02);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.publish-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(108, 92, 231, 0.04);
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.02);
+}
+
+.publish-card i {
+    font-size: 1.8rem;
+    color: #6C5CE7;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.publish-card h4 {
+    color: #2d1b4e;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.publish-card p {
+    color: rgba(45, 27, 78, 0.6);
+    font-size: 0.85rem;
+}
+
+/* ============================================================
+   فوتر
+   ============================================================ */
+.footer {
+    text-align: center;
+    padding: 18px 22px;
+    background: linear-gradient(145deg, #6C5CE7, #a29bfe);
+    border-radius: 20px;
+    margin-top: 15px;
+    color: #fff;
+}
+
+.footer .designer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.footer .designer-info h3 {
+    color: #fdcb6e;
+    font-size: 1rem;
+}
+
+.footer .designer-info h2 {
+    color: #fdcb6e;
+    font-size: 1.2rem;
+}
+
+.footer .designer-info p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+}
+
+.footer .posters-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.footer .posters-row .poster-box {
+    max-width: 130px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.04);
+    transition: all 0.3s ease;
+}
+
+.footer .posters-row .poster-box:hover {
+    transform: scale(1.04);
+    border-color: #fdcb6e;
+}
+
+.footer .posters-row .poster-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.footer .copyright {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+/* ============================================================
+   شناور
+   ============================================================ */
+.floating-toolbar {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    padding: 6px 14px;
+    border-radius: 60px;
+    box-shadow: 0 6px 30px rgba(108, 92, 231, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.floating-toolbar button {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.floating-toolbar button:hover {
+    transform: scale(1.1);
+}
+
+.floating-toolbar button .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 48px;
+    background: #2d1b4e;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 10px;
+    font-size: 0.6rem;
+    white-space: nowrap;
+}
+
+.floating-toolbar button:hover .tooltip {
+    display: block;
+}
+
+#themeToggle {
+    background: #fdcb6e;
+    color: #2d1b4e;
+}
+#scrollTop,
+#scrollBottom {
     background: #6C5CE7;
     color: #fff;
-    border-radius: 20px;
-    font-size: .65rem;
-    text-decoration: none;
-    transition: 0.3s;
 }
-.ad-side .ad-box .ad-link:hover {
-    background: #5a4bd1;
-    transform: scale(1.05);
+#resetLayout {
+    background: #e17055;
+    color: #fff;
 }
-
-/* ===== هدر ===== */
-.header{background:linear-gradient(135deg,#4a90d9,#6C5CE7,#fdcb6e,#55efc4);background-size:400% 400%;animation:gradientBG 12s ease infinite;border-radius:30px;padding:25px;text-align:center;margin-bottom:25px;border:3px solid #fdcb6e}
-@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.logo-wrapper{width:100px;height:100px;border-radius:50%;overflow:hidden;border:4px solid #fdcb6e;margin:0 auto 12px;box-shadow:0 0 30px rgba(253,203,110,0.3)}
-.logo-wrapper img{width:100%;height:100%;object-fit:cover}
-.radio-tv-icons{display:flex;justify-content:center;align-items:center;gap:15px;margin:8px 0}
-.radio-tv-icons .icon-box{width:55px;height:55px;border-radius:50%;border:3px solid #fdcb6e;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.15)}
-.radio-tv-icons .icon-box img{width:35px;height:35px;object-fit:contain}
-.radio-tv-icons .plus{color:#fdcb6e;font-size:1.5rem;font-weight:700}
-.header h1{color:#fff;font-size:2rem;text-shadow:0 4px 20px rgba(0,0,0,0.2)}
-.header h1 span{color:#fdcb6e}
-.header p{color:rgba(255,255,255,0.9);font-size:.95rem}
-
-/* ===== منو ===== */
-.menu{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;background:#fff;padding:10px 15px;border-radius:50px;margin-bottom:25px;border:2px solid #d4a373}
-.menu a{padding:6px 14px;border-radius:50px;color:#fff;text-decoration:none;font-weight:700;transition:.3s;font-size:.75rem}
-.menu a:nth-child(1){background:#4a90d9}
-.menu a:nth-child(2){background:#6C5CE7}
-.menu a:nth-child(3){background:#fdcb6e;color:#2d1b4e}
-.menu a:nth-child(4){background:#55efc4;color:#2d1b4e}
-.menu a:nth-child(5){background:#4a90d9}
-.menu a:nth-child(6){background:#6C5CE7}
-.menu a:nth-child(7){background:#fdcb6e;color:#2d1b4e}
-.menu a:nth-child(8){background:#55efc4;color:#2d1b4e}
-.menu a:nth-child(9){background:#4a90d9}
-.menu a:nth-child(10){background:#6C5CE7}
-.menu a:nth-child(11){background:#fdcb6e;color:#2d1b4e}
-.menu a:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.15)}
-
-/* ===== بخش‌ها ===== */
-.section{background:#fff;border-radius:20px;padding:20px;margin-bottom:25px;border:2px solid #d4a373;transition:all 0.3s ease;cursor:default}
-.section-title{font-size:1.3rem;font-weight:900;padding-bottom:12px;margin-bottom:15px;border-bottom:3px solid #fdcb6e;color:#2d1b4e;display:flex;align-items:center;gap:10px;cursor:grab;user-select:none}
-.section-title:active{cursor:grabbing}
-.section-title i{color:#6C5CE7;font-size:1.5rem}
-.section-title .drag-hint{font-size:.6rem;color:#7f8c8d;font-weight:400}
-
-/* ===== حالت تمام‌صفحه و مخفی ===== */
-.section.fullscreen{position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:9998!important;border-radius:0!important;margin:0!important;overflow-y:auto!important;background:#fff!important;padding:25px!important}
-.section.hidden-section{display:none!important}
-
-/* ===== پلیر ===== */
-.player-box{background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:14px;padding:15px;text-align:center;margin:12px 0}
-.player-box audio,.player-box video{width:100%;border-radius:10px}
-
-/* ===== کنترل‌ها ===== */
-.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
-.controls button{padding:8px 16px;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:6px;font-size:.8rem}
-.controls button:hover{transform:scale(1.05)}
-.btn-play{background:#55efc4;color:#2d1b4e}
-.btn-stop{background:#fd79a8;color:#fff}
-.btn-next{background:#6C5CE7}
-.btn-prev{background:#fdcb6e;color:#2d1b4e}
-.btn-add{background:#4a90d9}
-
-/* ===== پلی‌لیست ===== */
-.playlist-item{display:flex;justify-content:space-between;padding:10px 14px;background:#fef9f0;border-radius:10px;margin:5px 0;border:1px solid #e8ddd0;transition:.3s;cursor:pointer;font-size:.9rem}
-.playlist-item:hover{background:#f5ede5}
-.playlist-item.active{background:#6C5CE7;color:#fff;border-color:#6C5CE7}
-
-/* ===== گالری ===== */
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px}
-.gallery-item{background:#fef9f0;border-radius:14px;overflow:hidden;border:2px solid #d4a373;transition:.3s;cursor:pointer}
-.gallery-item:hover{transform:scale(1.03);border-color:#6C5CE7}
-.gallery-item img{width:100%;height:150px;object-fit:cover}
-.gallery-item .info{padding:10px;background:#fff}
-.gallery-item .info h4{color:#2d1b4e;font-size:.9rem}
-.gallery-item .info p{color:#7f8c8d;font-size:.75rem}
-
-/* ===== تعامل ===== */
-.interact-box textarea{width:100%;padding:10px;border:2px solid #d4a373;border-radius:10px;min-height:60px;font-family:inherit;font-size:.9rem}
-.interact-box textarea:focus{outline:none;border-color:#6C5CE7}
-.interact-tools{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.interact-tools button{padding:8px 16px;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:6px;font-size:.8rem}
-.interact-tools button:hover{transform:scale(1.05)}
-.btn-text{background:#6C5CE7}
-.btn-audio{background:#fd79a8}
-.btn-video{background:#55efc4;color:#2d1b4e}
-.response-box{margin-top:12px;padding:12px;background:#fef9f0;border-radius:14px;border-right:4px solid #6C5CE7;min-height:50px;max-height:250px;overflow-y:auto}
-.response-box .response-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid #e8ddd0}
-.response-box .response-item:last-child{border-bottom:none}
-.response-box .response-item .type-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:700;flex-shrink:0}
-.response-box .response-item .type-icon.text{background:#6C5CE7}
-.response-box .response-item .type-icon.audio{background:#fd79a8}
-.response-box .response-item .type-icon.video{background:#55efc4;color:#2d1b4e}
-.response-box .response-item .ai-response{background:#f0ecff;padding:6px 12px;border-radius:10px;margin-top:3px;color:#2d1b4e;font-size:.85rem}
-
-/* ===== گنجینه ===== */
-.works-container{display:grid;grid-template-columns:1fr 1fr;gap:25px}
-.works-container .latest-work{background:linear-gradient(135deg,#f0ecff,#e8dff5);border-radius:20px;padding:20px;border:3px solid #6C5CE7;box-shadow:0 8px 30px rgba(108,92,231,0.15)}
-.works-container .latest-work .badge{display:inline-block;background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#fff;padding:3px 14px;border-radius:50px;font-size:.7rem;font-weight:700;margin-bottom:10px}
-.works-container .archive-list{background:#fff;border-radius:20px;padding:18px;border:2px solid #d4a373;max-height:450px;overflow-y:auto}
-.works-container .archive-list .archive-item{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e8ddd0;cursor:pointer;transition:.3s;border-radius:6px;font-size:.85rem}
-.works-container .archive-list .archive-item:hover{background:#f0ecff}
-.works-container .archive-list .archive-item .num{color:#6C5CE7;font-weight:700;font-size:.8rem}
-.works-container .archive-list .archive-item .title{color:#2d1b4e}
-.works-container .archive-list .archive-item .date{color:#7f8c8d;font-size:.7rem}
-
-/* ===== پوستر ===== */
-.poster-section{background:linear-gradient(135deg,#fef9f0,#f5ede5);border-radius:20px;padding:20px;margin-bottom:25px;border:2px solid #6C5CE7}
-.poster-form{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
-.poster-form input,.poster-form textarea{width:100%;padding:10px;border:2px solid #d4a373;border-radius:10px;font-family:inherit;font-size:.9rem}
-.poster-form input:focus,.poster-form textarea:focus{outline:none;border-color:#6C5CE7}
-.poster-form .full-width{grid-column:1/-1}
-
-/* ===== رادیو نوای چاپ ===== */
-.radio-nava-section{background:linear-gradient(135deg,#2d1b4e,#4a2c7a,#6C5CE7);border-radius:20px;padding:20px;margin-bottom:25px;border:3px solid #fdcb6e;text-align:center;color:#fff}
-.radio-nava-section h2{font-size:1.6rem;margin-bottom:8px}
-.radio-nava-section h2 span{color:#fdcb6e}
-.radio-nava-section .poster-img{max-width:100%;max-height:300px;border-radius:14px;margin:12px auto;display:block;border:3px solid rgba(255,255,255,0.2)}
-.radio-nava-section .btn-radio{display:inline-block;padding:10px 25px;background:#fdcb6e;color:#2d1b4e;border:none;border-radius:50px;font-weight:700;font-size:.95rem;cursor:pointer;transition:.3s;text-decoration:none;margin:4px}
-.radio-nava-section .btn-radio:hover{transform:scale(1.05)}
-
-/* ===== انتشارات ===== */
-.publish-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:15px}
-.publish-card{background:linear-gradient(145deg,#fef9f0,#f5ede5);border-radius:16px;padding:16px;border:2px solid #d4a373;transition:.3s}
-.publish-card:hover{transform:translateY(-3px);border-color:#6C5CE7}
-.publish-card i{font-size:1.8rem;color:#6C5CE7;margin-bottom:8px;display:block}
-
-/* ===== فوتر ===== */
-.footer{text-align:center;padding:15px 20px;background:linear-gradient(135deg,#2d1b4e,#4a2c7a);border-radius:16px;margin-top:15px;color:#fff}
-.footer .designer-info{display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:10px}
-.footer .designer-info h3{color:#fdcb6e;font-size:1rem}
-.footer .designer-info h2{color:#fdcb6e;font-size:1.2rem}
-.footer .designer-info p{color:rgba(255,255,255,0.8);font-size:.8rem;margin:0}
-.footer .posters-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:10px 0}
-.footer .posters-row .poster-box{max-width:150px;border-radius:10px;overflow:hidden;border:2px solid #fdcb6e;transition:.3s}
-.footer .posters-row .poster-box:hover{transform:scale(1.04);border-color:#6C5CE7}
-.footer .posters-row .poster-box img{width:100%;height:auto;display:block}
-.footer .copyright{color:rgba(255,255,255,0.6);font-size:.7rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;margin-top:10px}
-
-/* ===== شناور ===== */
-.floating-toolbar{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:999;background:rgba(255,255,255,0.95);padding:6px 14px;border-radius:50px;box-shadow:0 4px 25px rgba(0,0,0,0.2)}
-.floating-toolbar button{width:36px;height:36px;border:none;border-radius:50%;font-size:.9rem;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;position:relative}
-.floating-toolbar button:hover{transform:scale(1.1)}
-.floating-toolbar button .tooltip{display:none;position:absolute;bottom:45px;background:#2d1b4e;color:#fff;padding:4px 10px;border-radius:8px;font-size:.6rem;white-space:nowrap}
-.floating-toolbar button:hover .tooltip{display:block}
-#themeToggle{background:#fdcb6e;color:#2d1b4e}
-#scrollTop,#scrollBottom{background:#6C5CE7;color:#fff}
-#resetLayout{background:#e17055;color:#fff}
-#toggleAds{background:#00cec9;color:#fff}
-#fontSizeBtn{background:#4a90d9;color:#fff}
-
-/* ===== دارک مود ===== */
-body.dark-mode{background:#1a1a2e!important;color:#e0e0e0!important}
-body.dark-mode .section{background:#16213e!important;border-color:#0f3460!important}
-body.dark-mode .section.fullscreen{background:#16213e!important}
-body.dark-mode .header{background:linear-gradient(135deg,#0f0f23,#1a1a2e,#0f3460)!important}
-body.dark-mode .menu{background:#1a1a2e!important}
-body.dark-mode .menu a{background:#0f3460!important;color:#e0e0e0!important}
-body.dark-mode .player-box{background:#1a1a2e!important}
-body.dark-mode .poster-section{background:#16213e!important}
-body.dark-mode .works-container .archive-list{background:#16213e!important;border-color:#0f3460}
-body.dark-mode .works-container .latest-work{background:#1a1a2e!important}
-body.dark-mode .footer{background:linear-gradient(135deg,#0f0f23,#1a1a2e)!important}
-body.dark-mode .response-box{background:#1a1a2e!important}
-body.dark-mode .playlist-item{background:#1a1a2e!important;color:#e0e0e0!important}
-body.dark-mode .playlist-item.active{background:#6C5CE7!important}
-body.dark-mode .interact-box textarea{background:#1a1a2e;color:#e0e0e0;border-color:#0f3460}
-body.dark-mode .ad-side .ad-box{background:#16213e!important;border-color:#0f3460}
-body.dark-mode .ad-side .ad-header{background:#0f3460!important}
-body.dark-mode .radio-nava-section{background:linear-gradient(135deg,#0f0f23,#1a1a2e,#0f3460)!important}
-body.dark-mode .publish-card{background:#1a1a2e!important;border-color:#0f3460}
-
-/* ===== ریسپانسیو ===== */
-@media(max-width:768px){
-    .container{padding:8px}
-    body{padding:10px}
-    .header h1{font-size:1.5rem}
-    .header{padding:18px}
-    .menu a{padding:5px 10px;font-size:.65rem}
-    .works-container{grid-template-columns:1fr}
-    .poster-form{grid-template-columns:1fr}
-    .ad-side{display:none}
-    .ad-side-mobile{display:block!important}
-    .footer .posters-row .poster-box{max-width:120px}
-    .radio-tv-icons .icon-box{width:45px;height:45px}
-    .radio-tv-icons .icon-box img{width:28px;height:28px}
-    .section-title{font-size:1.1rem}
-    .controls button{padding:6px 12px;font-size:.7rem}
-    .floating-toolbar{bottom:15px;padding:5px 10px;gap:4px}
-    .floating-toolbar button{width:30px;height:30px;font-size:.75rem}
-    .section{padding:15px}
-    .footer .designer-info h2{font-size:1.1rem}
+#toggleAds {
+    background: #00cec9;
+    color: #fff;
 }
-@media(min-width:769px){.ad-side-mobile{display:none!important}}
-
-@keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
-@keyframes popIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}
-/* =========================================================
-   ADS STEP 2 - FINAL RESPONSIVE LAYOUT
-   ========================================================= */
-
-/* ---------- Desktop side advertisements ---------- */
-
-.ad-side{
-    position:fixed !important;
-    top:110px !important;
-
-    width:190px !important;
-    max-height:calc(100vh - 140px) !important;
-
-    overflow:hidden !important;
-
-    border:1px solid rgba(108,92,231,.22) !important;
-    border-radius:18px !important;
-
-    background:rgba(255,255,255,.97) !important;
-
-    box-shadow:
-        0 12px 35px rgba(45,27,78,.14) !important;
-
-    z-index:900 !important;
+#fontSizeBtn {
+    background: #4a90d9;
+    color: #fff;
 }
 
-.ad-side.left{
-    left:max(10px,calc(50% - 805px)) !important;
-}
-
-.ad-side.right{
-    right:max(10px,calc(50% - 805px)) !important;
-}
-
-.ad-side .ad-header{
-    min-height:46px !important;
-    padding:9px 10px !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6C5CE7,
-            #8e7cf2
-        ) !important;
-
-    color:#fff !important;
-
-    font-size:.72rem !important;
-    font-weight:900 !important;
-}
-
-.ad-side .ad-list{
-    max-height:calc(100vh - 235px) !important;
-    overflow-y:auto !important;
-}
-
-.ad-side .ad-box{
-    padding:14px 11px !important;
-    background:#fff !important;
-    border-bottom:1px solid #eee8f7 !important;
-}
-
-.ad-side .ad-box:last-child{
-    border-bottom:0 !important;
-}
-
-.ad-side .ad-logo{
-    width:44px !important;
-    height:44px !important;
-
-    margin:0 auto 8px !important;
-
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-
-    border-radius:13px !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f0ecff,
-            #fff1d2
-        ) !important;
-
-    font-size:1.35rem !important;
-}
-
-.ad-side .ad-name{
-    color:#2d1b4e !important;
-
-    font-size:.78rem !important;
-    line-height:1.55 !important;
-
-    font-weight:900 !important;
-}
-
-.ad-side .ad-desc{
-    margin-top:5px !important;
-
-    color:#777 !important;
-
-    font-size:.66rem !important;
-    line-height:1.65 !important;
-}
-
-.ad-side .ad-link{
-    margin-top:10px !important;
-
-    min-height:31px !important;
-
-    display:inline-flex !important;
-
-    align-items:center !important;
-    justify-content:center !important;
-    gap:5px !important;
-
-    padding:5px 12px !important;
-
-    border-radius:999px !important;
-
-    background:#6C5CE7 !important;
-    color:#fff !important;
-
-    text-decoration:none !important;
-
-    font-size:.63rem !important;
-    font-weight:800 !important;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease !important;
-}
-
-.ad-side .ad-link:hover{
-    transform:translateY(-2px) !important;
-
-    box-shadow:
-        0 7px 18px rgba(108,92,231,.25) !important;
-}
-
-.ad-link-disabled{
-    opacity:.55 !important;
-    cursor:default !important;
-}
-
-.ad-empty{
-    padding:20px 10px !important;
-
-    text-align:center !important;
-
-    color:#888 !important;
-
-    font-size:.7rem !important;
-}
-
-
-/* =========================================================
-   Mobile / Tablet advertisement strip
-   ========================================================= */
-
-.ad-inline{
-    display:none !important;
-
-    width:100% !important;
-
-    margin:18px 0 22px !important;
-    padding:13px !important;
-
-    border:
-        1px solid rgba(108,92,231,.20) !important;
-
-    border-radius:18px !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fffdf9,
-            #f5efff
-        ) !important;
-
-    box-shadow:
-        0 8px 24px rgba(45,27,78,.08) !important;
-}
-
-.ad-inline .ad-title{
-    display:flex !important;
-
-    justify-content:center !important;
-    align-items:center !important;
-
-    gap:7px !important;
-
-    margin-bottom:10px !important;
-
-    color:#2d1b4e !important;
-
-    font-size:.85rem !important;
-    font-weight:900 !important;
-}
-
-.ad-inline .ad-items{
-    display:flex !important;
-
-    gap:10px !important;
-
-    width:100% !important;
-
-    overflow-x:auto !important;
-
-    padding:2px 2px 7px !important;
-
-    scrollbar-width:none !important;
-
-    scroll-snap-type:x mandatory !important;
-
-    -webkit-overflow-scrolling:touch !important;
-}
-
-.ad-inline .ad-items::-webkit-scrollbar{
-    display:none !important;
-}
-
-.ad-inline .ad-item{
-    flex:
-        0 0
-        min(82vw,280px) !important;
-
-    scroll-snap-align:center !important;
-
-    padding:13px !important;
-
-    border:
-        1px solid #eadff8 !important;
-
-    border-radius:16px !important;
-
-    background:#fff !important;
-
-    text-align:center !important;
-
-    box-shadow:
-        0 5px 15px rgba(45,27,78,.07) !important;
-}
-
-.ad-inline .ad-item .ad-logo{
-    width:43px !important;
-    height:43px !important;
-
-    margin:0 auto 7px !important;
-
-    display:flex !important;
-
-    align-items:center !important;
-    justify-content:center !important;
-
-    border-radius:12px !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f0ecff,
-            #fff1d2
-        ) !important;
-
-    font-size:1.3rem !important;
-}
-
-.ad-inline .ad-item .ad-name{
-    color:#2d1b4e !important;
-
-    font-size:.78rem !important;
-    font-weight:900 !important;
-}
-
-.ad-inline .ad-item .ad-desc{
-    margin:5px 0 9px !important;
-
-    color:#777 !important;
-
-    font-size:.66rem !important;
-    line-height:1.6 !important;
-}
-
-.ad-inline .ad-item .ad-link{
-    display:inline-flex !important;
-
-    align-items:center !important;
-    justify-content:center !important;
-
-    gap:5px !important;
-
-    min-height:32px !important;
-
-    padding:6px 13px !important;
-
-    border-radius:999px !important;
-
-    background:#6C5CE7 !important;
-    color:#fff !important;
-
-    text-decoration:none !important;
-
-    font-size:.65rem !important;
-    font-weight:800 !important;
-}
-
-.ad-inline .ad-item .ad-link-disabled{
-    background:#aaa !important;
-}
-
-
-/* =========================================================
-   Breakpoints
-   ========================================================= */
-
-/* نمایش تبلیغات کناری فقط روی صفحه‌های واقعاً عریض */
-@media (min-width:1600px){
-
-    .ad-side{
-        display:block !important;
-    }
-
-    .ad-inline{
-        display:none !important;
-    }
-}
-
-
-/* تبلت و موبایل */
-@media (max-width:1599px){
-
-    .ad-side{
-        display:none !important;
-    }
-
-    .ad-inline{
-        display:block !important;
-    }
-}
-
-
-/* موبایل */
-@media (max-width:768px){
-
-    body{
-        padding-left:8px !important;
-        padding-right:8px !important;
-    }
-
-    .container{
-        width:100% !important;
-        max-width:none !important;
-        padding:0 !important;
-    }
-
-    .ad-inline{
-        margin:
-            12px 0 18px !important;
-
-        padding:11px !important;
-
-        border-radius:16px !important;
-    }
-
-    .ad-inline .ad-item{
-        flex-basis:82vw !important;
-    }
-}
-
-
-/* تبلت */
-@media (min-width:769px) and (max-width:1599px){
-
-    .ad-inline{
-        width:min(100%,900px) !important;
-
-        margin:
-            18px auto 24px !important;
-    }
-
-    .ad-inline .ad-item{
-        flex-basis:270px !important;
-    }
-}
-
-
-/* Dark mode */
-body.dark-mode .ad-inline{
-    background:
-        linear-gradient(
-            135deg,
-            #111827,
-            #16213e
-        ) !important;
-
-    border-color:#25365a !important;
-}
-
-body.dark-mode .ad-inline .ad-title{
-    color:#eee !important;
-}
-
-body.dark-mode .ad-inline .ad-item{
-    background:#16213e !important;
-    border-color:#25365a !important;
-}
-
-body.dark-mode .ad-inline .ad-name{
-    color:#eee !important;
-}
-
-body.dark-mode .ad-inline .ad-desc{
-    color:#b8b8b8 !important;
-}
 /* ============================================================
-   استایل‌های بخش‌های جدید (فردا را از امروز بسازیم + تخفیف شو)
+   دارک مود
    ============================================================ */
+body.dark-mode {
+    background: linear-gradient(145deg, #1a1a2e, #2d1b4e);
+    color: #e0e0e0;
+}
 
-/* استایل‌های بخش فردا را از امروز بسازیم */
+body.dark-mode .section {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .section.fullscreen {
+    background: #1a1a2e;
+}
+
+body.dark-mode .header {
+    background: linear-gradient(145deg, #4a2c7a, #6C5CE7);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+body.dark-mode .menu {
+    background: rgba(26, 26, 46, 0.9);
+    border-color: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .menu a {
+    background: rgba(255, 255, 255, 0.02);
+    color: #e0e0e0;
+}
+body.dark-mode .menu a:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.dark-mode .player-box {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .poster-section {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .works-container .archive-list {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .works-container .latest-work {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .footer {
+    background: linear-gradient(145deg, #4a2c7a, #6C5CE7);
+}
+body.dark-mode .response-box {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .playlist-item {
+    background: rgba(255, 255, 255, 0.02);
+    color: #e0e0e0;
+}
+body.dark-mode .playlist-item.active {
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+}
+body.dark-mode .interact-box textarea {
+    background: rgba(255, 255, 255, 0.02);
+    color: #e0e0e0;
+    border-color: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .ad-side {
+    background: rgba(26, 26, 46, 0.9);
+}
+body.dark-mode .ad-side .ad-box {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .ad-side .ad-header {
+    background: #4a2c7a;
+}
+body.dark-mode .radio-nava-section {
+    background: linear-gradient(145deg, #4a2c7a, #6C5CE7);
+}
+body.dark-mode .publish-card {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .ad-inline {
+    background: rgba(26, 26, 46, 0.9);
+    border-color: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .ad-inline .ad-item {
+    background: rgba(255, 255, 255, 0.02);
+}
+body.dark-mode .floating-toolbar {
+    background: rgba(26, 26, 46, 0.9);
+    border-color: rgba(255, 255, 255, 0.02);
+}
+
+/* ============================================================
+   استایل‌های بخش‌های جدید
+   ============================================================ */
 #future-today .tag-new.active {
-    background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(162,155,254,0.08)) !important;
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.12), rgba(162, 155, 254, 0.08)) !important;
     color: #2d1b4e !important;
-    border-color: rgba(108,92,231,0.3) !important;
+    border-color: rgba(108, 92, 231, 0.2) !important;
     transform: translateY(-2px) scale(1.03) !important;
-    box-shadow: 0 4px 20px rgba(108,92,231,0.06) !important;
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.04) !important;
 }
 
 #future-today .tag-new:hover {
     transform: translateY(-2px) scale(1.03) !important;
-    border-color: rgba(108,92,231,0.2) !important;
+    border-color: rgba(108, 92, 231, 0.08) !important;
     color: #2d1b4e !important;
-    background: rgba(108,92,231,0.04) !important;
+    background: rgba(108, 92, 231, 0.02) !important;
 }
 
 #future-today .book-card-mini-new:hover {
     transform: translateY(-6px) scale(1.02) !important;
-    border-color: rgba(108,92,231,0.15) !important;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.04) !important;
+    border-color: rgba(108, 92, 231, 0.06) !important;
+    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.02) !important;
 }
 
-/* استایل‌های بخش تخفیف شو */
 #takhfif-show .discount-card:hover {
     transform: translateY(-4px) scale(1.02) !important;
-    border-color: rgba(108,92,231,0.12) !important;
-    box-shadow: 0 12px 32px rgba(108,92,231,0.04) !important;
+    border-color: rgba(108, 92, 231, 0.04) !important;
+    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.02) !important;
 }
 
 #takhfif-show .discount-card .percent {
@@ -727,4 +1204,205 @@ body.dark-mode .ad-inline .ad-desc{
 #submitAreaTakhfif.show {
     display: block !important;
     animation: slideDown 0.4s ease;
+}
+
+/* ============================================================
+   ریسپانسیو
+   ============================================================ */
+@media (max-width: 1200px) {
+    .ad-side {
+        display: none !important;
+    }
+    .ad-inline {
+        display: block !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .container {
+        padding: 0 12px;
+    }
+    .header h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+    .container {
+        padding: 0 6px;
+    }
+
+    .header {
+        padding: 18px 14px;
+        border-radius: 24px;
+    }
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    .header p {
+        font-size: 0.85rem;
+    }
+    .logo-wrapper {
+        width: 80px;
+        height: 80px;
+    }
+    .radio-tv-icons .icon-box {
+        width: 45px;
+        height: 45px;
+    }
+    .radio-tv-icons .icon-box img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .menu {
+        padding: 8px 10px;
+        gap: 4px;
+        border-radius: 40px;
+    }
+    .menu a {
+        padding: 4px 12px;
+        font-size: 0.65rem;
+    }
+
+    .section {
+        padding: 14px;
+        border-radius: 18px;
+    }
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .works-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .poster-form {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+    }
+    .gallery-item img {
+        height: 130px;
+    }
+
+    .controls button {
+        padding: 6px 14px;
+        font-size: 0.7rem;
+    }
+
+    .floating-toolbar {
+        bottom: 15px;
+        padding: 4px 10px;
+        gap: 4px;
+    }
+    .floating-toolbar button {
+        width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
+    }
+
+    .footer .posters-row .poster-box {
+        max-width: 100px;
+    }
+    .footer .designer-info h2 {
+        font-size: 1rem;
+    }
+
+    .publish-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .publish-card {
+        padding: 14px;
+    }
+    .publish-card i {
+        font-size: 1.4rem;
+    }
+    .publish-card h4 {
+        font-size: 0.85rem;
+    }
+    .publish-card p {
+        font-size: 0.75rem;
+    }
+
+    .ad-inline {
+        padding: 12px;
+        margin: 14px 0 18px;
+    }
+    .ad-inline .ad-item {
+        flex-basis: 85vw;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+    .container {
+        padding: 0 4px;
+    }
+
+    .header h1 {
+        font-size: 1.2rem;
+    }
+    .header p {
+        font-size: 0.7rem;
+    }
+    .logo-wrapper {
+        width: 64px;
+        height: 64px;
+    }
+    .radio-tv-icons .icon-box {
+        width: 38px;
+        height: 38px;
+    }
+    .radio-tv-icons .icon-box img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .menu a {
+        padding: 3px 8px;
+        font-size: 0.55rem;
+    }
+
+    .section {
+        padding: 10px;
+        border-radius: 14px;
+    }
+    .section-title {
+        font-size: 0.95rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 8px;
+    }
+    .gallery-item img {
+        height: 100px;
+    }
+
+    .controls button {
+        padding: 4px 10px;
+        font-size: 0.6rem;
+    }
+
+    .publish-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .ad-inline .ad-item {
+        flex-basis: 88vw;
+        padding: 10px;
+    }
 }
