@@ -1293,3 +1293,34 @@ body.dark-mode .floating-toolbar {
         padding: 10px;
     }
 }
+/* ============================================================
+   استایل‌های Drag & Drop (جابجایی بخش‌ها)
+   ============================================================ */
+
+.draggable-section {
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+.draggable-section .section-title {
+    cursor: grab;
+}
+
+.draggable-section .section-title:active {
+    cursor: grabbing;
+}
+
+/* افکت در حین کشیدن */
+.draggable-section.sortable-chosen {
+    opacity: 0.7;
+    transform: scale(0.98);
+    box-shadow: 0 20px 60px rgba(108, 92, 231, 0.15);
+}
+
+/* افکت جای خالی */
+.draggable-section.sortable-ghost {
+    opacity: 0.3;
+    border: 2px dashed #6C5CE7;
+    background: rgba(108, 92, 231, 0.02);
+    border-radius: 24px;
+}
