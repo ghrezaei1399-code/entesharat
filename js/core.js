@@ -818,6 +818,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // راه‌اندازی تلویزیون بعد از بارگذاری کامل صفحه
   setTimeout(initTv, 500);
+// ============================================================
+// دکمه نمایش/مخفی کردن تبلیغات در موبایل
+// ============================================================
 
+const toggleAdsBtn = document.getElementById('toggleAdsMobile');
+const adMobileContainer = document.getElementById('adMobileList');
+let adsVisible = false;
+
+if (toggleAdsBtn && adMobileContainer) {
+    // نمایش دکمه فقط در موبایل
+    if (window.innerWidth <= 1200) {
+        toggleAdsBtn.classList.add('show');
+    }
+    
+    // تغییر با تغییر اندازه صفحه
+    window.addEventListener('resize', function() {
+        if (window.innerWidth <= 1200) {
+            toggleAdsBtn.classList.add('show');
+        } else {
+            toggleAdsBtn.classList.remove('show');
+            adMobileContainer.style.display = 'none';
+            adsVisible = false;
+        }
+    });
+    
+    // کلیک روی دکمه
+    toggleAdsBtn.addEventListener('click', function() {
+        adsVisible = !adsVisible;
+        if (adsVisible) {
+            adMobileContainer.style.display = 'block';
+            adMobileContainer.style.animation = 'fadeSlide 0.4s ease';
+            toggleAdsBtn.innerHTML = '<i class="fas fa-times"></i>';
+            toggleAdsBtn.style.background = 'linear-gradient(135deg, #e17055, #fd79a8)';
+        } else {
+            adMobileContainer.style.display = 'none';
+            toggleAdsBtn.innerHTML = '<i class="fas fa-ad"></i>';
+            toggleAdsBtn.style.background = 'linear-gradient(135deg, #6C5CE7, #a29bfe)';
+        }
+    });
+    
+    console.log('✅ دکمه تبلیغات موبایل: راه‌اندازی شد');
+}
   console.log('✅ Core: راه‌اندازی کامل شد');
 });
