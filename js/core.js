@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // ============================================================
 const tvPlaylist = document.getElementById('tvPlaylist');
 
-if (tvPlayerElement && window.APP_CONFIG.tv) {
+if (tvPlayer && window.APP_CONFIG.tv) {
     const videos = window.APP_CONFIG.tv.videos;
     tvPlayerElement.innerHTML = '';
     videos.forEach(video => {
