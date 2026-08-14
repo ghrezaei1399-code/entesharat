@@ -608,419 +608,215 @@ document.addEventListener('DOMContentLoaded', function() {
   // ============================================================
   initFutureToday();
   updateStatsTakhfif();
-// ============================================================
-// ============================================================
-// قابلیت جابجایی بخش‌ها (Drag & Drop) با هماهنگی منو
-// ============================================================
 
-function initDragAndDrop() {
-    const container = document.querySelector('.container');
-    if (!container) return;
-
-    // به‌روزرسانی لینک‌های منو بر اساس بخش‌های موجود
-    function updateMenuVisibility() {
-        const menuLinks = document.querySelectorAll('.menu a');
-        const sections = container.querySelectorAll('.draggable-section');
-        const sectionIds = new Set();
-        sections.forEach(el => sectionIds.add(el.id));
-
-        menuLinks.forEach(link => {
-            const target = link.getAttribute('data-target');
-            if (target && sectionIds.has(target)) {
-                link.style.display = '';
-            } else {
-                link.style.display = 'none';
-            }
-        });
-    }
-
-    // ذخیره ترتیب در localStorage
-    function saveOrder() {
-        const sections = container.querySelectorAll('.draggable-section');
-        const order = Array.from(sections).map(el => el.id);
-        localStorage.setItem('sectionOrder', JSON.stringify(order));
-        updateMenuVisibility();
-        showNotification('✅ ترتیب بخش‌ها ذخیره شد', 'success');
-    }
-
-    // بارگذاری ترتیب ذخیره‌شده
-    function loadOrder() {
-        const saved = localStorage.getItem('sectionOrder');
-        if (!saved) return;
-        try {
-            const order = JSON.parse(saved);
-            const sections = container.querySelectorAll('.draggable-section');
-            const sectionMap = {};
-            sections.forEach(el => { sectionMap[el.id] = el; });
-            
-            order.forEach(id => {
-                if (sectionMap[id]) {
-                    container.appendChild(sectionMap[id]);
-                }
-            });
-            updateMenuVisibility();
-        } catch (e) {
-            console.warn('خطا در بازیابی ترتیب:', e);
-        }
-    }
-
-    // اگر Sortable موجود باشد
-    if (typeof Sortable !== 'undefined') {
-        loadOrder();
-        
-        Sortable.create(container, {
-            handle: '.section-title, .radio-nava-section, .footer-mini',
-            animation: 200,
-            filter: '.header, .menu, .footer, .ad-side, .ad-side-mobile, .ad-inline',
-            draggable: '.draggable-section',
-            onEnd: function() {
-                saveOrder();
-            }
-        });
-        
-        console.log('✅ Drag & Drop: فعال شد');
-    } else {
-        console.warn('⚠️ Sortable.js بارگذاری نشده است');
-    }
-}
-
-// تابع نمایش پیام (اگر در core.js نیست)
-function showNotification(message, type = 'info') {
-    const colors = {
-        success: '#28a745',
-        error: '#e17055',
-        info: '#6C5CE7'
-    };
-    
-    const div = document.createElement('div');
-    div.style.cssText = `
-        position: fixed;
-        bottom: 90px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: ${colors[type] || '#6C5CE7'};
-        color: #fff;
-        padding: 10px 28px;
-        border-radius: 60px;
-        z-index: 9999;
-        font-family: 'Tahoma', Arial, sans-serif;
-        font-size: 14px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        transition: all 0.4s ease;
-        opacity: 0;
-        pointer-events: none;
-    `;
-    div.textContent = message;
-    document.body.appendChild(div);
-    
-    setTimeout(() => { div.style.opacity = '1'; }, 50);
-    setTimeout(() => {
-        div.style.opacity = '0';
-        setTimeout(() => { div.remove(); }, 400);
-    }, 3000);
-}
-
-// راه‌اندازی Drag & Drop
-initDragAndDrop();
-
-// ============================================================
-// به‌روزرسانی منو هنگام جابجایی (در صورت تغییر دستی)
-// ============================================================
-
-// این تابع را در صورتی که منو با جاوااسکریپت ساخته می‌شود، صدا بزنید
-function refreshMenu() {
-    const menu = document.querySelector('.menu');
-    if (!menu) return;
-    
-    const sections = document.querySelectorAll('.draggable-section');
-    const menuItems = menu.querySelectorAll('a');
-    
-    // لینک‌های منو را با بخش‌های موجود هماهنگ کنید
-    menuItems.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && href.startsWith('#')) {
-            const id = href.replace('#', '');
-            const section = document.getElementById(id);
-            if (!section) {
-                link.style.display = 'none';
-            } else {
-                link.style.display = '';
-            }
-        }
-    });
-}
-
-// فراخوانی هنگام بارگذاری صفحه
-document.addEventListener('DOMContentLoaded', function() {
-    // ... کدهای دیگر ...
-    refreshMenu();
-});
   // ============================================================
-// توابع کنترل تلویزیون (اضافه شده)
-// ============================================================
-
-let tvTracks = [];
-let tvCurrentIndex = 0;
-let tvPlayer = null;
-
-// بارگذاری لیست پخش تلویزیون
-function loadTvPlaylist() {
-    const playlistContainer = document.getElementById('tvPlaylist');
-    if (!playlistContainer) return;
-    
-    // دریافت ویدیوها از APP_CONFIG
-    if (window.APP_CONFIG && window.APP_CONFIG.tv) {
-        tvTracks = window.APP_CONFIG.tv.videos;
-    } else {
-        tvTracks = [
-            { id: 1, title: 'ویدئوی همگام‌سازی خدمات', file: 'images/video1.mp4' },
-            { id: 2, title: 'ویدئوی کتاب هنر هوشمند نگاری ۲', file: 'images/video2.mp4' }
-        ];
-    }
-    
-    playlistContainer.innerHTML = tvTracks.map((video, index) => `
-        <div class="playlist-item ${index === tvCurrentIndex ? 'active' : ''}" 
-             onclick="loadTvTrack(${index})">
-            <span>${video.title}</span>
-            <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
-        </div>
-    `).join('');
-}
-
-// بارگذاری یک ویدیو
-function loadTvTrack(index) {
-    tvPlayer = document.getElementById('tvPlayer');
-    if (!tvPlayer || index >= tvTracks.length) return;
-    tvCurrentIndex = index;
-    tvPlayer.src = tvTracks[index].file;
-    tvPlayer.load();
-    tvPlayer.play();
-    loadTvPlaylist();
-}
-
-// پخش
-function playTv() {
-    tvPlayer = document.getElementById('tvPlayer');
-    if (tvPlayer) tvPlayer.play();
-}
-
-// توقف
-function pauseTv() {
-    tvPlayer = document.getElementById('tvPlayer');
-    if (tvPlayer) tvPlayer.pause();
-}
-
-// بعدی
-function nextTv() {
-    const next = (tvCurrentIndex + 1) % tvTracks.length;
-    loadTvTrack(next);
-}
-
-// قبلی
-function prevTv() {
-    const prev = (tvCurrentIndex - 1 + tvTracks.length) % tvTracks.length;
-    loadTvTrack(prev);
-}
-
-// راه‌اندازی تلویزیون
-function initTv() {
-    tvPlayer = document.getElementById('tvPlayer');
-    loadTvPlaylist();
-    if (tvTracks.length > 0) {
-        loadTvTrack(0);
-    }
-}
-
-// فراخوانی در رویداد بارگذاری
-document.addEventListener('DOMContentLoaded', function() {
-    // ... کدهای دیگر ...
-    initTv();
-});
+  // قابلیت جابجایی بخش‌ها (Drag & Drop) با هماهنگی منو
   // ============================================================
-// توابع کنترل تلویزیون (اضافه شده بدون تداخل با کدهای قبلی)
-// ============================================================
 
-// این متغیرها را فقط اگر قبلاً تعریف نشده‌اند، تعریف کن
-if (typeof tvTracks === 'undefined') {
-    var tvTracks = [];
-    var tvCurrentIndex = 0;
-    var tvPlayer = null;
-}
+  function initDragAndDrop() {
+      const container = document.querySelector('.container');
+      if (!container) return;
 
-// بارگذاری لیست پخش تلویزیون (فقط اگر تابع قبلاً تعریف نشده باشد)
-if (typeof loadTvPlaylist !== 'function') {
-    function loadTvPlaylist() {
-        const playlistContainer = document.getElementById('tvPlaylist');
-        if (!playlistContainer) return;
-        
-        // دریافت ویدیوها از APP_CONFIG
-        if (window.APP_CONFIG && window.APP_CONFIG.tv) {
-            tvTracks = window.APP_CONFIG.tv.videos;
-        }
-        
-        if (tvTracks.length === 0) {
-            playlistContainer.innerHTML = '<p style="color:#999;text-align:center;padding:10px;">هیچ ویدیویی در لیست پخش وجود ندارد.</p>';
-            return;
-        }
-        
-        playlistContainer.innerHTML = tvTracks.map((video, index) => `
-            <div class="playlist-item ${index === tvCurrentIndex ? 'active' : ''}" 
-                 onclick="loadTvTrack(${index})">
-                <span>${video.title || 'ویدیو ' + (index+1)}</span>
-                <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
-            </div>
-        `).join('');
-    }
-}
+      function updateMenuVisibility() {
+          const menuLinks = document.querySelectorAll('.menu a');
+          const sections = container.querySelectorAll('.draggable-section');
+          const sectionIds = new Set();
+          sections.forEach(el => sectionIds.add(el.id));
 
-// بارگذاری یک ویدیو (فقط اگر تابع قبلاً تعریف نشده باشد)
-if (typeof loadTvTrack !== 'function') {
-    function loadTvTrack(index) {
-        tvPlayer = document.getElementById('tvPlayer');
-        if (!tvPlayer || index >= tvTracks.length) return;
-        tvCurrentIndex = index;
-        tvPlayer.src = tvTracks[index].file;
-        tvPlayer.load();
-        tvPlayer.play();
-        loadTvPlaylist();
-    }
-}
+          menuLinks.forEach(link => {
+              const target = link.getAttribute('data-target');
+              if (target && sectionIds.has(target)) {
+                  link.style.display = '';
+              } else {
+                  link.style.display = 'none';
+              }
+          });
+      }
 
-// پخش (فقط اگر تابع قبلاً تعریف نشده باشد)
-if (typeof playTv !== 'function') {
-    function playTv() {
-        tvPlayer = document.getElementById('tvPlayer');
-        if (tvPlayer) tvPlayer.play();
-    }
-}
+      function saveOrder() {
+          const sections = container.querySelectorAll('.draggable-section');
+          const order = Array.from(sections).map(el => el.id);
+          localStorage.setItem('sectionOrder', JSON.stringify(order));
+          updateMenuVisibility();
+          showNotification('✅ ترتیب بخش‌ها ذخیره شد', 'success');
+      }
 
-// توقف (فقط اگر تابع قبلاً تعریف نشده باشد)
-if (typeof pauseTv !== 'function') {
-    function pauseTv() {
-        tvPlayer = document.getElementById('tvPlayer');
-        if (tvPlayer) tvPlayer.pause();
-    }
-}
+      function loadOrder() {
+          const saved = localStorage.getItem('sectionOrder');
+          if (!saved) return;
+          try {
+              const order = JSON.parse(saved);
+              const sections = container.querySelectorAll('.draggable-section');
+              const sectionMap = {};
+              sections.forEach(el => { sectionMap[el.id] = el; });
+              
+              order.forEach(id => {
+                  if (sectionMap[id]) {
+                      container.appendChild(sectionMap[id]);
+                  }
+              });
+              updateMenuVisibility();
+          } catch (e) {
+              console.warn('خطا در بازیابی ترتیب:', e);
+          }
+      }
 
-// بعدی (فقط اگر تابع قبلاً تعریف نشده باشد)
-if (typeof nextTv !== 'function') {
-    function nextTv() {
-        const next = (tvCurrentIndex + 1) % tvTracks.length;
-        loadTvTrack(next);
-    }
-}
+      if (typeof Sortable !== 'undefined') {
+          loadOrder();
+          
+          Sortable.create(container, {
+              handle: '.section-title, .radio-nava-section, .footer-mini',
+              animation: 200,
+              filter: '.header, .menu, .footer, .ad-side, .ad-side-mobile, .ad-inline',
+              draggable: '.draggable-section',
+              onEnd: function() {
+                  saveOrder();
+              }
+          });
+          
+          console.log('✅ Drag & Drop: فعال شد');
+      } else {
+          console.warn('⚠️ Sortable.js بارگذاری نشده است');
+      }
+  }
 
-// قبلی (فقط اگر تابع قبلاً تعریف نشده باشد)
-if (typeof prevTv !== 'function') {
-    function prevTv() {
-        const prev = (tvCurrentIndex - 1 + tvTracks.length) % tvTracks.length;
-        loadTvTrack(prev);
-    }
-}
+  function showNotification(message, type = 'info') {
+      const colors = {
+          success: '#28a745',
+          error: '#e17055',
+          info: '#6C5CE7'
+      };
+      
+      const div = document.createElement('div');
+      div.style.cssText = `
+          position: fixed;
+          bottom: 90px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: ${colors[type] || '#6C5CE7'};
+          color: #fff;
+          padding: 10px 28px;
+          border-radius: 60px;
+          z-index: 9999;
+          font-family: 'Tahoma', Arial, sans-serif;
+          font-size: 14px;
+          box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+          transition: all 0.4s ease;
+          opacity: 0;
+          pointer-events: none;
+      `;
+      div.textContent = message;
+      document.body.appendChild(div);
+      
+      setTimeout(() => { div.style.opacity = '1'; }, 50);
+      setTimeout(() => {
+          div.style.opacity = '0';
+          setTimeout(() => { div.remove(); }, 400);
+      }, 3000);
+  }
 
-// راه‌اندازی تلویزیون (فقط اگر تابع قبلاً تعریف نشده باشد)
-if (typeof initTv !== 'function') {
-    function initTv() {
-        tvPlayer = document.getElementById('tvPlayer');
-        loadTvPlaylist();
-        if (tvTracks.length > 0) {
-            loadTvTrack(0);
-        }
-    }
-}
+  initDragAndDrop();
 
-// فراخوانی راه‌اندازی تلویزیون (فقط اگر قبلاً فراخوانی نشده باشد)
-if (typeof tvInitialized === 'undefined') {
-    var tvInitialized = true;
-    document.addEventListener('DOMContentLoaded', function() {
-        // صبر کن تا سایر کدها اجرا شوند
-        setTimeout(initTv, 500);
-    });
-}
+  function refreshMenu() {
+      const menu = document.querySelector('.menu');
+      if (!menu) return;
+      
+      const sections = document.querySelectorAll('.draggable-section');
+      const menuItems = menu.querySelectorAll('a');
+      
+      menuItems.forEach(link => {
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+              const id = href.replace('#', '');
+              const section = document.getElementById(id);
+              if (!section) {
+                  link.style.display = 'none';
+              } else {
+                  link.style.display = '';
+              }
+          }
+      });
+  }
+
+  refreshMenu();
+
   // ============================================================
-// توابع کنترل تلویزیون (هماهنگ با index.html)
-// ============================================================
+  // توابع کنترل تلویزیون (نسخه نهایی و یکتا)
+  // ============================================================
 
-let tvTracks = [];
-let tvCurrentIndex = 0;
-let tvPlayer = null;
+  let tvTracks = [];
+  let tvCurrentIndex = 0;
+  let tvPlayer = null;
 
-// بارگذاری لیست پخش تلویزیون
-function loadTvPlaylist() {
-    const playlistContainer = document.getElementById('tvPlaylist');
-    if (!playlistContainer) return;
-    
-    // دریافت ویدیوها از APP_CONFIG
-    if (window.APP_CONFIG && window.APP_CONFIG.tv) {
-        tvTracks = window.APP_CONFIG.tv.videos;
-    } else {
-        tvTracks = [
-            { id: 1, title: 'ویدئوی همگام‌سازی خدمات', file: 'images/video1.mp4' },
-            { id: 2, title: 'ویدئوی کتاب هنر هوشمند نگاری ۲', file: 'images/video2.mp4' }
-        ];
-    }
-    
-    if (tvTracks.length === 0) {
-        playlistContainer.innerHTML = '<p style="color:#999;text-align:center;padding:10px;">هیچ ویدیویی در لیست پخش وجود ندارد.</p>';
-        return;
-    }
-    
-    playlistContainer.innerHTML = tvTracks.map((video, index) => `
-        <div class="playlist-item ${index === tvCurrentIndex ? 'active' : ''}" 
-             onclick="loadTvTrack(${index})">
-            <span>${video.title}</span>
-            <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
-        </div>
-    `).join('');
-}
+  function loadTvPlaylist() {
+      const playlistContainer = document.getElementById('tvPlaylist');
+      if (!playlistContainer) return;
+      
+      if (window.APP_CONFIG && window.APP_CONFIG.tv) {
+          tvTracks = window.APP_CONFIG.tv.videos;
+      } else {
+          tvTracks = [
+              { id: 1, title: 'ویدئوی همگام‌سازی خدمات', file: 'images/video1.mp4' },
+              { id: 2, title: 'ویدئوی کتاب هنر هوشمند نگاری ۲', file: 'images/video2.mp4' }
+          ];
+      }
+      
+      if (tvTracks.length === 0) {
+          playlistContainer.innerHTML = '<p style="color:#999;text-align:center;padding:10px;">هیچ ویدیویی در لیست پخش وجود ندارد.</p>';
+          return;
+      }
+      
+      playlistContainer.innerHTML = tvTracks.map((video, index) => `
+          <div class="playlist-item ${index === tvCurrentIndex ? 'active' : ''}" 
+               onclick="loadTvTrack(${index})">
+              <span>${video.title}</span>
+              <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
+          </div>
+      `).join('');
+      
+      console.log('✅ لیست پخش تلویزیون: بارگذاری شد');
+  }
 
-// بارگذاری یک ویدیو
-function loadTvTrack(index) {
-    tvPlayer = document.getElementById('tvPlayer');
-    if (!tvPlayer || index >= tvTracks.length) return;
-    tvCurrentIndex = index;
-    tvPlayer.src = tvTracks[index].file;
-    tvPlayer.load();
-    tvPlayer.play();
-    loadTvPlaylist();
-}
+  function loadTvTrack(index) {
+      tvPlayer = document.getElementById('tvPlayer');
+      if (!tvPlayer || index >= tvTracks.length) return;
+      tvCurrentIndex = index;
+      tvPlayer.src = tvTracks[index].file;
+      tvPlayer.load();
+      tvPlayer.play();
+      loadTvPlaylist();
+  }
 
-// پخش
-function playTv() {
-    tvPlayer = document.getElementById('tvPlayer');
-    if (tvPlayer) tvPlayer.play();
-}
+  function playTv() {
+      tvPlayer = document.getElementById('tvPlayer');
+      if (tvPlayer) tvPlayer.play();
+  }
 
-// توقف
-function pauseTv() {
-    tvPlayer = document.getElementById('tvPlayer');
-    if (tvPlayer) tvPlayer.pause();
-}
+  function pauseTv() {
+      tvPlayer = document.getElementById('tvPlayer');
+      if (tvPlayer) tvPlayer.pause();
+  }
 
-// بعدی
-function nextTv() {
-    const next = (tvCurrentIndex + 1) % tvTracks.length;
-    loadTvTrack(next);
-}
+  function nextTv() {
+      const next = (tvCurrentIndex + 1) % tvTracks.length;
+      loadTvTrack(next);
+  }
 
-// قبلی
-function prevTv() {
-    const prev = (tvCurrentIndex - 1 + tvTracks.length) % tvTracks.length;
-    loadTvTrack(prev);
-}
+  function prevTv() {
+      const prev = (tvCurrentIndex - 1 + tvTracks.length) % tvTracks.length;
+      loadTvTrack(prev);
+  }
 
-// راه‌اندازی تلویزیون
-function initTv() {
-    tvPlayer = document.getElementById('tvPlayer');
-    loadTvPlaylist();
-    if (tvTracks.length > 0) {
-        loadTvTrack(0);
-    }
-}
+  function initTv() {
+      tvPlayer = document.getElementById('tvPlayer');
+      loadTvPlaylist();
+      if (tvTracks.length > 0) {
+          loadTvTrack(0);
+      }
+  }
 
-// فراخوانی در رویداد بارگذاری
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(initTv, 500);
-});
+  // راه‌اندازی تلویزیون بعد از بارگذاری کامل صفحه
+  setTimeout(initTv, 500);
+
   console.log('✅ Core: راه‌اندازی کامل شد');
 });
