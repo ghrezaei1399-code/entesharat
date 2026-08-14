@@ -4,6 +4,11 @@
 
 console.log('🚀 Core: راه‌اندازی...');
 
+// تعریف متغیرهای سراسری در ابتدا
+let tvPlayer = null;
+let tvTracks = [];
+let tvCurrentIndex = 0;
+
 document.addEventListener('DOMContentLoaded', function() {
   
   // بررسی وجود داده‌ها
@@ -52,33 +57,46 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('✅ لیست پخش رادیو: ساخته شد');
     }
   }
-    // ============================================================
-// ۲. بارگذاری تلویزیون (ویدیوها در پلیر اصلی + لیست پخش)
-// ============================================================
-const tvPlaylist = document.getElementById('tvPlaylist');
-
-if (tvPlayer && window.APP_CONFIG.tv) {
+  
+  // ============================================================
+  // ۲. بارگذاری تلویزیون (ویدیوها در پلیر اصلی + لیست پخش)
+  // ============================================================
+  const tvPlayerElement = document.getElementById('tvPlayer');
+  const tvPlaylistElement = document.getElementById('tvPlaylist');
+  
+  if (tvPlayerElement && window.APP_CONFIG.tv) {
     const videos = window.APP_CONFIG.tv.videos;
-    tvPlayer.innerHTML = '';
+    tvPlayerElement.innerHTML = '';
     videos.forEach(video => {
-        const source = document.createElement('source');
-        source.src = video.file;
-        source.type = 'video/mp4';
-        tvPlayer.appendChild(source);
+      const source = document.createElement('source');
+      source.src = video.file;
+      source.type = 'video/mp4';
+      tvPlayerElement.appendChild(source);
     });
-    tvPlayer.load();
+    tvPlayerElement.load();
     console.log('✅ تلویزیون: ویدیوها بارگذاری شدند');
     
-    if (tvPlaylist) {
-        tvPlaylist.innerHTML = videos.map((video, index) => `
-            <div class="playlist-item" onclick="document.getElementById('tvPlayer').src = '${video.file}'; document.getElementById('tvPlayer').load(); document.getElementById('tvPlayer').play();">
-                <span>${video.title}</span>
-                <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
-            </div>
-        `).join('');
-        console.log('✅ لیست پخش تلویزیون: ساخته شد');
+    if (tvPlaylistElement) {
+      tvPlaylistElement.innerHTML = videos.map((video, index) => `
+        <div class="playlist-item" style="
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 12px;
+          margin-bottom: 4px;
+          background: #f8f4f0;
+          border-radius: 6px;
+          border: 1px solid #e8ddd0;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onclick="document.getElementById('tvPlayer').src = '${video.file}'; document.getElementById('tvPlayer').load(); document.getElementById('tvPlayer').play();">
+          <span>${video.title}</span>
+          <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
+        </div>
+      `).join('');
+      console.log('✅ لیست پخش تلویزیون: ساخته شد');
     }
-}
+  }
+  
   // ============================================================
   // ۳. بارگذاری آرشیو
   // ============================================================
@@ -348,7 +366,7 @@ if (tvPlayer && window.APP_CONFIG.tv) {
       `).join('');
   }
 
-  function showBookDetailNew(id) {
+  window.showBookDetailNew = function(id) {
       const book = booksNew.find(b => b.id === id);
       if (!book) return;
       const detailBox = document.getElementById('bookDetailNew');
@@ -381,17 +399,17 @@ if (tvPlayer && window.APP_CONFIG.tv) {
           <p style="font-size:12px;color:rgba(45,27,78,0.3);margin-top:8px;">پس از پرداخت، کتاب کامل دیجیتال هوشمند (متن + صوت + انیمیشن + پادکست) در اختیار شما قرار می‌گیرد.</p>
       `;
       detailBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
+  };
 
-  function toggleUploadNew() {
+  window.toggleUploadNew = function() {
       const area = document.getElementById('uploadAreaNew');
       area.style.display = area.style.display === 'block' ? 'none' : 'block';
       if (area.style.display === 'block') {
           area.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-  }
+  };
 
-  function submitContentNew() {
+  window.submitContentNew = function() {
       const title = document.getElementById('uploadTitleNew').value.trim();
       const author = document.getElementById('uploadAuthorNew').value.trim();
       const email = document.getElementById('uploadEmailNew').value.trim();
@@ -441,9 +459,9 @@ if (tvPlayer && window.APP_CONFIG.tv) {
       document.getElementById('uploadDescNew').value = '';
       document.getElementById('uploadFileNew').value = '';
       document.getElementById('uploadAreaNew').style.display = 'none';
-  }
+  };
 
-  function trackContentNew() {
+  window.trackContentNew = function() {
       const code = document.getElementById('trackCodeNew').value.trim();
       const resultBox = document.getElementById('trackResultNew');
 
@@ -461,7 +479,7 @@ if (tvPlayer && window.APP_CONFIG.tv) {
           resultBox.innerHTML = '❌ کد رهگیری نامعتبر است. لطفاً دوباره بررسی کنید.';
       }
       resultBox.style.display = 'block';
-  }
+  };
 
   function initFutureToday() {
       document.querySelectorAll('.tag-new').forEach(tag => {
@@ -508,7 +526,7 @@ if (tvPlayer && window.APP_CONFIG.tv) {
       document.getElementById('count4Takhfif').textContent = counts[3];
   }
 
-  function scrollToFormTakhfif() {
+  window.scrollToFormTakhfif = function() {
       const area = document.getElementById('submitAreaTakhfif');
       area.classList.toggle('show');
       if (area.classList.contains('show')) {
@@ -516,9 +534,9 @@ if (tvPlayer && window.APP_CONFIG.tv) {
               area.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }, 100);
       }
-  }
+  };
 
-  function submitIdeaTakhfif() {
+  window.submitIdeaTakhfif = function() {
       const title = document.getElementById('ideaTitleTakhfif').value.trim();
       const author = document.getElementById('ideaAuthorTakhfif').value.trim();
       const email = document.getElementById('ideaEmailTakhfif').value.trim();
@@ -567,9 +585,9 @@ if (tvPlayer && window.APP_CONFIG.tv) {
       document.getElementById('ideaDescTakhfif').value = '';
       document.getElementById('ideaFileTakhfif').value = '';
       document.getElementById('submitAreaTakhfif').classList.remove('show');
-  }
+  };
 
-  function trackContentTakhfif() {
+  window.trackContentTakhfif = function() {
       const code = document.getElementById('trackCodeTakhfif').value.trim();
       const resultBox = document.getElementById('trackResultTakhfif');
 
@@ -588,7 +606,7 @@ if (tvPlayer && window.APP_CONFIG.tv) {
           resultBox.innerHTML = '❌ کد رهگیری نامعتبر است. لطفاً دوباره بررسی کنید.';
       }
       resultBox.style.display = 'block';
-  }
+  };
 
   // ============================================================
   // راه‌اندازی بخش‌های جدید
@@ -731,10 +749,6 @@ if (tvPlayer && window.APP_CONFIG.tv) {
   // توابع کنترل تلویزیون (نسخه نهایی و یکتا)
   // ============================================================
 
-  let tvTracks = [];
-  let tvCurrentIndex = 0;
-  let tvPlayer = null;
-
   function loadTvPlaylist() {
       const playlistContainer = document.getElementById('tvPlaylist');
       if (!playlistContainer) return;
@@ -764,7 +778,7 @@ if (tvPlayer && window.APP_CONFIG.tv) {
       console.log('✅ لیست پخش تلویزیون: بارگذاری شد');
   }
 
-  function loadTvTrack(index) {
+  window.loadTvTrack = function(index) {
       tvPlayer = document.getElementById('tvPlayer');
       if (!tvPlayer || index >= tvTracks.length) return;
       tvCurrentIndex = index;
@@ -772,27 +786,27 @@ if (tvPlayer && window.APP_CONFIG.tv) {
       tvPlayer.load();
       tvPlayer.play();
       loadTvPlaylist();
-  }
+  };
 
-  function playTv() {
+  window.playTv = function() {
       tvPlayer = document.getElementById('tvPlayer');
       if (tvPlayer) tvPlayer.play();
-  }
+  };
 
-  function pauseTv() {
+  window.pauseTv = function() {
       tvPlayer = document.getElementById('tvPlayer');
       if (tvPlayer) tvPlayer.pause();
-  }
+  };
 
-  function nextTv() {
+  window.nextTv = function() {
       const next = (tvCurrentIndex + 1) % tvTracks.length;
       loadTvTrack(next);
-  }
+  };
 
-  function prevTv() {
+  window.prevTv = function() {
       const prev = (tvCurrentIndex - 1 + tvTracks.length) % tvTracks.length;
       loadTvTrack(prev);
-  }
+  };
 
   function initTv() {
       tvPlayer = document.getElementById('tvPlayer');
