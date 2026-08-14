@@ -173,7 +173,6 @@
 <!-- ===== HEADER ===== -->
 <header class="header">
     <div class="header-main">
-        <!-- ویدیو به جای لوگو -->
         <div class="logo-wrapper">
             <video autoplay loop muted playsinline class="logo-video" poster="images/logo2.jpg">
                 <source src="images/LOGO.mp4" type="video/mp4">
@@ -205,20 +204,19 @@
 </header>
 
 <!-- ===== MENU ===== -->
-<nav class="menu">
-    <a href="#radio" style="background:#4a90d9;color:#fff;">رادیو</a>
-    <a href="#tv" style="background:#6C5CE7;color:#fff;">تلویزیون</a>
-    <a href="#archive" style="background:#fdcb6e;color:#2d1b4e;">آرشیو</a>
-    <a href="#gallery" style="background:#55efc4;color:#2d1b4e;">گالری پوستر</a>
-    <a href="#radionava" style="background:#4a90d9;color:#fff;">رادیو نوای چاپ</a>
-    <a href="#interact" style="background:#6C5CE7;color:#fff;">تعامل</a>
-    <a href="#future-today" style="background:#fdcb6e;color:#2d1b4e;">فردا را از امروز</a>
-    <a href="#takhfif-show" style="background:#55efc4;color:#2d1b4e;">تخفیف شو</a>
-    <a href="#publish" style="background:#4a90d9;color:#fff;">انتشارات</a>
-    <a href="#smart-select" style="background:#6C5CE7;color:#fff;">هوشمند گزینی</a>
-    <a href="#footer-mini" style="background:#fdcb6e;color:#2d1b4e;">طراحی و توسعه</a>
+<nav class="menu" id="mainMenu">
+    <a href="#radio" data-target="radio" style="background:#4a90d9;color:#fff;">رادیو</a>
+    <a href="#tv" data-target="tv" style="background:#6C5CE7;color:#fff;">تلویزیون</a>
+    <a href="#archive" data-target="archive" style="background:#fdcb6e;color:#2d1b4e;">آرشیو</a>
+    <a href="#gallery" data-target="gallery" style="background:#55efc4;color:#2d1b4e;">گالری پوستر</a>
+    <a href="#radionava" data-target="radionava" style="background:#4a90d9;color:#fff;">رادیو نوای چاپ</a>
+    <a href="#interact" data-target="interact" style="background:#6C5CE7;color:#fff;">تعامل</a>
+    <a href="#future-today" data-target="future-today" style="background:#fdcb6e;color:#2d1b4e;">فردا را از امروز</a>
+    <a href="#takhfif-show" data-target="takhfif-show" style="background:#55efc4;color:#2d1b4e;">تخفیف شو</a>
+    <a href="#publish" data-target="publish" style="background:#4a90d9;color:#fff;">انتشارات</a>
+    <a href="#smart-select" data-target="smart-select" style="background:#6C5CE7;color:#fff;">هوشمند گزینی</a>
+    <a href="#footer-mini" data-target="footer-mini" style="background:#fdcb6e;color:#2d1b4e;">طراحی و توسعه</a>
 </nav>
-
     <!-- ===== رادیو ===== -->
     <div class="section draggable-section" id="radio">
         <div class="section-title"><i class="fas fa-radio"></i> رادیو هوشمند <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
