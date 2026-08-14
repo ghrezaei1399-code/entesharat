@@ -52,22 +52,21 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('✅ لیست پخش رادیو: ساخته شد');
     }
   }
-  
-  // ============================================================
-  // ۲. بارگذاری تلویزیون (ویدیوها در پلیر اصلی + لیست پخش)
-  // ============================================================
+    // ============================================================
+// ۲. بارگذاری تلویزیون (ویدیوها در پلیر اصلی + لیست پخش)
+// ============================================================
 const tvPlaylist = document.getElementById('tvPlaylist');
 
 if (tvPlayer && window.APP_CONFIG.tv) {
     const videos = window.APP_CONFIG.tv.videos;
-    tvPlayerElement.innerHTML = '';
+    tvPlayer.innerHTML = '';
     videos.forEach(video => {
         const source = document.createElement('source');
         source.src = video.file;
         source.type = 'video/mp4';
-        tvPlayerElement.appendChild(source);
+        tvPlayer.appendChild(source);
     });
-    tvPlayerElement.load();
+    tvPlayer.load();
     console.log('✅ تلویزیون: ویدیوها بارگذاری شدند');
     
     if (tvPlaylist) {
@@ -80,7 +79,6 @@ if (tvPlayer && window.APP_CONFIG.tv) {
         console.log('✅ لیست پخش تلویزیون: ساخته شد');
     }
 }
-  
   // ============================================================
   // ۳. بارگذاری آرشیو
   // ============================================================
