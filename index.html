@@ -291,54 +291,77 @@
         </div>
     </div>
 
-    <!-- ===== گالری پوستر ===== -->
-    <div class="section draggable-section" id="gallery">
-        <div class="section-title"><i class="fas fa-images"></i> گالری هوشمند پوستر <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
-        <p style="color:#7f8c8d;font-size:.9rem;margin-bottom:12px">پوسترهای ساخته شده توسط هوش مصنوعی را مشاهده کنید یا پوستر مورد نظر خود را پیشنهاد دهید.</p>
+   <!-- ===== گالری پوستر ===== -->
+<div class="section draggable-section" id="gallery">
+    <div class="section-title">
+        <i class="fas fa-images"></i> گالری هوشمند پوستر
+        <span class="drag-hint">(کشیدن برای جابه‌جایی)</span>
+    </div>
 
-        <div class="poster-section">
-            <h4 style="color:#2d1b4e;display:flex;align-items:center;gap:8px;font-size:1rem"><i class="fas fa-paint-brush" style="color:#6C5CE7"></i> ساخت پوستر با هوش مصنوعی</h4>
-            <div class="poster-form">
-                <input type="text" id="posterTitle" placeholder="عنوان پوستر..." class="full-width" style="font-size:.9rem">
-                <textarea id="posterDescription" placeholder="توضیحات پوستر مورد نظر خود را بنویسید..." class="full-width" rows="2" style="font-size:.9rem"></textarea>
-                <div style="display:flex;gap:8px;flex-wrap:wrap" class="full-width">
-
-                    
-                    <button id="generatePosterBtn" class="btn-generate">ساخت پوستر</button>
-                    <button class="btn-clear" onclick="PosterModule.clear()" style="padding:10px 25px;background:#e8ddd0;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.9rem">پاک کردن</button>
-                </div>
-            </div>
-            <div id="posterStatus" style="margin-top:8px;padding:8px;border-radius:10px;background:#f0ecff;display:none;text-align:center;color:#6C5CE7;font-size:.9rem"></div>
+    <!-- ===== باکس ساخت پوستر (آبی کشیده) ===== -->
+    <div class="poster-blue-box" id="posterCreatorSection">
+        <div class="poster-blue-header">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <span>ساخت پوستر با هوش مصنوعی</span>
+            <span class="poster-badge">✨ جدید</span>
         </div>
 
-        <div class="gallery-grid" id="posterGallery">
-          
-            <div class="gallery-item">
-                <img src="images/bestclasick.png" alt="پوستر ۱">
-                <div class="info"><h4>پوستر تبلیغاتی ۱</h4><p>تولید هوش مصنوعی</p></div>
+        <div class="poster-blue-body">
+            <p class="poster-blue-desc">
+                عنوان و توضیحات پوستر مورد نظر خود را وارد کنید. پس از ساخت، یک نسخه از پوستر به ایمیل شما ارسال می‌شود و در گالری نمایش داده می‌شود.
+            </p>
+
+            <div class="poster-form-blue">
+                <div class="poster-form-group">
+                    <label><i class="fas fa-heading"></i> عنوان پوستر</label>
+                    <input type="text" id="posterTitle" placeholder="عنوان پوستر را وارد کنید...">
+                </div>
+
+                <div class="poster-form-group">
+                    <label><i class="fas fa-envelope"></i> ایمیل</label>
+                    <input type="email" id="posterEmail" placeholder="ایمیل خود را وارد کنید...">
+                </div>
+
+                <div class="poster-form-group full-width">
+                    <label><i class="fas fa-align-left"></i> توضیحات</label>
+                    <textarea id="posterDescription" rows="4" placeholder="توضیحات کامل پوستر مورد نظر خود را بنویسید..."></textarea>
+                </div>
+
+                <button class="poster-submit-btn" id="generatePosterBtn">
+                    <i class="fas fa-paper-plane"></i> ارسال درخواست ساخت پوستر
+                </button>
             </div>
-            <div class="gallery-item">
-                <img src="images/nafis.png" alt="پوستر ۲">
-                <div class="info"><h4>پوستر تبلیغاتی ۲</h4><p>تولید هوش مصنوعی</p></div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/rezaeibooks.png" alt="پوستر ۳">
-                <div class="info"><h4>پوستر تبلیغاتی ۳</h4><p>تولید هوش مصنوعی</p></div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/litografi.png" alt="پوستر ۴">
-                <div class="info"><h4>پوستر تبلیغاتی ۴</h4><p>تولید هوش مصنوعی</p></div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/bestbooks.png" alt="پوستر ۵">
-                <div class="info"><h4>پوستر تبلیغاتی ۵</h4><p>تولید هوش مصنوعی</p></div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/bestbooks2.png" alt="پوستر ۶">
-                <div class="info"><h4>پوستر تبلیغاتی ۶</h4><p>تولید هوش مصنوعی</p></div>
+
+            <!-- وضعیت ساخت -->
+            <div id="posterStatus" class="poster-status-box">
+                <span class="poster-status-icon">⏳</span>
+                <span class="poster-status-text">منتظر درخواست شما هستیم...</span>
             </div>
         </div>
     </div>
+
+    <!-- ===== بخش پیگیری ===== -->
+    <div class="poster-tracking-box" id="posterTrackingSection">
+        <div class="poster-tracking-header">
+            <i class="fas fa-search"></i>
+            <span>پیگیری وضعیت پوستر</span>
+        </div>
+        <div class="poster-tracking-body">
+            <div class="poster-tracking-input">
+                <input type="text" id="posterTrackingCode" placeholder="کد رهگیری خود را وارد کنید...">
+                <button id="posterTrackingBtn"><i class="fas fa-search"></i> پیگیری</button>
+            </div>
+            <div id="posterTrackingResult" class="poster-tracking-result">
+                <!-- نتیجه پیگیری اینجا نمایش داده می‌شود -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== گالری پوسترها ===== -->
+    <div class="gallery-grid-modern" id="posterGallery">
+        <!-- پوسترها توسط جاوااسکریپت پر می‌شوند -->
+    </div>
+</div>
 
     <!-- ===== رادیو نوای چاپ ===== -->
     <div class="radio-nava-section draggable-section" id="radionava" style="cursor:grab">
