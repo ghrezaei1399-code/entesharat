@@ -876,7 +876,7 @@ if (toggleAdsBtn && adMobileContainer) {
     const trackingInput = document.getElementById('posterTrackingCode');
     const trackingBtn = document.getElementById('posterTrackingBtn');
     const trackingResult = document.getElementById('posterTrackingResult');
-
+generateBtn.addEventListener('click', generatePoster);
     // اگر دکمه وجود نداشت، کار را متوقف کن
     if (!generateBtn) {
         console.warn('⚠️ دکمه ساخت پوستر پیدا نشد.');
@@ -1088,7 +1088,7 @@ document.getElementById('generatePosterBtn').addEventListener('click', generateP
 })();
   
     // اتصال رویداد کلیک به دکمه
-    generateBtn.addEventListener('click', generatePoster);
+    
 
     // ارسال با کلید Enter در فیلدها
     if (posterTitle) {
