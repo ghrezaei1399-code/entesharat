@@ -248,34 +248,28 @@
     </div>
 
     <!-- ===== تلویزیون ===== -->
-    <div class="section draggable-section" id="tv">
-        <div class="section-title"><i class="fas fa-tv"></i> تلویزیون هوشمند <span class="drag-hint">(کشیدن برای جابه‌جایی)</span></div>
-        <div class="player-box">
-            <video id="tvPlayer" controls>
-                <source src="images/video1.mp4" type="video/mp4">
-                <source src="images/video2.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="controls">
-            <button class="btn-play" onclick="document.getElementById('tvPlayer').play()"><i class="fas fa-play"></i> پخش</button>
-            <button class="btn-stop" onclick="document.getElementById('tvPlayer').pause()"><i class="fas fa-stop"></i> توقف</button>
-            <button class="btn-next"><i class="fas fa-forward"></i> بعدی</button>
-            <button class="btn-prev"><i class="fas fa-backward"></i> قبلی</button>
-            <button class="btn-add"><i class="fas fa-plus"></i> افزودن</button>
-        </div>
-        <div id="tvPlaylist"></div>
-        <div style="margin-top:12px;padding-top:12px;border-top:2px dashed #d4a373">
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-                <input type="text" id="comment_tv" placeholder="نظر یا سوال خود را بنویسید..." style="flex:1;padding:8px 12px;border:2px solid #d4a373;border-radius:10px;font-family:inherit;font-size:.85rem;min-width:150px">
-                <button onclick="TvModule.sendMessage('text')" style="padding:6px 16px;background:#6C5CE7;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem">متن</button>
-                <button onclick="TvModule.sendMessage('audio')" style="padding:6px 16px;background:#fd79a8;border:none;border-radius:50px;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem">ویس</button>
-                <button onclick="TvModule.sendMessage('video')" style="padding:6px 16px;background:#55efc4;border:none;border-radius:50px;color:#2d1b4e;font-weight:700;cursor:pointer;font-size:.8rem">ویدئو</button>
-            </div>
-            <div id="responses_tv" class="response-box">
-                <div class="response-item"><span class="type-icon text">م</span> <span>به تلویزیون هوشمند خوش آمدید. پیام خود را ارسال کنید.</span></div>
-            </div>
-        </div>
+   <!-- ===== تلویزیون ===== -->
+<div class="section draggable-section" id="tv">
+    <div class="section-title">
+        <i class="fas fa-tv"></i> تلویزیون هوشمند 
+        <span class="drag-hint">(کشیدن برای جابه‌جایی)</span>
     </div>
+    <div class="player-box">
+        <video id="tvPlayer" controls poster="images/tv-poster.jpg">
+            <source src="images/video1.mp4" type="video/mp4">
+            <source src="images/video2.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="controls">
+        <button class="btn-play" onclick="playTv()"><i class="fas fa-play"></i> پخش</button>
+        <button class="btn-stop" onclick="pauseTv()"><i class="fas fa-stop"></i> توقف</button>
+        <button class="btn-next" onclick="nextTv()"><i class="fas fa-forward"></i> بعدی</button>
+        <button class="btn-prev" onclick="prevTv()"><i class="fas fa-backward"></i> قبلی</button>
+    </div>
+    <div id="tvPlaylist" class="tv-playlist">
+        <!-- توسط جاوااسکریپت پر می‌شود -->
+    </div>
+</div>
 
     <!-- ===== آرشیو ===== -->
     <div class="section draggable-section" id="archive">
