@@ -1768,3 +1768,124 @@ body.dark-mode .floating-toolbar {
         padding: 8px;
     }
 }
+/* ============================================================
+   زیباسازی بخش تبلیغات - فقط استایل، بدون تغییر ساختار
+   ============================================================ */
+
+/* کارت‌های تبلیغات */
+.ad-card-modern {
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(108, 92, 231, 0.04);
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+}
+
+.ad-card-modern:hover {
+    transform: translateX(6px);
+    border-color: rgba(108, 92, 231, 0.10);
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.04);
+}
+
+.ad-card-modern .ad-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.06), rgba(253, 203, 110, 0.06));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    transition: all 0.4s ease;
+}
+
+.ad-card-modern:hover .ad-icon {
+    transform: scale(1.05) rotate(-4deg);
+}
+
+.ad-card-modern .ad-info {
+    flex: 1;
+}
+
+.ad-card-modern .ad-info .ad-name {
+    font-weight: 700;
+    color: #2d1b4e;
+    font-size: 0.95rem;
+}
+
+.ad-card-modern .ad-info .ad-desc {
+    color: rgba(45, 27, 78, 0.5);
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+
+.ad-card-modern .ad-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.ad-card-modern .ad-link-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.12);
+}
+
+/* استایل ستون‌ها */
+.ad-column-modern {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(108, 92, 231, 0.03);
+    transition: all 0.4s ease;
+}
+
+.ad-column-modern:hover {
+    border-color: rgba(108, 92, 231, 0.06);
+}
+
+.ad-column-modern .col-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2d1b4e;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(108, 92, 231, 0.04);
+    margin-bottom: 15px;
+}
+
+.ad-column-modern .col-header i {
+    font-size: 1.3rem;
+    color: #6C5CE7;
+}
+
+/* ریسپانسیو */
+@media (max-width: 768px) {
+    .ad-card-modern {
+        flex-wrap: wrap;
+        padding: 12px 14px;
+    }
+    .ad-card-modern .ad-link-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 8px;
+    }
+}
