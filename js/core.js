@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // ============================================================
   // ۲. بارگذاری تلویزیون (ویدیوها در پلیر اصلی + لیست پخش)
   // ============================================================
-const tvPlayerElement = document.getElementById('tvPlayer');
 const tvPlaylist = document.getElementById('tvPlaylist');
 
 if (tvPlayerElement && window.APP_CONFIG.tv) {
