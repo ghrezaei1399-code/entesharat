@@ -836,5 +836,106 @@ document.addEventListener('DOMContentLoaded', function() {
     // ... کدهای دیگر ...
     initTv();
 });
+  // ============================================================
+// توابع کنترل تلویزیون (اضافه شده بدون تداخل با کدهای قبلی)
+// ============================================================
+
+// این متغیرها را فقط اگر قبلاً تعریف نشده‌اند، تعریف کن
+if (typeof tvTracks === 'undefined') {
+    var tvTracks = [];
+    var tvCurrentIndex = 0;
+    var tvPlayer = null;
+}
+
+// بارگذاری لیست پخش تلویزیون (فقط اگر تابع قبلاً تعریف نشده باشد)
+if (typeof loadTvPlaylist !== 'function') {
+    function loadTvPlaylist() {
+        const playlistContainer = document.getElementById('tvPlaylist');
+        if (!playlistContainer) return;
+        
+        // دریافت ویدیوها از APP_CONFIG
+        if (window.APP_CONFIG && window.APP_CONFIG.tv) {
+            tvTracks = window.APP_CONFIG.tv.videos;
+        }
+        
+        if (tvTracks.length === 0) {
+            playlistContainer.innerHTML = '<p style="color:#999;text-align:center;padding:10px;">هیچ ویدیویی در لیست پخش وجود ندارد.</p>';
+            return;
+        }
+        
+        playlistContainer.innerHTML = tvTracks.map((video, index) => `
+            <div class="playlist-item ${index === tvCurrentIndex ? 'active' : ''}" 
+                 onclick="loadTvTrack(${index})">
+                <span>${video.title || 'ویدیو ' + (index+1)}</span>
+                <span style="color: #6C5CE7; font-size: 0.8rem;">▶ پخش</span>
+            </div>
+        `).join('');
+    }
+}
+
+// بارگذاری یک ویدیو (فقط اگر تابع قبلاً تعریف نشده باشد)
+if (typeof loadTvTrack !== 'function') {
+    function loadTvTrack(index) {
+        tvPlayer = document.getElementById('tvPlayer');
+        if (!tvPlayer || index >= tvTracks.length) return;
+        tvCurrentIndex = index;
+        tvPlayer.src = tvTracks[index].file;
+        tvPlayer.load();
+        tvPlayer.play();
+        loadTvPlaylist();
+    }
+}
+
+// پخش (فقط اگر تابع قبلاً تعریف نشده باشد)
+if (typeof playTv !== 'function') {
+    function playTv() {
+        tvPlayer = document.getElementById('tvPlayer');
+        if (tvPlayer) tvPlayer.play();
+    }
+}
+
+// توقف (فقط اگر تابع قبلاً تعریف نشده باشد)
+if (typeof pauseTv !== 'function') {
+    function pauseTv() {
+        tvPlayer = document.getElementById('tvPlayer');
+        if (tvPlayer) tvPlayer.pause();
+    }
+}
+
+// بعدی (فقط اگر تابع قبلاً تعریف نشده باشد)
+if (typeof nextTv !== 'function') {
+    function nextTv() {
+        const next = (tvCurrentIndex + 1) % tvTracks.length;
+        loadTvTrack(next);
+    }
+}
+
+// قبلی (فقط اگر تابع قبلاً تعریف نشده باشد)
+if (typeof prevTv !== 'function') {
+    function prevTv() {
+        const prev = (tvCurrentIndex - 1 + tvTracks.length) % tvTracks.length;
+        loadTvTrack(prev);
+    }
+}
+
+// راه‌اندازی تلویزیون (فقط اگر تابع قبلاً تعریف نشده باشد)
+if (typeof initTv !== 'function') {
+    function initTv() {
+        tvPlayer = document.getElementById('tvPlayer');
+        loadTvPlaylist();
+        if (tvTracks.length > 0) {
+            loadTvTrack(0);
+        }
+    }
+}
+
+// فراخوانی راه‌اندازی تلویزیون (فقط اگر قبلاً فراخوانی نشده باشد)
+if (typeof tvInitialized === 'undefined') {
+    var tvInitialized = true;
+    document.addEventListener('DOMContentLoaded', function() {
+        // صبر کن تا سایر کدها اجرا شوند
+        setTimeout(initTv, 500);
+    });
+}
   console.log('✅ Core: راه‌اندازی کامل شد');
 });
